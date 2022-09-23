@@ -3,4 +3,3 @@ print("AstroHell")
 
 print("mudei")
 print("mudei dnv")
-print("mudei dnv")
