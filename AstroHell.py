@@ -1,2 +1,2 @@
-print("hello")
-print("abababa")
+print("Hello world")
+print("AstroHell")
