@@ -10,7 +10,14 @@ def mapaInfinito(mapa, janela):
         mapa.y = -80
 
 
-def jogar(teclado, Mouse, janela, mapa, john):
+def bip(Bip, janela, mapa, velJohnX, velJohnY):
+    Bip.x += velJohnX * janela.delta_time()
+    Bip.y += velJohnY * janela.delta_time()
+    Bip.draw()
+
+
+
+def jogar(teclado, Mouse, janela, mapa, john, vetBip):
 
     while True:
 
@@ -32,6 +39,12 @@ def jogar(teclado, Mouse, janela, mapa, john):
         mapaInfinito(mapa, janela)  # Leonardo
 
         mapa.draw()
+
+        # comportamento dos bips
+
+        for i in range (len(vetBip)):
+            bip(vetBip[i], janela, mapa, velJohnX, velJohnY)
+
         if teclado.key_pressed('ESC'):
             break
         john.draw()

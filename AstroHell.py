@@ -34,6 +34,13 @@ mapa.set_position(-dx, -dy)
 john = Sprite("master chief.png")  # mudar sprite
 john.set_position(janela.width / 2 - john.width / 2, janela.height / 2 - john.height / 2)
 
+# setup inimigos
+
+vetBip = [Sprite("bip.png"), Sprite("bip.png"), Sprite("bip.png")]
+vetBip[0].set_position(300, 620)
+vetBip[1].set_position(700, 200)
+vetBip[2].set_position(600, 500)
+
 # Game Loop
 
 while True:
@@ -41,7 +48,7 @@ while True:
 
     resposta = menu(BotaoJogar, BotaoConfiguraçoes, BotaoSair, Mouse, janela)
     if resposta == 1:
-        jogar(teclado, Mouse, janela, mapa, john)
+        jogar(teclado, Mouse, janela, mapa, john, vetBip)
     elif resposta == 2:
         print('')
     elif resposta == 3:
