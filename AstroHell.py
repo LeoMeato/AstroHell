@@ -12,16 +12,26 @@ fundo = Sprite("mapa-fundo.png")
 
 # setup menu sprites
 
-BotaoJogar = Sprite("tmp")
-BotaoConfiguraçoes = Sprite("tmp")
-BotaoSair = Sprite("tmp")
-logo = Sprite("tmp")
+BotaoJogar = Sprite("Jogar(1).png")
+BotaoConfiguraçoes = Sprite("Config(1).png")
+BotaoSair = Sprite("Sair(1).png")
+#logo = Sprite("tmp")
+
+BotaoJogar.set_position(janela.width / 2 - BotaoJogar.width / 2, janela.height/2 - 50)
+BotaoConfiguraçoes.set_position(janela.width / 2 - BotaoConfiguraçoes.width / 2, janela.height/2 + 75)
+BotaoSair.set_position(janela.width / 2 - BotaoSair.width / 2, janela.height/2 + 200)
 
 # Game Loop
 
 while True:
     fundo.draw()
-    janela.update()
-    resposta = menu(BotaoJogar, BotaoConfiguraçoes, BotaoSair, Mouse, janela, logo)
+
+    resposta = menu(BotaoJogar, BotaoConfiguraçoes, BotaoSair, Mouse, janela)
     if resposta == 1:
         jogar(teclado, Mouse, janela)
+    elif resposta == 2:
+        print('')
+    elif resposta == 3:
+        break
+
+    janela.update()
