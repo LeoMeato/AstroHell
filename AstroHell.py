@@ -10,6 +10,12 @@ Mouse = janela.get_mouse()
 teclado = janela.get_keyboard()
 fundo = Sprite("mapa-fundo.png")
 
+# setup menu sprites
+
+BotaoJogar = Sprite("tmp")
+BotaoConfiguraçoes = Sprite("tmp")
+BotaoSair = Sprite("tmp")
+
 # Game Loop
 
 while True:
