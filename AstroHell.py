@@ -21,6 +21,18 @@ BotaoJogar.set_position(janela.width / 2 - BotaoJogar.width / 2, janela.height/2
 BotaoConfiguraçoes.set_position(janela.width / 2 - BotaoConfiguraçoes.width / 2, janela.height/2 + 80)
 BotaoSair.set_position(janela.width / 2 - BotaoSair.width / 2, janela.height/2 + 200)
 
+# setup mapa
+
+mapa = Sprite("mapa2.png")
+dx = (mapa.width - janela.width) / 2
+dy = (mapa.height - janela.height) / 2
+mapa.set_position(-dx, -dy)
+
+# setup player
+
+john = Sprite("master chief.png")  # mudar sprite
+john.set_position(janela.width / 2 - john.width / 2, janela.height / 2 - john.height / 2)
+
 # Game Loop
 
 while True:
@@ -28,7 +40,7 @@ while True:
 
     resposta = menu(BotaoJogar, BotaoConfiguraçoes, BotaoSair, Mouse, janela)
     if resposta == 1:
-        jogar(teclado, Mouse, janela)
+        jogar(teclado, Mouse, janela, mapa, john)
     elif resposta == 2:
         print('')
     elif resposta == 3:
