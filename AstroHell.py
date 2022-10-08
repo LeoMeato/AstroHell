@@ -15,12 +15,13 @@ fundo = Sprite("mapa-fundo.png")
 BotaoJogar = Sprite("tmp")
 BotaoConfiguraçoes = Sprite("tmp")
 BotaoSair = Sprite("tmp")
+logo = Sprite("tmp")
 
 # Game Loop
 
 while True:
     fundo.draw()
     janela.update()
-    #resposta = menu(BotaoJogar, BotaoConfiguraçoes, BotaoSair, Mouse, janela, logo)
-    #if resposta == 1:
-    #    jogar(teclado, Mouse, janela)
+    resposta = menu(BotaoJogar, BotaoConfiguraçoes, BotaoSair, Mouse, janela, logo)
+    if resposta == 1:
+        jogar(teclado, Mouse, janela)
