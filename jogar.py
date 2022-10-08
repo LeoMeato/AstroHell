@@ -16,7 +16,6 @@ def bip(Bip, janela, mapa, velJohnX, velJohnY):
     Bip.draw()
 
 
-
 def jogar(teclado, Mouse, janela, mapa, john, vetBip):
 
     while True:
@@ -42,7 +41,7 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip):
 
         # comportamento dos bips
 
-        for i in range (len(vetBip)):
+        for i in range(len(vetBip)):
             bip(vetBip[i], janela, mapa, velJohnX, velJohnY)
 
         if teclado.key_pressed('ESC'):
