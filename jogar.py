@@ -29,7 +29,7 @@ def jogar(teclado, Mouse, janela, mapa, john):
         mapa.x += velJohnX * janela.delta_time()
         mapa.y += velJohnY * janela.delta_time()
 
-        mapaInfinito(mapa, janela)
+        mapaInfinito(mapa, janela)  # Leonardo
 
         mapa.draw()
         if teclado.key_pressed('ESC'):
