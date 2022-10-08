@@ -6,6 +6,7 @@ from jogar import *
 # setup geral
 
 janela = Window(1280, 720)
+janela.set_title("AstroHell")
 Mouse = janela.get_mouse()
 teclado = janela.get_keyboard()
 fundo = Sprite("mapa-fundo.png")
