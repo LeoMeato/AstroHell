@@ -33,7 +33,7 @@ mapa.set_position(-dx, -dy)
 
 # setup player
 
-john = Sprite("Astronauta(1).png", 4)
+john = Sprite("Astronauta(2).png")
 john.set_position(janela.width / 2 - john.width / 2, janela.height / 2 - john.height / 2)
 
 # setup inimigos

@@ -26,6 +26,32 @@ def bip(Bip, janela, mapa, velJohnX, velJohnY,velBip, john):
     Bip.draw()
 
 
+def tiroComMouseBipper(janela, Mouse, projetil_bipper, john, velTiro, vetBipper):
+    X = Mouse.get_position()[0]
+    Y = Mouse.get_position()[1]
+    if Mouse.is_button_pressed(1):
+        dx = X - john.x
+        dy = Y - john.y
+        dt = abs(dx) + abs(dy)
+        vetBipper[0].append(Sprite("projetil_bipper.png"))
+        vetBipper[0][-1].set_position(janela.width / 2, janela.height / 2)
+        vetBipper[1][0].append(dx/dt * velTiro)
+        vetBipper[1][1].append(dy/dt * velTiro)
+
+def renderizarBipper(vetBipper, janela, velJohnX, velJohnY):
+    for i in range(len(vetBipper[0])):
+        vetBipper[0][i].x += (vetBipper[1][0][i] + velJohnX) * janela.delta_time()
+        vetBipper[0][i].y += (vetBipper[1][1][i] + velJohnY) * janela.delta_time()
+        vetBipper[0][i].draw()
+        '''if vetBipper[0][i].x < 0 or vetBipper[0][i].x > janela.width or vetBipper[0][i].y < 0 or vetBipper[0][i].y > janela.height:
+            vetBipper[0].pop(i)
+            vetBipper[1][0].pop(i)
+            vetBipper[1][1].pop(i)
+            break'''
+        # não to conseguindo apagar os tiros quando saem da tela
+
+
+
 def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vetPeca):
     projetil_bipper = Sprite("projetil_bipper.png")
     vel_bipper = 400
@@ -34,6 +60,11 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
     velBip = 100
     vetTiro = []
     timer = 0
+
+    velTiro = 900
+
+    vetBipper = [[], [[], []]]  # primeiro para tiros e segundo para velocidade de cada tiro, que por sua vez tem o x e y
+
     while True:
 
         velJohnX = 0
@@ -76,6 +107,9 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
        #                 vetTiro.pop(i)
         #            if vetTiro[i].x >= janela.width or vetTiro[i].y >= janela.height:
          #               vetTiro.pop(i)
+
+        tiroComMouseBipper(janela, Mouse, projetil_bipper, john, velTiro, vetBipper)
+        renderizarBipper(vetBipper, janela, velJohnX, velJohnY)
 
 
         for i in range(len(vetArvores)):
