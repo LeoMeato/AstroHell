@@ -43,11 +43,17 @@ def renderizarBipper(vetBipper, janela, velJohnX, velJohnY):
         vetBipper[0][i].x += (vetBipper[1][0][i] + velJohnX) * janela.delta_time()
         vetBipper[0][i].y += (vetBipper[1][1][i] + velJohnY) * janela.delta_time()
         vetBipper[0][i].draw()
-        '''if vetBipper[0][i].x < 0 or vetBipper[0][i].x > janela.width or vetBipper[0][i].y < 0 or vetBipper[0][i].y > janela.height:
+
+    i = 0
+    a = len(vetBipper[0])
+    while 0 < i <= a:
+        if vetBipper[0][i].x < 0 or vetBipper[0][i].x > janela.width or vetBipper[0][i].y < 0 or vetBipper[0][i].y > janela.height:
             vetBipper[0].pop(i)
             vetBipper[1][0].pop(i)
             vetBipper[1][1].pop(i)
-            break'''
+            a -= 1
+        i += 1
+
         # não to conseguindo apagar os tiros quando saem da tela
 
 
