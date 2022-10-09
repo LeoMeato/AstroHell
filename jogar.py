@@ -54,9 +54,6 @@ def renderizarBipper(vetBipper, janela, velJohnX, velJohnY):
             a -= 1
         i += 1
 
-        # não to conseguindo apagar os tiros quando saem da tela
-
-
 
 def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vetPeca):
     projetil_bipper = Sprite("projetil_bipper.png")
