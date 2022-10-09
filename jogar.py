@@ -6,13 +6,13 @@ from PPlay.animation import *
 def mapaInfinito(mapa, janela):
 
     if mapa.x > 0:
-        mapa.x = -mapa.width + janela.width + 320
+        mapa.x = -mapa.width + janela.width + 200 - janela.width % 200
     if mapa.x < -mapa.width + janela.width:
-        mapa.x = -320
+        mapa.x = -(200 - janela.width % 200)
     if mapa.y > 0:
-        mapa.y = -mapa.height + janela.height + 80
+        mapa.y = -mapa.height + janela.height + 200 - janela.height % 200
     if mapa.y < -mapa.height + janela.height:
-        mapa.y = -80
+        mapa.y = -(200 - janela.height % 200)
 
 
 def bip(Bip, janela, mapa, velJohnX, velJohnY,velBip, john):
@@ -56,12 +56,12 @@ def renderizarBipper(vetBipper, janela, velJohnX, velJohnY):
 
 
 def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vetPeca):
+
     projetil_bipper = Sprite("projetil_bipper.png")
     vel_bipper = 400
     saiu_agora = False
     na_tela = False
     velBip = 100
-    vetTiro = []
     timer = 0
 
     velTiro = 900
@@ -74,13 +74,13 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
         velJohnY = 0
 
         if teclado.key_pressed('W'):
-            velJohnY = 300
+            velJohnY = 1000
         if teclado.key_pressed('A'):
-            velJohnX = 300
+            velJohnX = 1000
         if teclado.key_pressed('S'):
-            velJohnY = -300
+            velJohnY = -1000
         if teclado.key_pressed('D'):
-            velJohnX = -300
+            velJohnX = -1000
 
         mapa.x += velJohnX * janela.delta_time()
         mapa.y += velJohnY * janela.delta_time()
