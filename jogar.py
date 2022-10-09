@@ -46,7 +46,7 @@ def renderizarBipper(vetBipper, janela, velJohnX, velJohnY):
 
     i = 0
     a = len(vetBipper[0])
-    while 0 < i <= a:
+    while i < a and a > 0:
         if vetBipper[0][i].x < 0 or vetBipper[0][i].x > janela.width or vetBipper[0][i].y < 0 or vetBipper[0][i].y > janela.height:
             vetBipper[0].pop(i)
             vetBipper[1][0].pop(i)
@@ -129,6 +129,7 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
             vetPeca[i].draw()
             vetPeca[i].x += velJohnX * janela.delta_time()
             vetPeca[i].y += velJohnY * janela.delta_time()
+
         # comportamento dos bips
 
         for i in range(len(vetBip)):
