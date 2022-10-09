@@ -7,7 +7,7 @@ import random
 
 # setup geral
 
-janela = Window(1280 * 1.5, 720 * 1.5)
+janela = Window(1280, 720)
 janela.set_title("AstroHell")
 Mouse = janela.get_mouse()
 teclado = janela.get_keyboard()
