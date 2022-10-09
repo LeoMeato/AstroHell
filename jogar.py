@@ -53,6 +53,6 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip):
 
         if teclado.key_pressed('ESC'):
             break
-        john.update()
+
         john.draw()
         janela.update()
