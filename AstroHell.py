@@ -1,5 +1,6 @@
 from PPlay.window import *
 from PPlay.sprite import *
+from PPlay.animation import *
 from menu import *
 from jogar import *
 
@@ -31,7 +32,8 @@ mapa.set_position(-dx, -dy)
 
 # setup player
 
-john = Sprite("master chief.png")  # mudar sprite
+john = Animation("Astronauta(1).png", 4)
+john.set_sequence_time(0, 3, 200)
 john.set_position(janela.width / 2 - john.width / 2, janela.height / 2 - john.height / 2)
 
 # setup inimigos
