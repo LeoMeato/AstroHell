@@ -10,13 +10,20 @@ def mapaInfinito(mapa, janela):
         mapa.y = -80
 
 
-def bip(Bip, janela, mapa, velJohnX, velJohnY):
+def bip(Bip, janela, mapa, velJohnX, velJohnY,velBip, john):
     Bip.x += velJohnX * janela.delta_time()
     Bip.y += velJohnY * janela.delta_time()
+    dx = john.x - Bip.x
+    dy = john.y - Bip.y
+    dt = abs(dx) + abs(dy)
+    Bip.x += velBip * (dx / dt) * janela.delta_time()
+    Bip.y += velBip * (dy / dt) * janela.delta_time()
     Bip.draw()
 
 
 def jogar(teclado, Mouse, janela, mapa, john, vetBip):
+
+    velBip = 100
 
     while True:
 
@@ -24,13 +31,13 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip):
         velJohnY = 0
 
         if teclado.key_pressed('W'):
-            velJohnY = 500
+            velJohnY = 300
         if teclado.key_pressed('A'):
-            velJohnX = 500
+            velJohnX = 300
         if teclado.key_pressed('S'):
-            velJohnY = -500
+            velJohnY = -300
         if teclado.key_pressed('D'):
-            velJohnX = -500
+            velJohnX = -300
 
         mapa.x += velJohnX * janela.delta_time()
         mapa.y += velJohnY * janela.delta_time()
@@ -42,7 +49,7 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip):
         # comportamento dos bips
 
         for i in range(len(vetBip)):
-            bip(vetBip[i], janela, mapa, velJohnX, velJohnY)
+            bip(vetBip[i], janela, mapa, velJohnX, velJohnY, velBip, john)
 
         if teclado.key_pressed('ESC'):
             break

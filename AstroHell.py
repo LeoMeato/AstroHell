@@ -17,7 +17,6 @@ BotaoJogar = Sprite("Jogar(1).png")
 BotaoConfiguraçoes = Sprite("Config(1).png")
 BotaoSair = Sprite("Sair(1).png")
 Logo = Sprite("astrohell.png")
-#logo = Sprite("tmp")
 
 BotaoJogar.set_position(janela.width / 2 - BotaoJogar.width / 2, janela.height/2 - 40)
 BotaoConfiguraçoes.set_position(janela.width / 2 - BotaoConfiguraçoes.width / 2, janela.height/2 + 80)
