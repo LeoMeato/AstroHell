@@ -1,3 +1,8 @@
+from PPlay.window import *
+from PPlay.sprite import *
+from PPlay.animation import *
+
+
 def mapaInfinito(mapa, janela):
 
     if mapa.x > 0:
@@ -21,10 +26,14 @@ def bip(Bip, janela, mapa, velJohnX, velJohnY,velBip, john):
     Bip.draw()
 
 
-def jogar(teclado, Mouse, janela, mapa, john, vetBip):
-
+def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vetPeca):
+    projetil_bipper = Sprite("projetil_bipper.png")
+    vel_bipper = 400
+    saiu_agora = False
+    na_tela = False
     velBip = 100
-
+    vetTiro = []
+    timer = 0
     while True:
 
         velJohnX = 0
@@ -46,6 +55,43 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip):
 
         mapa.draw()
 
+        if not na_tela:
+            if teclado.key_pressed("SPACE"):
+                na_tela = True
+                saiu_agora = True
+        if saiu_agora:
+            projetil_bipper.x = john.x + john.width / 2
+            projetil_bipper.y = john.y - 15
+            saiu_agora = False
+        if na_tela:
+            projetil_bipper.y -= (vel_bipper * janela.delta_time())
+            projetil_bipper.draw()
+            if projetil_bipper.y <= 0:
+                projetil_bipper.y = janela.height
+                na_tela = False
+
+        #        for n in range(1, len(vetTiro)):
+     #           if len(vetTiro) >= n:
+      #              if vetTiro[i].x >= 0 or vetTiro[i] <= 0:
+       #                 vetTiro.pop(i)
+        #            if vetTiro[i].x >= janela.width or vetTiro[i].y >= janela.height:
+         #               vetTiro.pop(i)
+
+
+        for i in range(len(vetArvores)):
+            vetArvores[i].draw()
+            vetArvores[i].x += velJohnX * janela.delta_time()
+            vetArvores[i].y += velJohnY * janela.delta_time()
+
+        for n in range(5):
+            vetPedras[n].draw()
+            vetPedras[n].x += velJohnX * janela.delta_time()
+            vetPedras[n].y += velJohnY * janela.delta_time()
+
+        for i in range(len(vetPeca)):
+            vetPeca[i].draw()
+            vetPeca[i].x += velJohnX * janela.delta_time()
+            vetPeca[i].y += velJohnY * janela.delta_time()
         # comportamento dos bips
 
         for i in range(len(vetBip)):
