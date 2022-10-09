@@ -7,11 +7,15 @@ import random
 
 # setup geral
 
-janela = Window(1280, 720)
+janela = Window(1280 * 1.5, 720 * 1.5)
 janela.set_title("AstroHell")
 Mouse = janela.get_mouse()
 teclado = janela.get_keyboard()
-fundo = Sprite("mapa-fundo.png")
+
+fundo = Sprite("mapa2.png")
+dx = (fundo.width - janela.width) / 2
+dy = (fundo.height - janela.height) / 2
+fundo.set_position(-dx, -dy)
 
 # setup menu sprites
 

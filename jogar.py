@@ -37,7 +37,7 @@ def tiroComMouseBipper(janela, Mouse, projetil_bipper, john, velTiro, vetBipper,
         vetBipper[0][-1].set_position(janela.width / 2, janela.height / 2)
         vetBipper[1][0].append(dx/dt * velTiro)
         vetBipper[1][1].append(dy/dt * velTiro)
-        cooldownB += 10
+        cooldownB = 10
     return cooldownB
 
 def renderizarBipper(vetBipper, janela, velJohnX, velJohnY):
