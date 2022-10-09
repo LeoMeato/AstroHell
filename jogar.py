@@ -26,10 +26,10 @@ def bip(Bip, janela, mapa, velJohnX, velJohnY,velBip, john):
     Bip.draw()
 
 
-def tiroComMouseBipper(janela, Mouse, projetil_bipper, john, velTiro, vetBipper):
+def tiroComMouseBipper(janela, Mouse, projetil_bipper, john, velTiro, vetBipper, cooldownB):
     X = Mouse.get_position()[0]
     Y = Mouse.get_position()[1]
-    if Mouse.is_button_pressed(1):
+    if Mouse.is_button_pressed(1) and cooldownB <= 0:
         dx = X - john.x
         dy = Y - john.y
         dt = abs(dx) + abs(dy)
@@ -37,6 +37,8 @@ def tiroComMouseBipper(janela, Mouse, projetil_bipper, john, velTiro, vetBipper)
         vetBipper[0][-1].set_position(janela.width / 2, janela.height / 2)
         vetBipper[1][0].append(dx/dt * velTiro)
         vetBipper[1][1].append(dy/dt * velTiro)
+        cooldownB += 10
+    return cooldownB
 
 def renderizarBipper(vetBipper, janela, velJohnX, velJohnY):
     for i in range(len(vetBipper[0])):
@@ -64,23 +66,27 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
     velBip = 100
     timer = 0
 
+    cooldownB = 0
+
     velTiro = 900
 
     vetBipper = [[], [[], []]]  # primeiro para tiros e segundo para velocidade de cada tiro, que por sua vez tem o x e y
 
     while True:
 
+        cooldownB -= 35 * janela.delta_time()
+
         velJohnX = 0
         velJohnY = 0
 
         if teclado.key_pressed('W'):
-            velJohnY = 1000
+            velJohnY = 500
         if teclado.key_pressed('A'):
-            velJohnX = 1000
+            velJohnX = 500
         if teclado.key_pressed('S'):
-            velJohnY = -1000
+            velJohnY = -500
         if teclado.key_pressed('D'):
-            velJohnX = -1000
+            velJohnX = -500
 
         mapa.x += velJohnX * janela.delta_time()
         mapa.y += velJohnY * janela.delta_time()
@@ -111,7 +117,7 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
         #            if vetTiro[i].x >= janela.width or vetTiro[i].y >= janela.height:
          #               vetTiro.pop(i)
 
-        tiroComMouseBipper(janela, Mouse, projetil_bipper, john, velTiro, vetBipper)
+        cooldownB = tiroComMouseBipper(janela, Mouse, projetil_bipper, john, velTiro, vetBipper, cooldownB)
         renderizarBipper(vetBipper, janela, velJohnX, velJohnY)
 
 
