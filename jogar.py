@@ -116,7 +116,7 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
         mapa.x += velJohnX * janela.delta_time()
         mapa.y += velJohnY * janela.delta_time()
 
-        mapaInfinito(mapa, janela)  # Leonardo
+        mapaInfinito(mapa, janela)
 
         mapa.draw()
 
