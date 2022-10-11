@@ -30,45 +30,42 @@ def tiroComMouseBipper(janela, Mouse, projetil_bipper, john, velTiro, vetBipper,
     X = Mouse.get_position()[0]
     Y = Mouse.get_position()[1]
     if Mouse.is_button_pressed(1) and cooldownB <= 0:
+        vetBipper.append([])
         dx = X - john.x
         dy = Y - john.y
         dt = abs(dx) + abs(dy)
-        vetBipper[0].append(Sprite("projetil_bipper.png"))
-        vetBipper[0][-1].set_position(janela.width / 2, janela.height / 2)
-        vetBipper[1][0].append(dx/dt * velTiro)
-        vetBipper[1][1].append(dy/dt * velTiro)
+        vetBipper[-1].append(Sprite("projetil_bipper.png"))
+        vetBipper[-1][0].set_position(janela.width / 2, janela.height / 2)
+        vetBipper[-1].append(dx/dt * velTiro)
+        vetBipper[-1].append(dy/dt * velTiro)
         cooldownB = 10
     return cooldownB
 
 def renderizarBipper(vetBipper, janela, velJohnX, velJohnY):
-    for i in range(len(vetBipper[0])):
-        vetBipper[0][i].x += (vetBipper[1][0][i] + velJohnX) * janela.delta_time()
-        vetBipper[0][i].y += (vetBipper[1][1][i] + velJohnY) * janela.delta_time()
-        vetBipper[0][i].draw()
+    for i in range(len(vetBipper)):
+        vetBipper[i][0].x += (vetBipper[i][1] + velJohnX) * janela.delta_time()
+        vetBipper[i][0].y += (vetBipper[i][2] + velJohnY) * janela.delta_time()
+        vetBipper[i][0].draw()
 
     i = 0
-    a = len(vetBipper[0])
+    a = len(vetBipper)
     while i < a and a > 0:
-        if vetBipper[0][i].x < 0 or vetBipper[0][i].x > janela.width or vetBipper[0][i].y < 0 or vetBipper[0][i].y > janela.height:
-            vetBipper[0].pop(i)
-            vetBipper[1][0].pop(i)
-            vetBipper[1][1].pop(i)
+        if vetBipper[i][0].x < 0 or vetBipper[i][0].x > janela.width or vetBipper[i][0].y < 0 or vetBipper[i][0].y > janela.height:
+            vetBipper.pop(i)
             a -= 1
         i += 1
 
 
 def colisãoDano(inimigo, tiro, dano):
     for i in inimigo:
-        for j in range(len(tiro[0])):
-            if i[0].collided(tiro[0][j]):
+        for j in tiro:
+            if i[0].collided(j[0]):
                 i[1] -= dano
         j = 0
-        a = len(tiro[0])
+        a = len(tiro)
         while j < a and a > 0:
-            if tiro[0][j].collided(i[0]):
-                tiro[0].pop(j)
-                tiro[1][0].pop(j)
-                tiro[1][1].pop(j)
+            if tiro[j][0].collided(i[0]):
+                tiro.pop(j)
                 a -= 1
             j += 1
 
@@ -100,7 +97,7 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
 
     velTiro = 900
 
-    vetBipper = [[], [[], []]]  # primeiro para tiros e segundo para velocidade de cada tiro, que por sua vez tem o x e y
+    vetBipper = []
 
     while True:
 
