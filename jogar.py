@@ -57,6 +57,34 @@ def renderizarBipper(vetBipper, janela, velJohnX, velJohnY):
         i += 1
 
 
+def colisãoDano(inimigo, tiro, dano):
+    for i in inimigo:
+        for j in range(len(tiro[0])):
+            if i[0].collided(tiro[0][j]):
+                i[1] -= dano
+        j = 0
+        a = len(tiro[0])
+        while j < a and a > 0:
+            if tiro[0][j].collided(i[0]):
+                tiro[0].pop(j)
+                tiro[1][0].pop(j)
+                tiro[1][1].pop(j)
+                a -= 1
+            j += 1
+
+
+def morreuInimigo(Bip):
+    j = 0
+    a = len(Bip)
+    while j < a and a > 0:
+        if Bip[j][1] <= 0:
+            Bip.pop(j)
+            a -= 1
+        j += 1
+
+
+
+
 def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vetPeca):
 
     projetil_bipper = Sprite("projetil_bipper.png")
@@ -66,6 +94,8 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
     velBip = 100
     timer = 0
 
+    danoBipper = 10
+
     cooldownB = 0
 
     velTiro = 900
@@ -74,19 +104,19 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
 
     while True:
 
-        cooldownB -= 35 * janela.delta_time()
+        cooldownB -= 20 * janela.delta_time()
 
         velJohnX = 0
         velJohnY = 0
 
         if teclado.key_pressed('W'):
-            velJohnY = 500
+            velJohnY = 400
         if teclado.key_pressed('A'):
-            velJohnX = 500
+            velJohnX = 400
         if teclado.key_pressed('S'):
-            velJohnY = -500
+            velJohnY = -400
         if teclado.key_pressed('D'):
-            velJohnX = -500
+            velJohnX = -400
 
         mapa.x += velJohnX * janela.delta_time()
         mapa.y += velJohnY * janela.delta_time()
@@ -95,7 +125,7 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
 
         mapa.draw()
 
-        if not na_tela:
+        '''if not na_tela:
             if teclado.key_pressed("SPACE"):
                 na_tela = True
                 saiu_agora = True
@@ -115,10 +145,7 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
       #              if vetTiro[i].x >= 0 or vetTiro[i] <= 0:
        #                 vetTiro.pop(i)
         #            if vetTiro[i].x >= janela.width or vetTiro[i].y >= janela.height:
-         #               vetTiro.pop(i)
-
-        cooldownB = tiroComMouseBipper(janela, Mouse, projetil_bipper, john, velTiro, vetBipper, cooldownB)
-        renderizarBipper(vetBipper, janela, velJohnX, velJohnY)
+         #               vetTiro.pop(i)'''  # pode apagar?
 
 
         for i in range(len(vetArvores)):
@@ -136,10 +163,23 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
             vetPeca[i].x += velJohnX * janela.delta_time()
             vetPeca[i].y += velJohnY * janela.delta_time()
 
+        # comportamento da bipper
+
+        cooldownB = tiroComMouseBipper(janela, Mouse, projetil_bipper, john, velTiro, vetBipper, cooldownB)
+        renderizarBipper(vetBipper, janela, velJohnX, velJohnY)
+
+        # colisão com dano
+
+        colisãoDano(vetBip, vetBipper, danoBipper)
+
         # comportamento dos bips
 
         for i in range(len(vetBip)):
-            bip(vetBip[i], janela, mapa, velJohnX, velJohnY, velBip, john)
+            bip(vetBip[i][0], janela, mapa, velJohnX, velJohnY, velBip, john)
+
+        # verifica se algum bip está com vida < 0 e mata o que estiver
+
+        morreuInimigo(vetBip)
 
         if teclado.key_pressed('ESC'):
             break

@@ -42,10 +42,10 @@ john.set_position(janela.width / 2 - john.width / 2, janela.height / 2 - john.he
 
 # setup inimigos
 
-vetBip = [Sprite("bip.png"), Sprite("bip.png"), Sprite("bip.png")]
-vetBip[0].set_position(300, 620)
-vetBip[1].set_position(700, 200)
-vetBip[2].set_position(600, 500)
+vetBip = [[Sprite("bip.png"), 30], [Sprite("bip.png"), 30], [Sprite("bip.png"), 30]]
+vetBip[0][0].set_position(300, 620)
+vetBip[1][0].set_position(700, 200)
+vetBip[2][0].set_position(600, 500)
 
 # setup obstáculos
 ## Daria pra botar todos os obstáculos em uma só lista, mas fiz assim pra poder diferenciar mais fácil, por enquanto.
