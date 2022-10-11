@@ -4,7 +4,6 @@ from PPlay.animation import *
 
 
 def mapaInfinito(mapa, janela):
-
     if mapa.x > 0:
         mapa.x = -mapa.width + janela.width + 200 - janela.width % 200
     if mapa.x < -mapa.width + janela.width:
@@ -15,7 +14,7 @@ def mapaInfinito(mapa, janela):
         mapa.y = -(200 - janela.height % 200)
 
 
-def bip(Bip, janela, mapa, velJohnX, velJohnY,velBip, john):
+def bip(Bip, janela, mapa, velJohnX, velJohnY, velBip, john):
     Bip.x += velJohnX * janela.delta_time()
     Bip.y += velJohnY * janela.delta_time()
     dx = john.x - Bip.x
@@ -36,10 +35,11 @@ def tiroComMouseBipper(janela, Mouse, projetil_bipper, john, velTiro, vetBipper,
         dt = abs(dx) + abs(dy)
         vetBipper[-1].append(Sprite("projetil_bipper.png"))
         vetBipper[-1][0].set_position(janela.width / 2, janela.height / 2)
-        vetBipper[-1].append(dx/dt * velTiro)
-        vetBipper[-1].append(dy/dt * velTiro)
+        vetBipper[-1].append(dx / dt * velTiro)
+        vetBipper[-1].append(dy / dt * velTiro)
         cooldownB = 10
     return cooldownB
+
 
 def renderizarBipper(vetBipper, janela, velJohnX, velJohnY):
     for i in range(len(vetBipper)):
@@ -50,7 +50,8 @@ def renderizarBipper(vetBipper, janela, velJohnX, velJohnY):
     i = 0
     a = len(vetBipper)
     while i < a and a > 0:
-        if vetBipper[i][0].x < 0 or vetBipper[i][0].x > janela.width or vetBipper[i][0].y < 0 or vetBipper[i][0].y > janela.height:
+        if vetBipper[i][0].x < 0 or vetBipper[i][0].x > janela.width or vetBipper[i][0].y < 0 or vetBipper[i][
+            0].y > janela.height:
             vetBipper.pop(i)
             a -= 1
         i += 1
@@ -80,10 +81,7 @@ def morreuInimigo(Bip):
         j += 1
 
 
-
-
 def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vetPeca):
-
     projetil_bipper = Sprite("projetil_bipper.png")
     vel_bipper = 400
     saiu_agora = False
@@ -143,7 +141,6 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
        #                 vetTiro.pop(i)
         #            if vetTiro[i].x >= janela.width or vetTiro[i].y >= janela.height:
          #               vetTiro.pop(i)'''  # pode apagar?
-
 
         for i in range(len(vetArvores)):
             vetArvores[i].draw()
