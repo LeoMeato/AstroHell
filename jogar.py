@@ -2,6 +2,7 @@ from PPlay.window import *
 from PPlay.sprite import *
 from PPlay.animation import *
 
+tempo_de_jogo = 0
 
 def mapaInfinito(mapa, janela):
     if mapa.x > 0:
@@ -81,12 +82,13 @@ def morreuInimigo(Bip):
         j += 1
 
 
-'''def tempo(janela, tempo_de_jogo):
+def tempo(janela):
+    global tempo_de_jogo
     tempo_de_jogo += janela.delta_time()
     tempo_de_jogo_min = tempo_de_jogo // 60
     tempo_de_jogo_seg = tempo_de_jogo - tempo_de_jogo_min * 60
-    janela.draw_text(str(tempo_de_jogo_min) + ":" + str(tempo_de_jogo_seg), janela.width / 2 - 20, 17, 40,
-                     (255, 255, 255), "Candara")'''
+    janela.draw_text("{}:{:0>2}".format(int(tempo_de_jogo_min), int(tempo_de_jogo_seg)), janela.width / 2 - 20, 17, 40,
+                     (255, 255, 255), "Candara")
 
 
 def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vetPeca):
@@ -104,8 +106,6 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
     velTiro = 900
 
     vetBipper = []
-
-    tempo_de_jogo = 0
 
     while True:
         cooldownB -= 20 * janela.delta_time()
@@ -212,12 +212,8 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
         quantidade_pecas = 19
         janela.draw_text("" + str(quantidade_pecas), pecas_hud.x - pecas_hud.width, 17, 40, (255, 255, 255), "Candara")
 
-        #tempo(janela, tempo_de_jogo)
-        tempo_de_jogo += janela.delta_time()
-        tempo_de_jogo_min = tempo_de_jogo // 60
-        tempo_de_jogo_seg = tempo_de_jogo - tempo_de_jogo_min * 60
-        janela.draw_text("{}:{:0>2}".format(int(tempo_de_jogo_min), int(tempo_de_jogo_seg)), janela.width / 2 - 20, 17, 40,
-                         (255, 255, 255), "Candara")
+        tempo(janela)
+
 
         amber_lateral.draw()
         canhao_lateral.draw()
