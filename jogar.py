@@ -30,8 +30,8 @@ def tiroComMouseBipper(janela, Mouse, projetil_bipper, john, velTiro, vetBipper,
     Y = Mouse.get_position()[1]
     if Mouse.is_button_pressed(1) and cooldownB <= 0:
         vetBipper.append([])
-        dx = X - john.x
-        dy = Y - john.y
+        dx = X - john.x - john.width / 2
+        dy = Y - john.y - john.height / 2
         dt = abs(dx) + abs(dy)
         vetBipper[-1].append(Sprite("projetil_bipper.png"))
         vetBipper[-1][0].set_position(janela.width / 2, janela.height / 2)
