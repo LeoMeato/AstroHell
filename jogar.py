@@ -82,6 +82,8 @@ def morreuInimigo(Bip):
 
 
 def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vetPeca):
+
+
     projetil_bipper = Sprite("projetil_bipper.png")
     vel_bipper = 400
     saiu_agora = False
@@ -98,7 +100,6 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
     vetBipper = []
 
     while True:
-
         cooldownB -= 20 * janela.delta_time()
 
         velJohnX = 0
@@ -174,6 +175,45 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
         # verifica se algum bip está com vida < 0 e mata o que estiver
 
         morreuInimigo(vetBip)
+
+        # Hud
+        vida = Sprite("9vidas.png")
+        vida.x = janela.width / 2 - vida.width / 2
+        vida.y = janela.height - vida.height - 25
+        bipper_lateral = Sprite("bipper_lateral.png")
+        bipper_lateral.x = 10
+        bipper_lateral.y = 170
+        bumerangue_lateral = Sprite("bumerangue_lateral_desabilitado.png")
+        bumerangue_lateral.x = 10
+        bumerangue_lateral.y = bipper_lateral.y + bumerangue_lateral.height + 15
+        canhao_lateral = Sprite("canhao_lateral_desabilitado.png")
+        canhao_lateral.x = 10
+        canhao_lateral.y = bumerangue_lateral.y + canhao_lateral.height + 15
+        amber_lateral = Sprite("amber_lateral_desabilitada.png")
+        amber_lateral.x = 10
+        amber_lateral.y = canhao_lateral.y + amber_lateral.height + 15
+        pausa = Sprite("pausa.png")
+        pausa.x = 10
+        pausa.y = 10
+        pausa.draw()
+
+        pecas_hud = Sprite("uma peça.png")
+        pecas_hud.x = janela.width - pecas_hud.width - 30
+        pecas_hud.y = 15
+        pecas_hud.draw()
+        quantidade_pecas = 19
+        janela.draw_text("" + str(quantidade_pecas), pecas_hud.x - pecas_hud.width, 17, 40, (255,255,255), "Candara")
+
+        tempo_de_jogo = 550
+        tempo_de_jogo_min = tempo_de_jogo//60
+        tempo_de_jogo_seg = tempo_de_jogo - tempo_de_jogo_min*60
+        janela.draw_text(str(tempo_de_jogo_min) + ":" + str(tempo_de_jogo_seg), janela.width/2 - 20, 17, 40, (255, 255, 255), "Candara")
+
+        amber_lateral.draw()
+        canhao_lateral.draw()
+        vida.draw()
+        bumerangue_lateral.draw()
+        bipper_lateral.draw()
 
         if teclado.key_pressed('ESC'):
             break
