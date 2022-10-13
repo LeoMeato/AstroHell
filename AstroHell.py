@@ -28,6 +28,7 @@ BotaoJogar.set_position(janela.width / 2 - BotaoJogar.width / 2, janela.height/2
 BotaoConfiguraçoes.set_position(janela.width / 2 - BotaoConfiguraçoes.width / 2, janela.height/2 + 80)
 BotaoSair.set_position(janela.width / 2 - BotaoSair.width / 2, janela.height/2 + 200)
 Logo.set_position(janela.width / 2 - Logo.width / 2, 80)
+
 # setup mapa
 
 mapa = Sprite("mapa2.png")
