@@ -229,7 +229,39 @@ def niveisDeArma(mouseApertado, john, Mouse, janela, bipper_lateral, bumerangue_
             nivelLaser = 5
 
 
-def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vetPeca):
+def jogar(teclado, Mouse, janela, mapa):
+
+    # setup player
+
+    john = {'John': Sprite("Astronauta(3).png"), 'vida': 200, 'pregos': 300}
+    john['John'].set_position(janela.width / 2 - john['John'].width / 2, janela.height / 2 - john['John'].height / 2)
+
+    # setup inimigos
+
+    vetBip = [[Sprite("bip.png"), 30], [Sprite("bip.png"), 30], [Sprite("bip.png"), 30]]
+    vetBip[0][0].set_position(-100, 620)
+    vetBip[1][0].set_position(700, -200)
+    vetBip[2][0].set_position(2300, 500)
+
+    # setup obstáculos
+    ## Daria pra botar todos os obstáculos em uma só lista, mas fiz assim pra poder diferenciar mais fácil, por enquanto.
+    vetArvores = [Sprite("árvore_pequena.png"), Sprite("árvore_pequena.png"), Sprite("árvore_pequena.png")]
+    vetArvores[0].set_position(200, 200)
+    vetArvores[1].set_position(700, 800)
+    vetArvores[2].set_position(1000, 300)
+
+    vetPedras = [Sprite("pedra1peq.png"), Sprite("pedra1peq.png"), Sprite("pedra1peq.png"), Sprite("pedra1peq.png"),
+                 Sprite("pedra1peq.png")]
+    vetPedras[0].set_position(350, 250)
+    vetPedras[1].set_position(250, 400)
+    vetPedras[2].set_position(400, 600)
+    vetPedras[3].set_position(200, 700)
+    vetPedras[4].set_position(700, 500)
+
+    vetPeca = [Sprite("peçapequena.png")]
+    ## Tentei criar em um For pra ficar aleatorio, mas tem vezes que nasce em cima da pedra/arvore
+    for i in range(len(vetPeca)):
+        vetPeca[i].set_position((i + 1) * randint(100, 200), (i + 1) * randint(100, 200))
 
     # setup geral
 
