@@ -1,6 +1,7 @@
 from PPlay.window import *
 from PPlay.sprite import *
 from PPlay.animation import *
+from random import randint
 
 tempo_de_jogo = 0
 
@@ -73,11 +74,15 @@ def colisãoDano(inimigo, tiro, dano):
             j += 1
 
 
-def morreuInimigo(Bip):
+def morreuInimigo(Bip, vetPeca):
     j = 0
     a = len(Bip)
     while j < a and a > 0:
         if Bip[j][1] <= 0:
+            r = randint(1, 100)
+            if r < 20:
+                vetPeca.append(Sprite("peçapequena.png"))
+                vetPeca[-1].set_position(Bip[j][0].x + Bip[j][0].width / 2, Bip[j][0].y + Bip[j][0].height / 2)
             Bip.pop(j)
             a -= 1
         j += 1
@@ -106,14 +111,37 @@ def peças(vetPeca, john, velJohnX, velJohnY, janela):
             a -= 1
         j += 1
 
+def spawnBip(vetBip, janela):
+    r = randint(1, 4)
+
+    x = 0
+    y = 0
+
+    if r == 1:
+        x = randint(janela.width, janela.width * 1.5)
+        y = randint(-300, janela.height + 300)
+    elif r == 2:
+        x = randint(-janela.width * 1.5, 0)
+        y = randint(-300, janela.height + 300)
+    elif r == 3:
+        x = randint(0, janela.width)
+        y = randint(-janela.height, 0)
+    elif r == 4:
+        x = randint(0, janela.width)
+        y = randint(janela.height, janela.height * 1.5)
+
+    vetBip.append([Sprite("bip.png"), 30])
+    vetBip[-1][0].set_position(x, y)
+
 
 def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vetPeca):
     projetil_bipper = Sprite("projetil_bipper.png")
-    velBip = 100
+    velBip = 80
 
     danoBipper = 10
 
     cooldownB = 0
+    cooldownSpawnBip = 0
 
     velTiro = 900
 
@@ -121,6 +149,7 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
 
     while True:
         cooldownB -= 20 * janela.delta_time()
+        cooldownSpawnBip -= 15 * janela.delta_time()
 
         velJohnX = 0
         velJohnY = 0
@@ -164,12 +193,16 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
 
         # comportamento dos bips
 
+        if cooldownSpawnBip <= 0:
+            spawnBip(vetBip, janela)
+            cooldownSpawnBip = 25
+
         for i in range(len(vetBip)):
             bip(vetBip[i][0], janela, mapa, velJohnX, velJohnY, velBip, john['John'])
 
         # verifica se algum bip está com vida < 0 e mata o que estiver
 
-        morreuInimigo(vetBip)
+        morreuInimigo(vetBip, vetPeca)
 
         # Hud
         vida = Sprite("9vidas.png")
