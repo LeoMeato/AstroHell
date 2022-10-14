@@ -62,7 +62,7 @@ vetPedras[2].set_position(400,600)
 vetPedras[3].set_position(200,700)
 vetPedras[4].set_position(700,500)
 
-vetPeca = [Sprite("peçapequena.png"), Sprite("peçapequena.png"), Sprite("peçapequena.png"), Sprite("peçapequena.png"), Sprite("peçapequena.png")]
+vetPeca = [Sprite("peçapequena.png")]
 ## Tentei criar em um For pra ficar aleatorio, mas tem vezes que nasce em cima da pedra/arvore
 for i in range(len(vetPeca)):
     vetPeca[i].set_position((i+1)*random.randint(100, 200), (i+1)*random.randint(100, 200))
