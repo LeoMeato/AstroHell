@@ -231,6 +231,8 @@ def niveisDeArma(mouseApertado, john, Mouse, janela, bipper_lateral, bumerangue_
 
 def jogar(teclado, Mouse, janela, mapa):
 
+
+
     # setup player
 
     john = {'John': Sprite("Astronauta(3).png"), 'vida': 200, 'pregos': 300}
@@ -267,6 +269,24 @@ def jogar(teclado, Mouse, janela, mapa):
 
     global cooldownDanoJ
 
+    global tempo_de_jogo
+
+    global nivelBip
+    global nivelBumer
+    global nivelLaser
+    global nivelAmber
+
+    global armadura
+
+    tempo_de_jogo = 0
+
+    nivelBip = 1
+    nivelAmber = 0
+    nivelBumer = 0
+    nivelLaser = 0
+
+    armadura = 1
+
     gameover = False
 
     # setup dos bips
@@ -274,8 +294,11 @@ def jogar(teclado, Mouse, janela, mapa):
     velBip = 80
     danoBip = 10
 
+    # setup cooldowns
+
     cooldownB = 0
     cooldownSpawnBip = 0
+    cooldownDanoJ
 
     # setup da bipper
 
