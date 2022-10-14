@@ -91,6 +91,21 @@ def tempo(janela):
     janela.draw_text("{}:{:0>2}".format(int(tempo_de_jogo_min), int(tempo_de_jogo_seg)), janela.width / 2 - 20, 17, 40,
                      (255, 255, 255), "Candara")
 
+def peças(vetPeca, john, velJohnX, velJohnY, janela):
+    for i in range(len(vetPeca)):
+        vetPeca[i].draw()
+        vetPeca[i].x += velJohnX * janela.delta_time()
+        vetPeca[i].y += velJohnY * janela.delta_time()
+        if vetPeca[i].collided(john['John']):
+            john['pregos'] += 1
+    j = 0
+    a = len(vetPeca)
+    while j < a and a > 0:
+        if vetPeca[j].collided(john['John']):
+            vetPeca.pop(j)
+            a -= 1
+        j += 1
+
 
 def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vetPeca):
     projetil_bipper = Sprite("projetil_bipper.png")
@@ -136,19 +151,7 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
             vetPedras[n].x += velJohnX * janela.delta_time()
             vetPedras[n].y += velJohnY * janela.delta_time()
 
-        for i in range(len(vetPeca)):
-            vetPeca[i].draw()
-            vetPeca[i].x += velJohnX * janela.delta_time()
-            vetPeca[i].y += velJohnY * janela.delta_time()
-            if vetPeca[i].collided(john['John']):
-                john['pregos'] += 1
-        j = 0
-        a = len(vetPeca)
-        while j < a and a > 0:
-            if vetPeca[j].collided(john['John']):
-                vetPeca.pop(j)
-                a -= 1
-            j += 1
+        peças(vetPeca, john, velJohnX, velJohnY, janela)
 
         # comportamento da bipper
 
