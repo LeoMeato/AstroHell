@@ -231,15 +231,21 @@ def niveisDeArma(mouseApertado, john, Mouse, janela, bipper_lateral, bumerangue_
 
 def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vetPeca):
 
+    # setup geral
+
     global cooldownDanoJ
 
     gameover = False
+
+    # setup dos bips
 
     velBip = 80
     danoBip = 10
 
     cooldownB = 0
     cooldownSpawnBip = 0
+
+    # setup da bipper
 
     velTiro = 900
     danoBipper = 10
@@ -249,7 +255,33 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
 
     Arma = 1
 
+    # setup HUD
+
+    vida = Sprite("9vidas.png")
+    vida.x = janela.width / 2 - vida.width / 2
+    vida.y = janela.height - vida.height - 25
+    bipper_lateral = Sprite("bipper_lateral.png")
+    bipper_lateral.x = 10
+    bipper_lateral.y = 170
+    bumerangue_lateral = Sprite("bumerangue_lateral_desabilitado.png")
+    bumerangue_lateral.x = 10
+    bumerangue_lateral.y = bipper_lateral.y + bumerangue_lateral.height + 15
+    canhao_lateral = Sprite("canhao_lateral_desabilitado.png")
+    canhao_lateral.x = 10
+    canhao_lateral.y = bumerangue_lateral.y + canhao_lateral.height + 15
+    amber_lateral = Sprite("amber_lateral_desabilitada.png")
+    amber_lateral.x = 10
+    amber_lateral.y = canhao_lateral.y + amber_lateral.height + 15
+    pausa = Sprite("pausa.png")
+    pausa.x = 10
+    pausa.y = 10
+    pecas_hud = Sprite("uma peça.png")
+    pecas_hud.x = janela.width - pecas_hud.width - 30
+    pecas_hud.y = 15
+
     while True:
+
+        # mudanças de mecânicas atreladas aos niveis
 
         if nivelBip == 2:
             danoBipper = 15
@@ -257,9 +289,13 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
         if nivelBip == 3:
             danoBipper = 20
 
+        # cooldowns
+
         cooldownB -= (20 + (nivelBip * 2) ** 1.7) * janela.delta_time()
         cooldownSpawnBip -= 15 * janela.delta_time()
         cooldownDanoJ -= 100 * janela.delta_time()
+
+        # velocidade de movimento do personagem
 
         velJohnX = 0
         velJohnY = 0
@@ -273,12 +309,16 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
         if teclado.key_pressed('D'):
             velJohnX = -400
 
+        # mapa
+
         mapa.x += velJohnX * janela.delta_time()
         mapa.y += velJohnY * janela.delta_time()
 
         mapaInfinito(mapa, janela)  # Leonardo
 
         mapa.draw()
+
+        # cenario
 
         for i in range(len(vetArvores)):
             vetArvores[i].draw()
@@ -316,31 +356,7 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
 
         morreuInimigo(vetBip, vetPeca)
 
-        # Hud
-        vida = Sprite("9vidas.png")
-        vida.x = janela.width / 2 - vida.width / 2
-        vida.y = janela.height - vida.height - 25
-        bipper_lateral = Sprite("bipper_lateral.png")
-        bipper_lateral.x = 10
-        bipper_lateral.y = 170
-        bumerangue_lateral = Sprite("bumerangue_lateral_desabilitado.png")
-        bumerangue_lateral.x = 10
-        bumerangue_lateral.y = bipper_lateral.y + bumerangue_lateral.height + 15
-        canhao_lateral = Sprite("canhao_lateral_desabilitado.png")
-        canhao_lateral.x = 10
-        canhao_lateral.y = bumerangue_lateral.y + canhao_lateral.height + 15
-        amber_lateral = Sprite("amber_lateral_desabilitada.png")
-        amber_lateral.x = 10
-        amber_lateral.y = canhao_lateral.y + amber_lateral.height + 15
-        pausa = Sprite("pausa.png")
-        pausa.x = 10
-        pausa.y = 10
-        pausa.draw()
-
-        pecas_hud = Sprite("uma peça.png")
-        pecas_hud.x = janela.width - pecas_hud.width - 30
-        pecas_hud.y = 15
-        pecas_hud.draw()
+        # HUD
 
         janela.draw_text("" + str(john['pregos']), pecas_hud.x - pecas_hud.width, 17, 40, (255, 255, 255), "Candara")
 
@@ -361,16 +377,24 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
 
         tempo(janela)
 
+        pausa.draw()
+        pecas_hud.draw()
         amber_lateral.draw()
         canhao_lateral.draw()
         vida.draw()
         bumerangue_lateral.draw()
         bipper_lateral.draw()
 
+        # niveis
+
         niveisDeArma(mouseApertado, john, Mouse, janela, bipper_lateral, bumerangue_lateral, amber_lateral, canhao_lateral)
+
+        # sair
 
         if teclado.key_pressed('ESC'):
             break
+
+        # auxilia pro mouse so clicar se estiver "desligado"
 
         if Mouse.is_button_pressed(1):
             mouseApertado = True
@@ -380,8 +404,12 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
         if john['vida'] <= 0:
             gameover = True
 
+        # atualizações
+
         john['John'].draw()
         janela.update()
+
+        # gameover
 
         if gameover:
             while True:
