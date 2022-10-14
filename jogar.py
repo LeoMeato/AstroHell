@@ -10,6 +10,10 @@ nivelAmber = 0
 nivelBumer = 0
 nivelLaser = 0
 
+cooldownDanoJ = 0
+
+armadura = 1
+
 def mapaInfinito(mapa, janela):
     if mapa.x > 0:
         mapa.x = -mapa.width + janela.width + 200 - janela.width % 200
@@ -21,14 +25,21 @@ def mapaInfinito(mapa, janela):
         mapa.y = -(200 - janela.height % 200)
 
 
-def bip(Bip, janela, mapa, velJohnX, velJohnY, velBip, john):
+def bip(Bip, janela, mapa, velJohnX, velJohnY, velBip, john, danoBip):
+
+    global cooldownDanoJ
+    global armadura
+
     Bip.x += velJohnX * janela.delta_time()
     Bip.y += velJohnY * janela.delta_time()
-    dx = john.x - Bip.x
-    dy = john.y - Bip.y
+    dx = john['John'].x - Bip.x
+    dy = john['John'].y - Bip.y
     dt = abs(dx) + abs(dy)
     Bip.x += velBip * (dx / dt) * janela.delta_time()
     Bip.y += velBip * (dy / dt) * janela.delta_time()
+    if Bip.collided(john['John']) and cooldownDanoJ <= 0:
+        john['vida'] -= danoBip * armadura
+        cooldownDanoJ = 20
     Bip.draw()
 
 
@@ -220,7 +231,12 @@ def niveisDeArma(mouseApertado, john, Mouse, janela, bipper_lateral, bumerangue_
 
 def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vetPeca):
 
+    global cooldownDanoJ
+
+    gameover = False
+
     velBip = 80
+    danoBip = 10
 
     cooldownB = 0
     cooldownSpawnBip = 0
@@ -243,6 +259,7 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
 
         cooldownB -= (20 + (nivelBip * 2) ** 1.7) * janela.delta_time()
         cooldownSpawnBip -= 15 * janela.delta_time()
+        cooldownDanoJ -= 100 * janela.delta_time()
 
         velJohnX = 0
         velJohnY = 0
@@ -293,7 +310,7 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
             cooldownSpawnBip = 25
 
         for i in range(len(vetBip)):
-            bip(vetBip[i][0], janela, mapa, velJohnX, velJohnY, velBip, john['John'])
+            bip(vetBip[i][0], janela, mapa, velJohnX, velJohnY, velBip, john, danoBip)
 
         # verifica se algum bip está com vida < 0 e mata o que estiver
 
@@ -340,6 +357,8 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
                          canhao_lateral.y + canhao_lateral.height / 2, size=40, color=(255, 255, 255),
                          font_name="Candara")
 
+        janela.draw_text('HP: {}'.format(john['vida']), vida.x + vida.width / 2 - 40, vida.y - 30, 30, (255, 255, 255), "Candara")
+
         tempo(janela)
 
         amber_lateral.draw()
@@ -358,6 +377,17 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
         else:
             mouseApertado = False
 
+        if john['vida'] <= 0:
+            gameover = True
 
         john['John'].draw()
         janela.update()
+
+        if gameover:
+            while True:
+                janela.set_background_color([0, 0, 0])
+                janela.draw_text('Aperte ESC para voltar ao menu principal', janela.width - 550, janela.height - 30, 30, (255, 255, 255), "Candara")
+                if teclado.key_pressed('ESC'):
+                    break
+                janela.update()
+            break
