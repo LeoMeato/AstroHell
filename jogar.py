@@ -231,6 +231,8 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
 
     mouseApertado = False
 
+    Arma = 1
+
     while True:
 
         if nivelBip == 2:
@@ -275,7 +277,9 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
 
         # comportamento da bipper
 
-        cooldownB = tiroComMouseBipper(janela, Mouse, john['John'], velTiro, vetBipper, cooldownB)
+        if Arma == 1:
+            cooldownB = tiroComMouseBipper(janela, Mouse, john['John'], velTiro, vetBipper, cooldownB)
+
         renderizarBipper(vetBipper, janela, velJohnX, velJohnY)
 
         # colisão com dano
