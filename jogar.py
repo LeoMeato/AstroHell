@@ -332,6 +332,12 @@ def jogar(teclado, Mouse, janela, mapa):
     pecas_hud.x = janela.width - pecas_hud.width - 30
     pecas_hud.y = 15
 
+    # fps
+
+    soma_fps = 0
+    contador_fps = 0
+    printfps = 0
+
     while True:
 
         # mudanças de mecânicas atreladas aos niveis
@@ -456,6 +462,17 @@ def jogar(teclado, Mouse, janela, mapa):
 
         if john['vida'] <= 0:
             gameover = True
+
+        # fps
+
+        contador_fps += 1
+        soma_fps += janela.delta_time()
+        janela.draw_text('FPS: {}'.format(int(printfps)), janela.width - 100, janela.height - 30, 17, (255, 255, 255))
+
+        if contador_fps == 150:
+            printfps = contador_fps / soma_fps
+            contador_fps = 0
+            soma_fps = 0
 
         # atualizações
 
