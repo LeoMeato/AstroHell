@@ -144,9 +144,9 @@ def niveisDeArma(mouseApertado, john, Mouse, janela, bipper_lateral, bumerangue_
     global nivelLaser
     global nivelAmber
 
-    if not mouseApertado and Mouse.is_button_pressed(1) and bipper_lateral.x + bipper_lateral.width - 50\
+    if not mouseApertado and Mouse.is_button_pressed(1) and bipper_lateral.x + bipper_lateral.width - 20\
             < Mouse.get_position()[0] < bipper_lateral.x + bipper_lateral.width and bipper_lateral.y\
-            + bipper_lateral.height - 50 < Mouse.get_position()[1] < bipper_lateral.y + bipper_lateral.height:
+            + bipper_lateral.height - 20 < Mouse.get_position()[1] < bipper_lateral.y + bipper_lateral.height:
         if nivelBip == 1 and john['pregos'] >= 10:
             john['pregos'] -= 10
             nivelBip = 2
@@ -159,6 +159,63 @@ def niveisDeArma(mouseApertado, john, Mouse, janela, bipper_lateral, bumerangue_
         elif nivelBip == 4 and john['pregos'] >= 30:
             john['pregos'] -= 30
             nivelBip = 5
+
+    if not mouseApertado and Mouse.is_button_pressed(1) and amber_lateral.x + amber_lateral.width - 20\
+            < Mouse.get_position()[0] < amber_lateral.x + amber_lateral.width and amber_lateral.y\
+            + amber_lateral.height - 20 < Mouse.get_position()[1] < amber_lateral.y + amber_lateral.height:
+        if nivelAmber == 0 and john['pregos'] >= 10:
+            john['pregos'] -= 10
+            nivelAmber = 1
+        elif nivelAmber == 1 and john['pregos'] >= 15:
+            john['pregos'] -= 15
+            nivelAmber = 2
+        elif nivelAmber == 2 and john['pregos'] >= 25:
+            john['pregos'] -= 25
+            nivelAmber = 3
+        elif nivelAmber == 3 and john['pregos'] >= 35:
+            john['pregos'] -= 35
+            nivelAmber = 4
+        elif nivelAmber == 4 and john['pregos'] >= 45:
+            john['pregos'] -= 45
+            nivelAmber = 5
+
+    if not mouseApertado and Mouse.is_button_pressed(1) and bumerangue_lateral.x + bumerangue_lateral.width - 20\
+            < Mouse.get_position()[0] < bumerangue_lateral.x + bumerangue_lateral.width and bumerangue_lateral.y\
+            + bumerangue_lateral.height - 20 < Mouse.get_position()[1] < bumerangue_lateral.y + bumerangue_lateral.height:
+        if nivelBumer == 0 and john['pregos'] >= 10:
+            john['pregos'] -= 10
+            nivelBumer = 1
+        elif nivelBumer == 1 and john['pregos'] >= 15:
+            john['pregos'] -= 15
+            nivelBumer = 2
+        elif nivelBumer == 2 and john['pregos'] >= 25:
+            john['pregos'] -= 25
+            nivelBumer = 3
+        elif nivelBumer == 3 and john['pregos'] >= 35:
+            john['pregos'] -= 35
+            nivelBumer = 4
+        elif nivelBumer == 4 and john['pregos'] >= 45:
+            john['pregos'] -= 45
+            nivelBumer = 5
+
+    if not mouseApertado and Mouse.is_button_pressed(1) and canhao_lateral.x + canhao_lateral.width - 20\
+            < Mouse.get_position()[0] < canhao_lateral.x + canhao_lateral.width and canhao_lateral.y\
+            + canhao_lateral.height - 20 < Mouse.get_position()[1] < canhao_lateral.y + canhao_lateral.height:
+        if nivelLaser == 0 and john['pregos'] >= 10:
+            john['pregos'] -= 10
+            nivelLaser = 1
+        elif nivelLaser == 1 and john['pregos'] >= 15:
+            john['pregos'] -= 15
+            nivelLaser = 2
+        elif nivelLaser == 2 and john['pregos'] >= 25:
+            john['pregos'] -= 25
+            nivelLaser = 3
+        elif nivelLaser == 3 and john['pregos'] >= 35:
+            john['pregos'] -= 35
+            nivelLaser = 4
+        elif nivelLaser == 4 and john['pregos'] >= 45:
+            john['pregos'] -= 45
+            nivelLaser = 5
 
 
 def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vetPeca):
