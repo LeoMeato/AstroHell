@@ -4,6 +4,7 @@ from PPlay.animation import *
 
 tempo_de_jogo = 0
 
+
 def mapaInfinito(mapa, janela):
     if mapa.x > 0:
         mapa.x = -mapa.width + janela.width + 200 - janela.width % 200
@@ -93,11 +94,7 @@ def tempo(janela):
 
 def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vetPeca):
     projetil_bipper = Sprite("projetil_bipper.png")
-    vel_bipper = 400
-    saiu_agora = False
-    na_tela = False
     velBip = 100
-    timer = 0
 
     danoBipper = 10
 
@@ -129,28 +126,6 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
 
         mapa.draw()
 
-        '''if not na_tela:
-            if teclado.key_pressed("SPACE"):
-                na_tela = True
-                saiu_agora = True
-        if saiu_agora:
-            projetil_bipper.x = john.x + john.width / 2
-            projetil_bipper.y = john.y - 15
-            saiu_agora = False
-        if na_tela:
-            projetil_bipper.y -= (vel_bipper * janela.delta_time())
-            projetil_bipper.draw()
-            if projetil_bipper.y <= 0:
-                projetil_bipper.y = janela.height
-                na_tela = False
-
-        #        for n in range(1, len(vetTiro)):
-     #           if len(vetTiro) >= n:
-      #              if vetTiro[i].x >= 0 or vetTiro[i] <= 0:
-       #                 vetTiro.pop(i)
-        #            if vetTiro[i].x >= janela.width or vetTiro[i].y >= janela.height:
-         #               vetTiro.pop(i)'''  # pode apagar?
-
         for i in range(len(vetArvores)):
             vetArvores[i].draw()
             vetArvores[i].x += velJohnX * janela.delta_time()
@@ -165,10 +140,19 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
             vetPeca[i].draw()
             vetPeca[i].x += velJohnX * janela.delta_time()
             vetPeca[i].y += velJohnY * janela.delta_time()
+            if vetPeca[i].collided(john['John']):
+                john['pregos'] += 1
+        j = 0
+        a = len(vetPeca)
+        while j < a and a > 0:
+            if vetPeca[j].collided(john['John']):
+                vetPeca.pop(j)
+                a -= 1
+            j += 1
 
         # comportamento da bipper
 
-        cooldownB = tiroComMouseBipper(janela, Mouse, projetil_bipper, john, velTiro, vetBipper, cooldownB)
+        cooldownB = tiroComMouseBipper(janela, Mouse, projetil_bipper, john['John'], velTiro, vetBipper, cooldownB)
         renderizarBipper(vetBipper, janela, velJohnX, velJohnY)
 
         # colisão com dano
@@ -178,7 +162,7 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
         # comportamento dos bips
 
         for i in range(len(vetBip)):
-            bip(vetBip[i][0], janela, mapa, velJohnX, velJohnY, velBip, john)
+            bip(vetBip[i][0], janela, mapa, velJohnX, velJohnY, velBip, john['John'])
 
         # verifica se algum bip está com vida < 0 e mata o que estiver
 
@@ -209,11 +193,10 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
         pecas_hud.x = janela.width - pecas_hud.width - 30
         pecas_hud.y = 15
         pecas_hud.draw()
-        quantidade_pecas = 19
-        janela.draw_text("" + str(quantidade_pecas), pecas_hud.x - pecas_hud.width, 17, 40, (255, 255, 255), "Candara")
+
+        janela.draw_text("" + str(john['pregos']), pecas_hud.x - pecas_hud.width, 17, 40, (255, 255, 255), "Candara")
 
         tempo(janela)
-
 
         amber_lateral.draw()
         canhao_lateral.draw()
@@ -224,5 +207,5 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
         if teclado.key_pressed('ESC'):
             break
 
-        john.draw()
+        john['John'].draw()
         janela.update()
