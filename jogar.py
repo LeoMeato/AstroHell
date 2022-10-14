@@ -467,9 +467,10 @@ def jogar(teclado, Mouse, janela, mapa):
 
         contador_fps += 1
         soma_fps += janela.delta_time()
-        janela.draw_text('FPS: {}'.format(int(printfps)), janela.width - 100, janela.height - 30, 17, (255, 255, 255))
+        janela.draw_text('FPS: {}'.format(int(printfps)), janela.width - 100, janela.height - 30, 17,
+                             (255, 255, 255))
 
-        if contador_fps == 150:
+        if contador_fps == 80:
             printfps = contador_fps / soma_fps
             contador_fps = 0
             soma_fps = 0
