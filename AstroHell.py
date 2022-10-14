@@ -1,9 +1,6 @@
 from PPlay.window import *
-from PPlay.sprite import *
-from PPlay.animation import *
 from menu import *
 from jogar import *
-import random
 
 # setup geral
 

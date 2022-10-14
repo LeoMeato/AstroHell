@@ -1,6 +1,4 @@
-from PPlay.window import *
 from PPlay.sprite import *
-from PPlay.animation import *
 from random import randint
 
 tempo_de_jogo = 0
@@ -235,7 +233,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
     # setup player
 
-    john = {'John': Sprite("Astronauta(3).png"), 'vida': 200, 'pregos': 300}
+    john = {'John': Sprite("Astronauta(3).png"), 'vida': 200, 'pregos': 40}
     john['John'].set_position(janela.width / 2 - john['John'].width / 2, janela.height / 2 - john['John'].height / 2)
 
     # setup inimigos
@@ -348,7 +346,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
         cooldownB -= (20 + (nivelBip * 2) ** 1.7) * janela.delta_time()
         cooldownSpawnBip -= 15 * janela.delta_time()
-        cooldownDanoJ -= 100 * janela.delta_time()
+        cooldownDanoJ -= 15 * janela.delta_time()
 
         # velocidade de movimento do personagem
 
@@ -469,6 +467,7 @@ def jogar(teclado, Mouse, janela, mapa):
         if gameover:
             while True:
                 janela.set_background_color([0, 0, 0])
+                janela.draw_text('GAME OVER', janela.width / 2 - 200, janela.height / 2 - 60, 80, (255, 255, 255), "Candara")
                 janela.draw_text('Aperte ESC para voltar ao menu principal', janela.width - 550, janela.height - 30, 30, (255, 255, 255), "Candara")
                 if teclado.key_pressed('ESC'):
                     break
