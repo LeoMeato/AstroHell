@@ -5,6 +5,10 @@ from random import randint
 
 tempo_de_jogo = 0
 
+nivelBip = 1
+nivelAmber = 0
+nivelBumer = 0
+nivelLaser = 0
 
 def mapaInfinito(mapa, janela):
     if mapa.x > 0:
@@ -28,7 +32,7 @@ def bip(Bip, janela, mapa, velJohnX, velJohnY, velBip, john):
     Bip.draw()
 
 
-def tiroComMouseBipper(janela, Mouse, projetil_bipper, john, velTiro, vetBipper, cooldownB):
+def tiroComMouseBipper(janela, Mouse, john, velTiro, vetBipper, cooldownB):
     X = Mouse.get_position()[0]
     Y = Mouse.get_position()[1]
     if Mouse.is_button_pressed(1) and cooldownB <= 0:
@@ -133,22 +137,52 @@ def spawnBip(vetBip, janela):
     vetBip.append([Sprite("bip.png"), 30])
     vetBip[-1][0].set_position(x, y)
 
+def niveisDeArma(mouseApertado, john, Mouse, janela, bipper_lateral, bumerangue_lateral, amber_lateral, canhao_lateral):
+
+    global nivelBip
+    global nivelBumer
+    global nivelLaser
+    global nivelAmber
+
+    if not mouseApertado and Mouse.is_button_pressed(1) and bipper_lateral.x + bipper_lateral.width - 50\
+            < Mouse.get_position()[0] < bipper_lateral.x + bipper_lateral.width and bipper_lateral.y\
+            + bipper_lateral.height - 50 < Mouse.get_position()[1] < bipper_lateral.y + bipper_lateral.height:
+        if nivelBip == 1 and john['pregos'] >= 10:
+            john['pregos'] -= 10
+            nivelBip = 2
+        elif nivelBip == 2 and john['pregos'] >= 15:
+            john['pregos'] -= 15
+            nivelBip = 3
+        elif nivelBip == 3 and john['pregos'] >= 20:
+            john['pregos'] -= 20
+            nivelBip = 4
+        elif nivelBip == 4 and john['pregos'] >= 30:
+            john['pregos'] -= 30
+            nivelBip = 5
+
 
 def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vetPeca):
-    projetil_bipper = Sprite("projetil_bipper.png")
-    velBip = 80
 
-    danoBipper = 10
+    velBip = 80
 
     cooldownB = 0
     cooldownSpawnBip = 0
 
     velTiro = 900
-
+    danoBipper = 10
     vetBipper = []
 
+    mouseApertado = False
+
     while True:
-        cooldownB -= 20 * janela.delta_time()
+
+        if nivelBip == 2:
+            danoBipper = 15
+            velTiro = 1000
+        if nivelBip == 3:
+            danoBipper = 20
+
+        cooldownB -= (20 + (nivelBip * 2) ** 1.7) * janela.delta_time()
         cooldownSpawnBip -= 15 * janela.delta_time()
 
         velJohnX = 0
@@ -184,7 +218,7 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
 
         # comportamento da bipper
 
-        cooldownB = tiroComMouseBipper(janela, Mouse, projetil_bipper, john['John'], velTiro, vetBipper, cooldownB)
+        cooldownB = tiroComMouseBipper(janela, Mouse, john['John'], velTiro, vetBipper, cooldownB)
         renderizarBipper(vetBipper, janela, velJohnX, velJohnY)
 
         # colisão com dano
@@ -232,6 +266,19 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
 
         janela.draw_text("" + str(john['pregos']), pecas_hud.x - pecas_hud.width, 17, 40, (255, 255, 255), "Candara")
 
+        janela.draw_text('{}'.format(nivelBip), bipper_lateral.x + bipper_lateral.width + 25,
+                         bipper_lateral.y + bipper_lateral.height / 2, size=40, color=(255, 255, 255),
+                         font_name="Candara")
+        janela.draw_text('{}'.format(nivelAmber), amber_lateral.x + amber_lateral.width + 25,
+                         amber_lateral.y + amber_lateral.height / 2, size=40, color=(255, 255, 255),
+                         font_name="Candara")
+        janela.draw_text('{}'.format(nivelBumer), bumerangue_lateral.x + bumerangue_lateral.width + 25,
+                         bumerangue_lateral.y + bumerangue_lateral.height / 2, size=40, color=(255, 255, 255),
+                         font_name="Candara")
+        janela.draw_text('{}'.format(nivelLaser), canhao_lateral.x + canhao_lateral.width + 25,
+                         canhao_lateral.y + canhao_lateral.height / 2, size=40, color=(255, 255, 255),
+                         font_name="Candara")
+
         tempo(janela)
 
         amber_lateral.draw()
@@ -240,8 +287,16 @@ def jogar(teclado, Mouse, janela, mapa, john, vetBip, vetArvores, vetPedras, vet
         bumerangue_lateral.draw()
         bipper_lateral.draw()
 
+        niveisDeArma(mouseApertado, john, Mouse, janela, bipper_lateral, bumerangue_lateral, amber_lateral, canhao_lateral)
+
         if teclado.key_pressed('ESC'):
             break
+
+        if Mouse.is_button_pressed(1):
+            mouseApertado = True
+        else:
+            mouseApertado = False
+
 
         john['John'].draw()
         janela.update()
