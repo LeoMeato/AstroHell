@@ -1,6 +1,19 @@
 from PPlay.sprite import *
 from math import *
 
+'''
+Manual:
+
+o vetor de tiros da bipper é da seguinte forma: [bipper1, bipper2, ... bipperN], e cada tiro é uma lista por si só:
+bipperN = [sprite(0), velocidade no eixo x(1), velocidade no eixo y(2)]
+
+o vetor de tiros da amber é da seguinte forma: [amber1, amber2, ... amberN] e cada tiro é uma lista por si só:
+amberN =  [sprite(0), velocidade no eixo x(1), velocidade no eixo y(2), dano(3), piercing acumulado(4)]
+
+'''
+
+# obs: a amber está dando dano ainda na etapa de carregamento, tem que corrigir. E também tá dando erro se encostar.
+
 
 def tiroBipper(janela, Mouse, john, velTiro, vetBipper, cooldownB):
     X = Mouse.get_position()[0]
