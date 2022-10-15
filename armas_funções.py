@@ -8,7 +8,7 @@ o vetor de tiros da bipper é da seguinte forma: [bipper1, bipper2, ... bipperN]
 bipperN = [sprite(0), velocidade no eixo x(1), velocidade no eixo y(2)]
 
 o vetor de tiros da amber é da seguinte forma: [amber1, amber2, ... amberN] e cada tiro é uma lista por si só:
-amberN =  [sprite(0), velocidade no eixo x(1), velocidade no eixo y(2), dano(3), piercing acumulado(4)]
+amberN =  [sprite(0), velocidade no eixo x(1), velocidade no eixo y(2), dano(3), piercing acumulado(4), atirou? (5)]
 
 '''
 
@@ -44,6 +44,7 @@ def tiroAmber(janela, vetAmber, Mouse, john, velAmber, amberPode, cooldownA):
         vetAmber[-1].append(dy / dt * velAmber)
         vetAmber[-1].append(0)  # dano
         vetAmber[-1].append(0)  # piercing acumulado
+        vetAmber[-1].append(False)  # atirou?
         amberPode = False
         cooldownA = 20
     return amberPode, cooldownA
@@ -71,6 +72,7 @@ def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseAper
         timerAmber = 0
     if not Mouse.is_button_pressed(1) and mouseApertado:
         vetAmber[-1][3] += danoAmber
+        vetAmber[-1][5] = True
         return True, timerAmber
     else:
         return False, timerAmber
@@ -111,7 +113,7 @@ def colisãoDano(inimigo, tiro, tiro2, dano):
             if i[0].collided(j[0]):
                 i[1] -= dano
         for j in tiro2:
-            if i[0]. collided(j[0]):
+            if i[0]. collided(j[0]) and j[5]:
                 i[1] -= j[3]
                 j[4] += 1
         j = 0
