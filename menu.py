@@ -1,4 +1,5 @@
 def menu(BotaoJogar, BotaoConfiguraçoes, BotaoSair, Logo, Mouse, janela):
+
     resposta = 0
     Logo.draw()
     BotaoJogar.draw()
