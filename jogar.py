@@ -242,13 +242,16 @@ def jogar(teclado, Mouse, janela, mapa):
     velBip = 80
     danoBip = 10
 
-    # setup cooldowns e timers
+    # setup cooldowns, timers e contadores
 
     cooldownB = 0
     cooldownSpawnBip = 0
     cooldownDanoJ
     cooldownA = 0
+
     timerAmber = 0
+
+    amberPiercing = 0
 
     # setup da bipper
 

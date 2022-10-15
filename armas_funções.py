@@ -29,13 +29,16 @@ def tiroAmber(janela, vetAmber, Mouse, john, velAmber, amberPode, cooldownA):
         vetAmber[-1][0].set_position(janela.width / 2 - vetAmber[-1][0].width / 2, janela.height / 2 - vetAmber[-1][0].height / 2)
         vetAmber[-1].append(dx / dt * velAmber)
         vetAmber[-1].append(dy / dt * velAmber)
-        vetAmber[-1].append(0)
+        vetAmber[-1].append(0)  # dano
+        vetAmber[-1].append(0)  # piercing acumulado
         amberPode = False
         cooldownA = 20
     return amberPode, cooldownA
 
 
 def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseApertado, velAmber, danoAmber):
+    if timerAmber < 7:
+        vetAmber[-1][3] += janela.delta_time() / 5
     X = Mouse.get_position()[0]
     Y = Mouse.get_position()[1]
     dx = X - john.x - john.width / 2
@@ -47,7 +50,7 @@ def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseAper
     aumentou = False
     if timerAmber >= 7:
         vetAmber[-1][0] = Sprite("amberProjetil-grande.png")
-        vetAmber[-1][3] += 0.7
+        vetAmber[-1][3] += 0.3
         aumentou = True
     vetAmber[-1][0].set_position(janela.width / 2 - vetAmber[-1][0].width / 2 + 30 * cos(angulo), janela.height / 2 - vetAmber[-1][0].height / 2 + 30 * sin(angulo))
     #vetAmber[-1][0].draw()
@@ -68,7 +71,7 @@ def renderizaAmber(vetAmber, velJohnX, velJohnY, janela):
 
     for i in range(len(vetAmber)):
         if vetAmber[i][0].x < 0 or vetAmber[i][0].x > janela.width or vetAmber[i][0].y < 0 or vetAmber[i][
-            0].y > janela.height:
+            0].y > janela.height or vetAmber[i][4] > 50:
             vetAmber.pop(i)
             break
 
@@ -97,6 +100,7 @@ def colisãoDano(inimigo, tiro, tiro2, dano):
         for j in tiro2:
             if i[0]. collided(j[0]):
                 i[1] -= j[3]
+                j[4] += 1
         j = 0
         a = len(tiro)
         while j < a and a > 0:
