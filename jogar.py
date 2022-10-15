@@ -1,5 +1,5 @@
-from PPlay.sprite import *
 from random import randint
+from armas_funções import *
 
 tempo_de_jogo = 0
 
@@ -9,8 +9,6 @@ nivelBumer = 0
 nivelLaser = 0
 
 cooldownDanoJ = 0
-
-armadura = 1
 
 def mapaInfinito(mapa, janela):
     if mapa.x > 0:
@@ -23,10 +21,9 @@ def mapaInfinito(mapa, janela):
         mapa.y = -(200 - janela.height % 200)
 
 
-def bip(Bip, janela, mapa, velJohnX, velJohnY, velBip, john, danoBip):
+def bip(Bip, janela, mapa, velJohnX, velJohnY, velBip, john, danoBip, armadura):
 
     global cooldownDanoJ
-    global armadura
 
     Bip.x += velJohnX * janela.delta_time()
     Bip.y += velJohnY * janela.delta_time()
@@ -39,53 +36,6 @@ def bip(Bip, janela, mapa, velJohnX, velJohnY, velBip, john, danoBip):
         john['vida'] -= danoBip * armadura
         cooldownDanoJ = 20
     Bip.draw()
-
-
-def tiroComMouseBipper(janela, Mouse, john, velTiro, vetBipper, cooldownB):
-    X = Mouse.get_position()[0]
-    Y = Mouse.get_position()[1]
-    if Mouse.is_button_pressed(1) and cooldownB <= 0:
-        vetBipper.append([])
-        dx = X - john.x - john.width / 2
-        dy = Y - john.y - john.height / 2
-        dt = abs(dx) + abs(dy)
-        vetBipper[-1].append(Sprite("projetil_bipper.png"))
-        vetBipper[-1][0].set_position(janela.width / 2, janela.height / 2)
-        vetBipper[-1].append(dx / dt * velTiro)
-        vetBipper[-1].append(dy / dt * velTiro)
-        cooldownB = 10
-    return cooldownB
-
-
-def renderizarBipper(vetBipper, janela, velJohnX, velJohnY):
-    for i in range(len(vetBipper)):
-        vetBipper[i][0].x += (vetBipper[i][1] + velJohnX) * janela.delta_time()
-        vetBipper[i][0].y += (vetBipper[i][2] + velJohnY) * janela.delta_time()
-        vetBipper[i][0].draw()
-
-    i = 0
-    a = len(vetBipper)
-    while i < a and a > 0:
-        if vetBipper[i][0].x < 0 or vetBipper[i][0].x > janela.width or vetBipper[i][0].y < 0 or vetBipper[i][
-            0].y > janela.height:
-            vetBipper.pop(i)
-            a -= 1
-        i += 1
-
-
-def colisãoDano(inimigo, tiro, dano):
-    for i in inimigo:
-        for j in tiro:
-            if i[0].collided(j[0]):
-                i[1] -= dano
-        j = 0
-        a = len(tiro)
-        while j < a and a > 0:
-            if tiro[j][0].collided(i[0]):
-                tiro.pop(j)
-                a -= 1
-            j += 1
-
 
 def morreuInimigo(Bip, vetPeca):
     j = 0
@@ -274,7 +224,7 @@ def jogar(teclado, Mouse, janela, mapa):
     global nivelLaser
     global nivelAmber
 
-    global armadura
+    armadura = 1
 
     tempo_de_jogo = 0
 
@@ -292,17 +242,26 @@ def jogar(teclado, Mouse, janela, mapa):
     velBip = 80
     danoBip = 10
 
-    # setup cooldowns
+    # setup cooldowns e timers
 
     cooldownB = 0
     cooldownSpawnBip = 0
     cooldownDanoJ
+    cooldownA = 0
+    timerAmber = 0
 
     # setup da bipper
 
     velTiro = 900
     danoBipper = 10
     vetBipper = []
+
+    # setup da amber
+
+    velAmber = 700
+    danoAmber = 0.6
+    vetAmber = []
+    amberPode = True
 
     mouseApertado = False
 
@@ -348,11 +307,12 @@ def jogar(teclado, Mouse, janela, mapa):
         if nivelBip == 3:
             danoBipper = 20
 
-        # cooldowns
+        # cooldowns e timers
 
         cooldownB -= (20 + (nivelBip * 2) ** 1.7) * janela.delta_time()
         cooldownSpawnBip -= 15 * janela.delta_time()
         cooldownDanoJ -= 15 * janela.delta_time()
+        cooldownA -= 20 * janela.delta_time()
 
         # velocidade de movimento do personagem
 
@@ -391,16 +351,37 @@ def jogar(teclado, Mouse, janela, mapa):
 
         peças(vetPeca, john, velJohnX, velJohnY, janela)
 
-        # comportamento da bipper
+        # escolha da arma
+
+        if teclado.key_pressed('1'):
+            Arma = 1
+        elif teclado.key_pressed('2') and nivelBumer >= 1:
+            Arma = 2
+        elif teclado.key_pressed('3') and nivelLaser >= 1:
+            Arma = 3
+        elif teclado.key_pressed('4') and nivelAmber >= 1:
+            Arma = 4
 
         if Arma == 1:
-            cooldownB = tiroComMouseBipper(janela, Mouse, john['John'], velTiro, vetBipper, cooldownB)
-
-        renderizarBipper(vetBipper, janela, velJohnX, velJohnY)
+            # criação de pojeteis da bipper
+            cooldownB = tiroBipper(janela, Mouse, john['John'], velTiro, vetBipper, cooldownB)
+        elif Arma == 2:
+            pass
+        elif Arma == 3:
+            pass
+        elif Arma == 4:
+            if cooldownA <= 0:
+                amberPode, cooldownA = tiroAmber(janela, vetAmber, Mouse, john['John'], velAmber, amberPode, cooldownA)
+            if not amberPode:
+                timerAmber += janela.delta_time()
+                amberPode, timerAmber = carregaAmber(amberPode, janela, vetAmber, Mouse, john['John'], timerAmber,
+                                                     mouseApertado, velAmber, danoAmber)
+            else:
+                timerAmber = 0
 
         # colisão com dano
 
-        colisãoDano(vetBip, vetBipper, danoBipper)
+        colisãoDano(vetBip, vetBipper, vetAmber, danoBipper)
 
         # comportamento dos bips
 
@@ -409,11 +390,16 @@ def jogar(teclado, Mouse, janela, mapa):
             cooldownSpawnBip = 25
 
         for i in range(len(vetBip)):
-            bip(vetBip[i][0], janela, mapa, velJohnX, velJohnY, velBip, john, danoBip)
+            bip(vetBip[i][0], janela, mapa, velJohnX, velJohnY, velBip, john, danoBip, armadura)
 
         # verifica se algum bip está com vida < 0 e mata o que estiver
 
         morreuInimigo(vetBip, vetPeca)
+
+        # renderizar tiros
+
+        renderizarBipper(vetBipper, janela, velJohnX, velJohnY)
+        renderizaAmber(vetAmber, velJohnX, velJohnY, janela)
 
         # HUD
 

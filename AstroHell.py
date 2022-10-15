@@ -34,8 +34,6 @@ dy = (mapa.height - janela.height) / 2
 mapa.set_position(-dx, -dy)
 
 
-
-
 # Game Loop
 
 while True:
