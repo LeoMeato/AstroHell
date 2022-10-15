@@ -16,6 +16,11 @@ amberN =  [sprite(0), velocidade no eixo x(1), velocidade no eixo y(2), dano(3),
 
 
 def tiroBipper(janela, Mouse, john, velTiro, vetBipper, cooldownB):
+
+    '''
+    essa função cria um novo projétil bipper, adiciona na lista vetBipper e define suas propriedades
+    '''
+
     X = Mouse.get_position()[0]
     Y = Mouse.get_position()[1]
     if Mouse.is_button_pressed(1) and cooldownB <= 0:
@@ -31,6 +36,11 @@ def tiroBipper(janela, Mouse, john, velTiro, vetBipper, cooldownB):
     return cooldownB
 
 def tiroAmber(janela, vetAmber, Mouse, john, velAmber, amberPode, cooldownA):
+
+    '''
+    essa função cria um novo projétil amber, adiciona na lista vetBipper e define suas propriedades
+    '''
+
     X = Mouse.get_position()[0]
     Y = Mouse.get_position()[1]
     if Mouse.is_button_pressed(1) and amberPode:
@@ -51,6 +61,11 @@ def tiroAmber(janela, vetAmber, Mouse, john, velAmber, amberPode, cooldownA):
 
 
 def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseApertado, velAmber, danoAmber):
+
+    '''
+    Essa função controla o comportamento do projetil da amber enquanto ele ainda não foi atirado.
+    '''
+
     if timerAmber < 7:
         vetAmber[-1][3] += janela.delta_time() / 5
     X = Mouse.get_position()[0]
@@ -79,6 +94,12 @@ def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseAper
 
 
 def renderizaAmber(vetAmber, velJohnX, velJohnY, janela):
+
+    '''
+    Essa função define o movimeneto dos projeteis amber após serem atirados, mas não são anulados enquanto ainda estão
+    na fase de carregamento, para deixar o projetil com efeito de vibração.
+    '''
+
     for i in range(len(vetAmber)):
         vetAmber[i][0].x += (vetAmber[i][1] + velJohnX) * janela.delta_time()
         vetAmber[i][0].y += (vetAmber[i][2] + velJohnY) * janela.delta_time()
@@ -92,6 +113,11 @@ def renderizaAmber(vetAmber, velJohnX, velJohnY, janela):
 
 
 def renderizarBipper(vetBipper, janela, velJohnX, velJohnY):
+
+    '''
+    Essa função define o comportamento dos projeteis bipper após serem criados.
+    '''
+
     for i in range(len(vetBipper)):
         vetBipper[i][0].x += (vetBipper[i][1] + velJohnX) * janela.delta_time()
         vetBipper[i][0].y += (vetBipper[i][2] + velJohnY) * janela.delta_time()
@@ -107,19 +133,25 @@ def renderizarBipper(vetBipper, janela, velJohnX, velJohnY):
         i += 1
 
 
-def colisãoDano(inimigo, tiro, tiro2, dano):
+def colisãoDano(inimigo, tiroB, tiroA, danoB):
+
+    '''
+    Essa função analisa se houve colisão entre um inimigo e algum dos 2 tipos de tiro(vetores): o tiroB se refere à
+    bipper e o tiroA se refere à amber. Se houver, define o que deve acontecer. A variável danoB se refere ao dano da
+    bipper.
+    '''
+
     for i in inimigo:
-        for j in tiro:
+        for j in tiroB:
             if i[0].collided(j[0]):
-                i[1] -= dano
-        for j in tiro2:
+                i[1] -= danoB
+        for j in tiroA:
             if i[0]. collided(j[0]) and j[5]:
                 i[1] -= j[3]
                 j[4] += 1
-        j = 0
-        a = len(tiro)
-        while j < a and a > 0:
-            if tiro[j][0].collided(i[0]):
-                tiro.pop(j)
-                a -= 1
-            j += 1
+
+        # se houver colisão com a bipper, o tiro some.
+        for j in range(len(tiroB)):
+            if tiroB[j][0].collided(i[0]):
+                tiroB.pop(j)
+                break
