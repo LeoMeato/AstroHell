@@ -26,3 +26,13 @@ def HUD(janela, john, pecas_hud, bipper_lateral, amber_lateral, bumerangue_later
     vida.draw()
     bumerangue_lateral.draw()
     bipper_lateral.draw()
+
+
+def tempo(janela, tempo_de_jogo):
+    tempo_de_jogo += janela.delta_time()
+    tempo_de_jogo_min = tempo_de_jogo // 60
+    tempo_de_jogo_seg = tempo_de_jogo - tempo_de_jogo_min * 60
+    janela.draw_text("{}:{:0>2}".format(int(tempo_de_jogo_min), int(tempo_de_jogo_seg)), janela.width / 2 - 20, 17, 40,
+                     (255, 255, 255), "Candara")
+    return tempo_de_jogo
+

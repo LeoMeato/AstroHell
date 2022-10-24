@@ -2,8 +2,6 @@ from random import randint
 from armas_funções import *
 from outras_funções import *
 
-tempo_de_jogo = 0
-
 nivelBip = 1
 nivelAmber = 0
 nivelBumer = 0
@@ -22,7 +20,7 @@ def mapaInfinito(mapa, janela):
         mapa.y = -(200 - janela.height % 200)
 
 
-def bip(Bip, janela, mapa, velJohnX, velJohnY, velBip, john, danoBip, armadura):
+def bip(Bip, janela, velJohnX, velJohnY, velBip, john, danoBip, armadura):
 
     global cooldownDanoJ
 
@@ -51,14 +49,6 @@ def morreuInimigo(Bip, vetPeca):
             a -= 1
         j += 1
 
-
-def tempo(janela):
-    global tempo_de_jogo
-    tempo_de_jogo += janela.delta_time()
-    tempo_de_jogo_min = tempo_de_jogo // 60
-    tempo_de_jogo_seg = tempo_de_jogo - tempo_de_jogo_min * 60
-    janela.draw_text("{}:{:0>2}".format(int(tempo_de_jogo_min), int(tempo_de_jogo_seg)), janela.width / 2 - 20, 17, 40,
-                     (255, 255, 255), "Candara")
 
 def peças(vetPeca, john, velJohnX, velJohnY, janela):
     for i in range(len(vetPeca)):
@@ -194,6 +184,9 @@ def jogar(teclado, Mouse, janela, mapa):
     vetBip[1][0].set_position(700, -200)
     vetBip[2][0].set_position(2300, 500)
 
+    vetZeta = [[Sprite("zeta.png"), 70]]
+    vetZeta[0][0].set_position(300, 200)
+
     # setup obstáculos
     ## Daria pra botar todos os obstáculos em uma só lista, mas fiz assim pra poder diferenciar mais fácil, por enquanto.
     vetArvores = [Sprite("árvore_pequena.png"), Sprite("árvore_pequena.png"), Sprite("árvore_pequena.png")]
@@ -217,8 +210,6 @@ def jogar(teclado, Mouse, janela, mapa):
     # setup geral
 
     global cooldownDanoJ
-
-    global tempo_de_jogo
 
     global nivelBip
     global nivelBumer
@@ -394,7 +385,7 @@ def jogar(teclado, Mouse, janela, mapa):
             cooldownSpawnBip = 25
 
         for i in range(len(vetBip)):
-            bip(vetBip[i][0], janela, mapa, velJohnX, velJohnY, velBip, john, danoBip, armadura)
+            bip(vetBip[i][0], janela, velJohnX, velJohnY, velBip, john, danoBip, armadura)
 
         # verifica se algum bip está com vida < 0 e mata o que estiver
 
@@ -410,7 +401,7 @@ def jogar(teclado, Mouse, janela, mapa):
         HUD(janela, john, pecas_hud, bipper_lateral, amber_lateral, bumerangue_lateral, canhao_lateral, vida, pausa,
             nivelBip, nivelAmber, nivelLaser, nivelBumer)
 
-        tempo(janela)
+        tempo_de_jogo = tempo(janela, tempo_de_jogo)
 
         # niveis
 
