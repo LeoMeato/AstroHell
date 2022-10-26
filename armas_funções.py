@@ -28,7 +28,7 @@ def tiroBipper(janela, Mouse, john, velTiro, vetBipper, cooldownB):
         dx = X - john.x - john.width / 2
         dy = Y - john.y - john.height / 2
         dt = abs(dx) + abs(dy)
-        vetBipper[-1].append(Sprite("projetil_bipper.png"))
+        vetBipper[-1].append(Sprite("Sprites/projetil_bipper.png"))
         vetBipper[-1][0].set_position(janela.width / 2, janela.height / 2)
         vetBipper[-1].append(dx / dt * velTiro)
         vetBipper[-1].append(dy / dt * velTiro)
@@ -48,7 +48,7 @@ def tiroAmber(janela, vetAmber, Mouse, john, velAmber, amberPode, cooldownA):
         dx = X - john.x - john.width / 2
         dy = Y - john.y - john.height / 2
         dt = abs(dx) + abs(dy)
-        vetAmber[-1].append(Sprite("amberProjetil-pequeno.png"))
+        vetAmber[-1].append(Sprite("Sprites/amberProjetil-pequeno.png"))
         vetAmber[-1][0].set_position(janela.width / 2 - vetAmber[-1][0].width / 2, janela.height / 2 - vetAmber[-1][0].height / 2)
         vetAmber[-1].append(dx / dt * velAmber)
         vetAmber[-1].append(dy / dt * velAmber)
@@ -78,7 +78,7 @@ def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseAper
     angulo = atan2(dy, dx)
     aumentou = False
     if timerAmber >= 5:
-        vetAmber[-1][0] = Sprite("amberProjetil-grande.png")
+        vetAmber[-1][0] = Sprite("Sprites/amberProjetil-grande.png")
         vetAmber[-1][3] += 0.4
         aumentou = True
     vetAmber[-1][0].set_position(janela.width / 2 - vetAmber[-1][0].width / 2 + 30 * cos(angulo), janela.height / 2 - vetAmber[-1][0].height / 2 + 30 * sin(angulo))

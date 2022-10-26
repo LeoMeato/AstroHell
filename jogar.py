@@ -43,7 +43,7 @@ def morreuInimigo(Bip, vetPeca):
         if Bip[j][1] <= 0:
             r = randint(1, 100)
             if r < 20:
-                vetPeca.append(Sprite("peçapequena.png"))
+                vetPeca.append(Sprite("Sprites/peçapequena.png"))
                 vetPeca[-1].set_position(Bip[j][0].x + Bip[j][0].width / 2, Bip[j][0].y + Bip[j][0].height / 2)
             Bip.pop(j)
             a -= 1
@@ -84,7 +84,7 @@ def spawnBip(vetBip, janela):
         x = randint(0, janela.width)
         y = randint(janela.height, janela.height * 1.5)
 
-    vetBip.append([Sprite("bip.png"), 30])
+    vetBip.append([Sprite("Sprites/bip.png"), 30])
     vetBip[-1][0].set_position(x, y)
 
 def niveisDeArma(mouseApertado, john, Mouse, janela, bipper_lateral, bumerangue_lateral, amber_lateral, canhao_lateral):
@@ -174,35 +174,37 @@ def jogar(teclado, Mouse, janela, mapa):
 
     # setup player
 
-    john = {'John': Sprite("Astronauta(3).png"), 'vida': 200, 'pregos': 40}
+    john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 200, 'pregos': 40}
     john['John'].set_position(janela.width / 2 - john['John'].width / 2, janela.height / 2 - john['John'].height / 2)
 
     # setup inimigos
 
-    vetBip = [[Sprite("bip.png"), 30], [Sprite("bip.png"), 30], [Sprite("bip.png"), 30]]
+    vetBip = [[Sprite("Sprites/bip.png"), 30], [Sprite("Sprites/bip.png"), 30], [Sprite("Sprites/bip.png"), 30]]
     vetBip[0][0].set_position(-100, 620)
     vetBip[1][0].set_position(700, -200)
     vetBip[2][0].set_position(2300, 500)
 
-    vetZeta = [[Sprite("zeta.png"), 70]]
+    vetZeta = [[Sprite("Sprites/zeta.png"), 70]]
     vetZeta[0][0].set_position(300, 200)
 
     # setup obstáculos
     ## Daria pra botar todos os obstáculos em uma só lista, mas fiz assim pra poder diferenciar mais fácil, por enquanto.
-    vetArvores = [Sprite("árvore_pequena.png"), Sprite("árvore_pequena.png"), Sprite("árvore_pequena.png")]
+    vetArvores = [Sprite("Sprites/árvore_pequena.png"), Sprite("Sprites/árvore_pequena.png"), Sprite(
+        "Sprites/árvore_pequena.png")]
     vetArvores[0].set_position(200, 200)
     vetArvores[1].set_position(700, 800)
     vetArvores[2].set_position(1000, 300)
 
-    vetPedras = [Sprite("pedra1peq.png"), Sprite("pedra1peq.png"), Sprite("pedra1peq.png"), Sprite("pedra1peq.png"),
-                 Sprite("pedra1peq.png")]
+    vetPedras = [Sprite("Sprites/pedra1peq.png"), Sprite("Sprites/pedra1peq.png"), Sprite("Sprites/pedra1peq.png"), Sprite(
+        "Sprites/pedra1peq.png"),
+                 Sprite("Sprites/pedra1peq.png")]
     vetPedras[0].set_position(350, 250)
     vetPedras[1].set_position(250, 400)
     vetPedras[2].set_position(400, 600)
     vetPedras[3].set_position(200, 700)
     vetPedras[4].set_position(700, 500)
 
-    vetPeca = [Sprite("peçapequena.png")]
+    vetPeca = [Sprite("Sprites/peçapequena.png")]
     ## Tentei criar em um For pra ficar aleatorio, mas tem vezes que nasce em cima da pedra/arvore
     for i in range(len(vetPeca)):
         vetPeca[i].set_position((i + 1) * randint(100, 200), (i + 1) * randint(100, 200))
@@ -264,25 +266,25 @@ def jogar(teclado, Mouse, janela, mapa):
 
     # setup HUD
 
-    vida = Sprite("9vidas.png")
+    vida = Sprite("Sprites/9vidas.png")
     vida.x = janela.width / 2 - vida.width / 2
     vida.y = janela.height - vida.height - 25
-    bipper_lateral = Sprite("bipper_lateral.png")
+    bipper_lateral = Sprite("Sprites/bipper_lateral.png")
     bipper_lateral.x = 10
     bipper_lateral.y = 170
-    bumerangue_lateral = Sprite("bumerangue_lateral_desabilitado.png")
+    bumerangue_lateral = Sprite("Sprites/bumerangue_lateral_desabilitado.png")
     bumerangue_lateral.x = 10
     bumerangue_lateral.y = bipper_lateral.y + bumerangue_lateral.height + 15
-    canhao_lateral = Sprite("canhao_lateral_desabilitado.png")
+    canhao_lateral = Sprite("Sprites/canhao_lateral_desabilitado.png")
     canhao_lateral.x = 10
     canhao_lateral.y = bumerangue_lateral.y + canhao_lateral.height + 15
-    amber_lateral = Sprite("amber_lateral_desabilitada.png")
+    amber_lateral = Sprite("Sprites/amber_lateral_desabilitada.png")
     amber_lateral.x = 10
     amber_lateral.y = canhao_lateral.y + amber_lateral.height + 15
-    pausa = Sprite("pausa.png")
+    pausa = Sprite("Sprites/pausa.png")
     pausa.x = 10
     pausa.y = 10
-    pecas_hud = Sprite("uma peça.png")
+    pecas_hud = Sprite("Sprites/uma peça.png")
     pecas_hud.x = janela.width - pecas_hud.width - 30
     pecas_hud.y = 15
 

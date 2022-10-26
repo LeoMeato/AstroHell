@@ -9,17 +9,17 @@ janela.set_title("AstroHell")
 Mouse = janela.get_mouse()
 teclado = janela.get_keyboard()
 
-fundo = Sprite("mapa2.png")
+fundo = Sprite("Sprites/mapa2.png")
 dx = (fundo.width - janela.width) / 2
 dy = (fundo.height - janela.height) / 2
 fundo.set_position(-dx, -dy)
 
 # setup menu sprites
 
-BotaoJogar = Sprite("Jogar(1).png")
-BotaoConfiguraçoes = Sprite("Config(1).png")
-BotaoSair = Sprite("Sair(1).png")
-Logo = Sprite("astrohell.png")
+BotaoJogar = Sprite("Sprites/Jogar(1).png")
+BotaoConfiguraçoes = Sprite("Sprites/Config(1).png")
+BotaoSair = Sprite("Sprites/Sair(1).png")
+Logo = Sprite("Sprites/astrohell.png")
 
 BotaoJogar.set_position(janela.width / 2 - BotaoJogar.width / 2, janela.height/2 - 40)
 BotaoConfiguraçoes.set_position(janela.width / 2 - BotaoConfiguraçoes.width / 2, janela.height/2 + 80)
@@ -28,7 +28,7 @@ Logo.set_position(janela.width / 2 - Logo.width / 2, 80)
 
 # setup mapa
 
-mapa = Sprite("mapa2.png")
+mapa = Sprite("Sprites/mapa2.png")
 dx = (mapa.width - janela.width) / 2
 dy = (mapa.height - janela.height) / 2
 mapa.set_position(-dx, -dy)
