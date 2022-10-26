@@ -36,6 +36,20 @@ def bip(Bip, janela, velJohnX, velJohnY, velBip, john, danoBip, armadura):
         cooldownDanoJ = 20
     Bip.draw()
 
+
+def zeta(Zeta, janela, velJohnX, velJohnY, velZeta, john):
+
+    Zeta.x += velJohnX * janela.delta_time()
+    Zeta.y += velJohnY * janela.delta_time()
+    dx = john['John'].x - Zeta.x
+    dy = john['John'].y - Zeta.y
+    dt = abs(dx) + abs(dy)
+    if dx ** 2 + dy ** 2 > 200 ** 2:
+        Zeta.x += velZeta * (dx / dt) * janela.delta_time()
+        Zeta.y += velZeta * (dy / dt) * janela.delta_time()
+    Zeta.draw()
+
+
 def morreuInimigo(Bip, vetPeca):
     j = 0
     a = len(Bip)
@@ -65,7 +79,8 @@ def peças(vetPeca, john, velJohnX, velJohnY, janela):
             a -= 1
         j += 1
 
-def spawnBip(vetBip, janela):
+
+def areaSpawn(janela):
     r = randint(1, 4)
 
     x = 0
@@ -84,8 +99,24 @@ def spawnBip(vetBip, janela):
         x = randint(0, janela.width)
         y = randint(janela.height, janela.height * 1.5)
 
+    return x, y
+
+
+def spawnBip(vetBip, janela):
+
+    x, y = areaSpawn(janela)
+
     vetBip.append([Sprite("Sprites/bip.png"), 30])
     vetBip[-1][0].set_position(x, y)
+
+
+def spawnZeta(vetZeta, janela):
+
+    x, y = areaSpawn(janela)
+
+    vetZeta.append([Sprite("Sprites/zeta.png"), 80])
+    vetZeta[-1][0].set_position(x, y)
+
 
 def niveisDeArma(mouseApertado, john, Mouse, janela, bipper_lateral, bumerangue_lateral, amber_lateral, canhao_lateral):
 
@@ -231,15 +262,18 @@ def jogar(teclado, Mouse, janela, mapa):
 
     gameover = False
 
-    # setup dos bips
+    # setup dos bips e zetas
 
     velBip = 80
     danoBip = 10
+
+    velZeta = 90
 
     # setup cooldowns, timers e contadores
 
     cooldownB = 0
     cooldownSpawnBip = 0
+    cooldownSpawnZeta = 0
     cooldownDanoJ
     cooldownA = 0
 
@@ -308,6 +342,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
         cooldownB -= (20 + (nivelBip * 2) ** 1.7) * janela.delta_time()
         cooldownSpawnBip -= 15 * janela.delta_time()
+        cooldownSpawnZeta -= 1.5 * janela.delta_time()
         cooldownDanoJ -= 15 * janela.delta_time()
         cooldownA -= 20 * janela.delta_time()
 
@@ -388,6 +423,15 @@ def jogar(teclado, Mouse, janela, mapa):
 
         for i in range(len(vetBip)):
             bip(vetBip[i][0], janela, velJohnX, velJohnY, velBip, john, danoBip, armadura)
+
+        # comportamento dos zetas
+
+        if cooldownSpawnZeta <= 0:
+            spawnZeta(vetZeta, janela)
+            cooldownSpawnZeta = 25
+
+        for i in range(len(vetZeta)):
+            zeta(vetZeta[i][0], janela, velJohnX, velJohnY, velZeta, john)
 
         # verifica se algum bip está com vida < 0 e mata o que estiver
 
