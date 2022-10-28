@@ -37,7 +37,7 @@ def bip(Bip, janela, velJohnX, velJohnY, velBip, john, danoBip, armadura):
     Bip.draw()
 
 
-def zeta(Zeta, janela, velJohnX, velJohnY, velZeta, john):
+def zeta(Zeta, janela, velJohnX, velJohnY, velZeta, john, cooldownZetaTiro):
 
     Zeta.x += velJohnX * janela.delta_time()
     Zeta.y += velJohnY * janela.delta_time()
@@ -47,6 +47,7 @@ def zeta(Zeta, janela, velJohnX, velJohnY, velZeta, john):
     if dx ** 2 + dy ** 2 > 200 ** 2:
         Zeta.x += velZeta * (dx / dt) * janela.delta_time()
         Zeta.y += velZeta * (dy / dt) * janela.delta_time()
+
     Zeta.draw()
 
 
@@ -116,6 +117,18 @@ def spawnZeta(vetZeta, janela):
 
     vetZeta.append([Sprite("Sprites/zeta.png"), 80])
     vetZeta[-1][0].set_position(x, y)
+
+
+'''def evitaColisão(spt1, spt2):
+
+    if spt1.x + spt1.width >= spt2.x:
+        spt1.x = spt2.x - spt1.width
+    elif spt1.y + spt1.height >= spt2.y:
+        spt1.y = spt2.y - spt1.height
+    elif spt2.x + spt2.width >= spt1.x:
+        spt2.x = spt1.x - spt2.width
+    elif spt2.y + spt2.height >= spt1.y:
+        spt2.y = spt1.y - spt2.height'''
 
 
 def niveisDeArma(mouseApertado, john, Mouse, janela, bipper_lateral, bumerangue_lateral, amber_lateral, canhao_lateral):
@@ -215,8 +228,7 @@ def jogar(teclado, Mouse, janela, mapa):
     vetBip[1][0].set_position(700, -200)
     vetBip[2][0].set_position(2300, 500)
 
-    vetZeta = [[Sprite("Sprites/zeta.png"), 70]]
-    vetZeta[0][0].set_position(300, 200)
+    vetZeta = []
 
     # setup obstáculos
     ## Daria pra botar todos os obstáculos em uma só lista, mas fiz assim pra poder diferenciar mais fácil, por enquanto.
@@ -427,7 +439,8 @@ def jogar(teclado, Mouse, janela, mapa):
         # comportamento dos zetas
 
         if cooldownSpawnZeta <= 0:
-            spawnZeta(vetZeta, janela)
+            if tempo_de_jogo > 0:
+                spawnZeta(vetZeta, janela)
             cooldownSpawnZeta = 25
 
         for i in range(len(vetZeta)):
