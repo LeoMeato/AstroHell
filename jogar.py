@@ -49,7 +49,7 @@ def zeta(Zeta, janela, velJohnX, velJohnY, velZeta, john, tiroZeta):
         Zeta[0].y += velZeta * (dy / dt) * janela.delta_time()
 
     if Zeta[2] <= 0:
-        tiroZeta.append({'sprite': Sprite("Zeta-projetil.png"), 'dx': dx/dt, 'dy': dy/dt})
+        tiroZeta.append({'sprite': Sprite("Sprites/Zeta-projetil.png"), 'dx': dx / dt, 'dy': dy / dt})
         tiroZeta[-1]['sprite'].set_position(Zeta[0].x, Zeta[0]. y)
         Zeta[2] = 20
 
