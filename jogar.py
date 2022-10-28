@@ -37,30 +37,59 @@ def bip(Bip, janela, velJohnX, velJohnY, velBip, john, danoBip, armadura):
     Bip.draw()
 
 
-def zeta(Zeta, janela, velJohnX, velJohnY, velZeta, john):
+def zeta(Zeta, janela, velJohnX, velJohnY, velZeta, john, tiroZeta):
 
-    Zeta.x += velJohnX * janela.delta_time()
-    Zeta.y += velJohnY * janela.delta_time()
-    dx = john['John'].x - Zeta.x
-    dy = john['John'].y - Zeta.y
+    Zeta[0].x += velJohnX * janela.delta_time()
+    Zeta[0].y += velJohnY * janela.delta_time()
+    dx = john['John'].x - Zeta[0].x
+    dy = john['John'].y - Zeta[0].y
     dt = abs(dx) + abs(dy)
     if dx ** 2 + dy ** 2 > 200 ** 2:
-        Zeta.x += velZeta * (dx / dt) * janela.delta_time()
-        Zeta.y += velZeta * (dy / dt) * janela.delta_time()
+        Zeta[0].x += velZeta * (dx / dt) * janela.delta_time()
+        Zeta[0].y += velZeta * (dy / dt) * janela.delta_time()
 
-    Zeta.draw()
+    if Zeta[2] <= 0:
+        tiroZeta.append({'sprite': Sprite("Zeta-projetil.png"), 'dx': dx/dt, 'dy': dy/dt})
+        tiroZeta[-1]['sprite'].set_position(Zeta[0].x, Zeta[0]. y)
+        Zeta[2] = 20
+
+    Zeta[2] -= 5 * janela.delta_time()
+
+    Zeta[0].draw()
 
 
-def morreuInimigo(Bip, vetPeca):
+def tirosZeta(tiroZeta, velTzeta, velJohnX, velJohnY, janela, john, danoZeta):
+
+    for i in tiroZeta:
+        i['sprite'].x += (velJohnX + i['dx'] * velTzeta) * janela.delta_time()
+        i['sprite'].y += (velJohnY + i['dy'] * velTzeta) * janela.delta_time()
+        i['sprite'].draw()
+
+    for i in range(len(tiroZeta)):
+        if tiroZeta[i]['sprite'].collided(john['John']):
+            tiroZeta.pop(i)
+            john['vida'] -= danoZeta
+            break
+
+    for i in range(len(tiroZeta)):
+        if tiroZeta[i]['sprite'].x < 0 or tiroZeta[i]['sprite'].x > janela.width or tiroZeta[i]['sprite'].y < 0 or tiroZeta[i][
+            'sprite'].y > janela.height:
+            tiroZeta.pop(i)
+            break
+
+
+
+
+def morreuInimigo(inimigo, vetPeca, droprate):
     j = 0
-    a = len(Bip)
+    a = len(inimigo)
     while j < a and a > 0:
-        if Bip[j][1] <= 0:
+        if inimigo[j][1] <= 0:
             r = randint(1, 100)
-            if r < 20:
+            if r <= droprate:
                 vetPeca.append(Sprite("Sprites/peçapequena.png"))
-                vetPeca[-1].set_position(Bip[j][0].x + Bip[j][0].width / 2, Bip[j][0].y + Bip[j][0].height / 2)
-            Bip.pop(j)
+                vetPeca[-1].set_position(inimigo[j][0].x + inimigo[j][0].width / 2, inimigo[j][0].y + inimigo[j][0].height / 2)
+            inimigo.pop(j)
             a -= 1
         j += 1
 
@@ -115,7 +144,7 @@ def spawnZeta(vetZeta, janela):
 
     x, y = areaSpawn(janela)
 
-    vetZeta.append([Sprite("Sprites/zeta.png"), 80])
+    vetZeta.append([Sprite("Sprites/zeta.png"), 120, 0])
     vetZeta[-1][0].set_position(x, y)
 
 
@@ -229,6 +258,9 @@ def jogar(teclado, Mouse, janela, mapa):
     vetBip[2][0].set_position(2300, 500)
 
     vetZeta = []
+    tiroZeta = []
+    velTzeta = 400
+    danoZeta = 15
 
     # setup obstáculos
     ## Daria pra botar todos os obstáculos em uma só lista, mas fiz assim pra poder diferenciar mais fácil, por enquanto.
@@ -305,6 +337,7 @@ def jogar(teclado, Mouse, janela, mapa):
     danoAmber = 0.6
     vetAmber = []
     amberPode = True
+    aumentou = False
 
     mouseApertado = False
 
@@ -418,14 +451,16 @@ def jogar(teclado, Mouse, janela, mapa):
                 amberPode, cooldownA = tiroAmber(janela, vetAmber, Mouse, john['John'], velAmber, amberPode, cooldownA)
             if not amberPode:
                 timerAmber += janela.delta_time()
-                amberPode, timerAmber = carregaAmber(amberPode, janela, vetAmber, Mouse, john['John'], timerAmber,
-                                                     mouseApertado, velAmber, danoAmber)
+                amberPode, timerAmber, aumentou = carregaAmber(amberPode, janela, vetAmber, Mouse, john['John'], timerAmber,
+                                                     mouseApertado, velAmber, danoAmber, aumentou)
             else:
                 timerAmber = 0
+                aumentou = False
 
         # colisão com dano
 
         colisãoDano(vetBip, vetBipper, vetAmber, danoBipper)
+        colisãoDano(vetZeta, vetBipper, vetAmber, danoBipper)
 
         # comportamento dos bips
 
@@ -444,11 +479,14 @@ def jogar(teclado, Mouse, janela, mapa):
             cooldownSpawnZeta = 25
 
         for i in range(len(vetZeta)):
-            zeta(vetZeta[i][0], janela, velJohnX, velJohnY, velZeta, john)
+            zeta(vetZeta[i], janela, velJohnX, velJohnY, velZeta, john, tiroZeta)
+
+        tirosZeta(tiroZeta, velTzeta, velJohnX, velJohnY, janela, john, danoZeta)
 
         # verifica se algum bip está com vida < 0 e mata o que estiver
 
-        morreuInimigo(vetBip, vetPeca)
+        morreuInimigo(vetBip, vetPeca, 20)
+        morreuInimigo(vetZeta, vetPeca, 80)
 
         # renderizar tiros
 
@@ -509,3 +547,6 @@ def jogar(teclado, Mouse, janela, mapa):
                     break
                 janela.update()
             break
+
+        if len(vetAmber) > 0:
+            print('{:.2f}'.format(vetAmber[-1][3]))

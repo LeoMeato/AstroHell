@@ -60,14 +60,14 @@ def tiroAmber(janela, vetAmber, Mouse, john, velAmber, amberPode, cooldownA):
     return amberPode, cooldownA
 
 
-def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseApertado, velAmber, danoAmber):
+def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseApertado, velAmber, danoAmber, aumentou):
 
     '''
     Essa função controla o comportamento do projetil da amber enquanto ele ainda não foi atirado.
     '''
 
-    if timerAmber < 5:
-        vetAmber[-1][3] += janela.delta_time() / 3
+    if timerAmber < 3:
+        vetAmber[-1][3] += janela.delta_time() / 2.5
     X = Mouse.get_position()[0]
     Y = Mouse.get_position()[1]
     dx = X - john.x - john.width / 2
@@ -76,21 +76,18 @@ def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseAper
     vetAmber[-1][1] = dx / dt * velAmber
     vetAmber[-1][2] = dy / dt * velAmber
     angulo = atan2(dy, dx)
-    aumentou = False
-    if timerAmber >= 5:
+    if timerAmber >= 4 and not aumentou:
         vetAmber[-1][0] = Sprite("Sprites/amberProjetil-grande.png")
-        vetAmber[-1][3] += 0.4
+        vetAmber[-1][3] += 0.7
         aumentou = True
     vetAmber[-1][0].set_position(janela.width / 2 - vetAmber[-1][0].width / 2 + 30 * cos(angulo), janela.height / 2 - vetAmber[-1][0].height / 2 + 30 * sin(angulo))
     #vetAmber[-1][0].draw()
-    if aumentou:
-        timerAmber = 0
+
     if not Mouse.is_button_pressed(1) and mouseApertado:
         vetAmber[-1][3] += danoAmber
         vetAmber[-1][5] = True
-        return True, timerAmber
-    else:
-        return False, timerAmber
+        timerAmber = 0
+    return vetAmber[-1][5], timerAmber, aumentou
 
 
 def renderizaAmber(vetAmber, velJohnX, velJohnY, janela):
@@ -123,14 +120,11 @@ def renderizarBipper(vetBipper, janela, velJohnX, velJohnY):
         vetBipper[i][0].y += (vetBipper[i][2] + velJohnY) * janela.delta_time()
         vetBipper[i][0].draw()
 
-    i = 0
-    a = len(vetBipper)
-    while i < a and a > 0:
+    for i in range(len(vetBipper)):
         if vetBipper[i][0].x < 0 or vetBipper[i][0].x > janela.width or vetBipper[i][0].y < 0 or vetBipper[i][
             0].y > janela.height:
             vetBipper.pop(i)
-            a -= 1
-        i += 1
+            break
 
 
 def colisãoDano(inimigo, tiroB, tiroA, danoB):
