@@ -37,7 +37,7 @@ def bip(Bip, janela, velJohnX, velJohnY, velBip, john, danoBip, armadura):
     Bip.draw()
 
 
-def zeta(Zeta, janela, velJohnX, velJohnY, velZeta, john, cooldownZetaTiro):
+def zeta(Zeta, janela, velJohnX, velJohnY, velZeta, john):
 
     Zeta.x += velJohnX * janela.delta_time()
     Zeta.y += velJohnY * janela.delta_time()
