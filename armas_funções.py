@@ -62,25 +62,43 @@ def tiroAmber(janela, vetAmber, Mouse, john, velAmber, amberPode, cooldownA):
 
 def bumerarma(Bumerarma, janela, Mouse, john, velJohnX, velJohnY):
 
+    '''
+    essa função controla todo o comportamento da bumerarma
+    '''
+
+    # define a posição do mouse
     X = Mouse.get_position()[0]
     Y = Mouse.get_position()[1]
+
+    # atira o bumerangue na direção do mouse, caso seja ativado
     if Mouse.is_button_pressed(1) and not Bumerarma['ativo?']:
+
         Bumerarma['ativo?'] = True
         dx = X - john.x - john.width / 2
         dy = Y - john.y - john.height / 2
         dt = abs(dx) + abs(dy)
         Bumerarma['dx'] = dx/dt
         Bumerarma['dy'] = dy/dt
+
+    # controla o comportamento da arma enquanto está em movimento
     if Bumerarma['ativo?']:
+
+        # controla a volta do bumerangue
         if Bumerarma['contador'] > Bumerarma['tempo']:
+
             dx = john.x - Bumerarma['sprite'].x
             dy = john.y - Bumerarma['sprite'].y
             dt = abs(dx) + abs(dy)
             Bumerarma['dx'] = dx/dt
             Bumerarma['dy'] = dy/dt
+
+            # desativa a arma caso tenha voltado
             if -1 < dx < 1 and -1 < dy < 1:
+
                 Bumerarma['ativo?'] = False
                 Bumerarma['contador'] = 0
+
+        #atualizações gerais
         Bumerarma['sprite'].x += (velJohnX + Bumerarma['dx'] * Bumerarma['vel']) * janela.delta_time()
         Bumerarma['sprite'].y += (velJohnY + Bumerarma['dy'] * Bumerarma['vel']) * janela.delta_time()
         Bumerarma['contador'] += janela.delta_time()
