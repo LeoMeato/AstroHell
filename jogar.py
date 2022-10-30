@@ -2,6 +2,7 @@ from random import randint
 from armas_funções import *
 from outras_funções import *
 from PPlay.animation import *
+from MenuPausa import *
 
 nivelBip = 1
 nivelAmber = 0
@@ -513,8 +514,13 @@ def jogar(teclado, Mouse, janela, mapa):
 
         # sair
 
-        if teclado.key_pressed('ESC'):
-            break
+        if teclado.key_pressed('ESC') or (Mouse.is_over_area((pausa.x, pausa.y), (pausa.x + pausa.width, pausa.y + pausa.height)) and Mouse.is_button_pressed(1)):
+            res = menupausa(tempo_de_jogo, janela)
+            if res == 1:
+                break
+            if res == 2:
+                break
+
 
         # auxilia pro mouse so clicar se estiver "desligado"
 
