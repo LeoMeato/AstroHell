@@ -60,6 +60,34 @@ def tiroAmber(janela, vetAmber, Mouse, john, velAmber, amberPode, cooldownA):
     return amberPode, cooldownA
 
 
+def bumerarma(Bumerarma, janela, Mouse, john, velJohnX, velJohnY):
+
+    X = Mouse.get_position()[0]
+    Y = Mouse.get_position()[1]
+    if Mouse.is_button_pressed(1) and not Bumerarma['ativo?']:
+        Bumerarma['ativo?'] = True
+        dx = X - john.x - john.width / 2
+        dy = Y - john.y - john.height / 2
+        dt = abs(dx) + abs(dy)
+        Bumerarma['dx'] = dx/dt
+        Bumerarma['dy'] = dy/dt
+    if Bumerarma['ativo?']:
+        if Bumerarma['contador'] > Bumerarma['tempo']:
+            dx = john.x - Bumerarma['sprite'].x
+            dy = john.y - Bumerarma['sprite'].y
+            dt = abs(dx) + abs(dy)
+            Bumerarma['dx'] = dx/dt
+            Bumerarma['dy'] = dy/dt
+            if -1 < dx < 1 and -1 < dy < 1:
+                Bumerarma['ativo?'] = False
+                Bumerarma['contador'] = 0
+        Bumerarma['sprite'].x += (velJohnX + Bumerarma['dx'] * Bumerarma['vel']) * janela.delta_time()
+        Bumerarma['sprite'].y += (velJohnY + Bumerarma['dy'] * Bumerarma['vel']) * janela.delta_time()
+        Bumerarma['contador'] += janela.delta_time()
+        Bumerarma['sprite'].update()
+        Bumerarma['sprite'].draw()
+
+
 def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseApertado, velAmber, danoAmber, aumentou):
 
     '''
@@ -127,7 +155,7 @@ def renderizarBipper(vetBipper, janela, velJohnX, velJohnY):
             break
 
 
-def colisãoDano(inimigo, tiroB, tiroA, danoB):
+def colisãoDano(inimigo, tiroB, tiroA, danoB, Bumerarma):
 
     '''
     Essa função analisa se houve colisão entre um inimigo e algum dos 2 tipos de tiro(vetores): o tiroB se refere à
@@ -143,6 +171,9 @@ def colisãoDano(inimigo, tiroB, tiroA, danoB):
             if i[0]. collided(j[0]) and j[5]:
                 i[1] -= j[3]
                 j[4] += 1
+        if Bumerarma['sprite'].collided(i[0]):
+            i[1] -= Bumerarma['dano']
+
 
         # se houver colisão com a bipper, o tiro some.
         for j in range(len(tiroB)):

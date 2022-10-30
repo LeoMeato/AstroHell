@@ -1,6 +1,7 @@
 from random import randint
 from armas_funções import *
 from outras_funções import *
+from PPlay.animation import *
 
 nivelBip = 1
 nivelAmber = 0
@@ -339,6 +340,12 @@ def jogar(teclado, Mouse, janela, mapa):
     amberPode = True
     aumentou = False
 
+    # setup da bumerarma
+
+    Bumerarma = {'sprite': Animation("Sprites/Bumerarma_animação.png", 3), 'ativo?': False, 'dx': 0, 'dy': 0, 'vel': 600, 'contador': 0, 'dano': 0.6, 'tempo': 1}
+    Bumerarma['sprite'].set_total_duration(150)
+    Bumerarma['sprite'].set_position(john['John'].x, john['John'].y)
+
     mouseApertado = False
 
     Arma = 1
@@ -443,7 +450,7 @@ def jogar(teclado, Mouse, janela, mapa):
             # criação de pojeteis da bipper
             cooldownB = tiroBipper(janela, Mouse, john['John'], velTiro, vetBipper, cooldownB)
         elif Arma == 2:
-            pass
+            bumerarma(Bumerarma, janela, Mouse, john['John'], velJohnX, velJohnY)
         elif Arma == 3:
             pass
         elif Arma == 4:
@@ -459,8 +466,8 @@ def jogar(teclado, Mouse, janela, mapa):
 
         # colisão com dano
 
-        colisãoDano(vetBip, vetBipper, vetAmber, danoBipper)
-        colisãoDano(vetZeta, vetBipper, vetAmber, danoBipper)
+        colisãoDano(vetBip, vetBipper, vetAmber, danoBipper, Bumerarma)
+        colisãoDano(vetZeta, vetBipper, vetAmber, danoBipper, Bumerarma)
 
         # comportamento dos bips
 
@@ -550,3 +557,4 @@ def jogar(teclado, Mouse, janela, mapa):
 
         if len(vetAmber) > 0:
             print('{:.2f}'.format(vetAmber[-1][3]))
+
