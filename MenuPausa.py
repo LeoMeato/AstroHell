@@ -10,7 +10,7 @@ def menupausa(tempo, janela):
     menupr = Sprite("Sprites/botaomenuprin2.png")
     menupr.x = retomar.x + 60
     menupr.y = 160 + retomar.y
-    mapa = Sprite("Sprites/mapa2.png")
+    mapa = Sprite("Sprites/mapa_menu.png")
     sair = Sprite("Sprites/sair_menu.png")
     sair.x = menupr.x + 30
     sair.y = menupr.y + menupr.height + 25

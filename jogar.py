@@ -2,7 +2,10 @@ from random import randint
 from armas_funções import *
 from outras_funções import *
 from PPlay.animation import *
+from PPlay.sprite import *
+from PPlay.window import *
 from MenuPausa import *
+from math import ceil
 
 nivelBip = 1
 nivelAmber = 0
@@ -58,7 +61,6 @@ def zeta(Zeta, janela, velJohnX, velJohnY, velZeta, john, tiroZeta):
     Zeta[2] -= 5 * janela.delta_time()
 
     Zeta[0].draw()
-
 
 def tirosZeta(tiroZeta, velTzeta, velJohnX, velJohnY, janela, john, danoZeta):
 
@@ -245,11 +247,10 @@ def niveisDeArma(mouseApertado, john, Mouse, janela, bipper_lateral, bumerangue_
 
 def jogar(teclado, Mouse, janela, mapa):
 
-
-
     # setup player
 
-    john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 200, 'pregos': 40}
+    john = {'John': Animation("Sprites/Astronauta(1).png", 4), 'vida': 90, 'pregos': 40}
+    john['John'].set_sequence_time(0, 3, 100)
     john['John'].set_position(janela.width / 2 - john['John'].width / 2, janela.height / 2 - john['John'].height / 2)
 
     posRelativa = [john['John'].x, john['John'].y]
@@ -368,7 +369,7 @@ def jogar(teclado, Mouse, janela, mapa):
     global nivelBumer
     global nivelLaser
     global nivelAmber
-
+    cont_pausa = 0
     armadura = 1
 
     tempo_de_jogo = 0
@@ -427,9 +428,18 @@ def jogar(teclado, Mouse, janela, mapa):
 
     # setup HUD
 
-    vida = Sprite("Sprites/9vidas.png")
+  #  vida = Sprite("Sprites/9vidas.png")
+ #   vida.x = janela.width / 2 - vida.width / 2
+#    vida.y = janela.height - vida.height - 25
+    # vida
+    lista_vida = [Sprite("Sprites/1vida.png"), Sprite("Sprites/2vidas.png"),
+                  Sprite("Sprites/3vidas.png"), Sprite("Sprites/4vidas.png"),
+                  Sprite("Sprites/5vidas.png"), Sprite("Sprites/6vidas.png"), Sprite("Sprites/7vidas.png"),
+                  Sprite("Sprites/8vidas.png"), Sprite("Sprites/9vidas.png")]
+    vida = lista_vida[(int(john['vida'] / 10)-2)]
     vida.x = janela.width / 2 - vida.width / 2
     vida.y = janela.height - vida.height - 25
+
     bipper_lateral = Sprite("Sprites/bipper_lateral.png")
     bipper_lateral.x = 10
     bipper_lateral.y = 170
@@ -597,6 +607,9 @@ def jogar(teclado, Mouse, janela, mapa):
         renderizaAmber(vetAmber, velJohnX, velJohnY, janela)
 
         # HUD
+        vida = lista_vida[(ceil(john['vida'] / 10) - 1)]
+        vida.x = janela.width / 2 - vida.width / 2
+        vida.y = janela.height - vida.height - 25
 
         HUD(janela, john, pecas_hud, bipper_lateral, amber_lateral, bumerangue_lateral, canhao_lateral, vida, pausa,
             nivelBip, nivelAmber, nivelLaser, nivelBumer)
@@ -608,14 +621,17 @@ def jogar(teclado, Mouse, janela, mapa):
         niveisDeArma(mouseApertado, john, Mouse, janela, bipper_lateral, bumerangue_lateral, amber_lateral, canhao_lateral)
 
         # sair
-
-        if teclado.key_pressed('ESC') or (Mouse.is_over_area((pausa.x, pausa.y), (pausa.x + pausa.width, pausa.y + pausa.height)) and Mouse.is_button_pressed(1)):
+        cont_pausa += janela.delta_time()
+        if (teclado.key_pressed('ESC') or (Mouse.is_over_area((pausa.x, pausa.y), (pausa.x + pausa.width, pausa.y + pausa.height)) and Mouse.is_button_pressed(1))) and cont_pausa >= 0.3:
+            cont_pausa = 0
             res = menupausa(tempo_de_jogo, janela)
-            if res == 1:
-                break
-            if res == 2:
+            if res == 1 or res == 2:
                 break
 
+
+        # game over
+        if john['vida'] <= 0:
+            gameover = True
 
         # auxilia pro mouse so clicar se estiver "desligado"
 
@@ -623,9 +639,6 @@ def jogar(teclado, Mouse, janela, mapa):
             mouseApertado = True
         else:
             mouseApertado = False
-
-        if john['vida'] <= 0:
-            gameover = True
 
         # fps
 
@@ -646,7 +659,9 @@ def jogar(teclado, Mouse, janela, mapa):
 
         # atualizações
 
+        john['John'].play()
         john['John'].draw()
+        john['John'].update()
         janela.update()
 
         # gameover
