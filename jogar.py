@@ -448,6 +448,18 @@ def jogar(teclado, Mouse, janela, mapa):
     pecas_hud.x = janela.width - pecas_hud.width - 30
     pecas_hud.y = 15
 
+    amber_lateral_2 = Sprite("Sprites/amber_lateral.png")
+    amber_lateral_2.x = 10
+    amber_lateral_2.y = 215 + 276
+
+    bumerangue_lateral_2 = Sprite("Sprites/bumerangue_lateral(1).png")
+    bumerangue_lateral_2.x = 10
+    bumerangue_lateral_2.y = 185 + 92
+
+    canhao_lateral_2 = Sprite("Sprites/canhao_lateral.png")
+    canhao_lateral_2.x = 10
+    canhao_lateral_2.y = 200 + 184
+
     # fps
 
     soma_fps = 0
@@ -463,6 +475,15 @@ def jogar(teclado, Mouse, janela, mapa):
             velTiro = 1000
         if nivelBip == 3:
             danoBipper = 20
+
+        if nivelAmber >= 1:
+            amber_lateral = amber_lateral_2
+
+        if nivelBumer >= 1:
+            bumerangue_lateral = bumerangue_lateral_2
+
+        if nivelLaser >= 1:
+            canhao_lateral = canhao_lateral_2
 
         # cooldowns e timers
 
