@@ -249,15 +249,22 @@ def jogar(teclado, Mouse, janela, mapa):
 
     # setup player
 
-    john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 90, 'pregos': 500, 'correndo?': False}
+    john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 90, 'pregos': 500, 'correndo?': False, 'direcao': 1}
     john['John'].set_position(janela.width / 2 - john['John'].width / 2, janela.height / 2 - john['John'].height / 2)
 
     johnParado = Sprite("Sprites/Astronauta(3).png")
     johnParado.set_position(janela.width / 2 - john['John'].width / 2, janela.height / 2 - john['John'].height / 2)
 
+    johnParadoInv = Sprite("Sprites/Astronauta(3)_invertido.png")
+    johnParadoInv.set_position(janela.width / 2 - john['John'].width / 2, janela.height / 2 - john['John'].height / 2)
+
     johnCorrendo = Animation("Sprites/Astronauta(4).png", 4)
     johnCorrendo.set_sequence_time(0, 3, 100)
     johnCorrendo.set_position(janela.width / 2 - john['John'].width / 2, janela.height / 2 - john['John'].height / 2)
+
+    johnCorrendoInv = Animation("Sprites/Astronauta(4)_invertido.png", 4)
+    johnCorrendoInv.set_sequence_time(0, 3, 100)
+    johnCorrendoInv.set_position(janela.width / 2 - john['John'].width / 2, janela.height / 2 - john['John'].height / 2)
 
     posRelativa = [john['John'].x, john['John'].y]
 
@@ -456,23 +463,38 @@ def jogar(teclado, Mouse, janela, mapa):
 
         if teclado.key_pressed('W'):
             velJohnY = 400
-            john['John'] = johnCorrendo
+
+            if john['direcao'] == 1:
+                john['John'] = johnCorrendo
+            elif john['direcao'] == 2:
+                john['John'] = johnCorrendoInv
+
             john['correndo?'] = True
         if teclado.key_pressed('A'):
             velJohnX = 400
-            john['John'] = johnCorrendo
+            john['John'] = johnCorrendoInv
             john['correndo?'] = True
+            john['direcao'] = 2
         if teclado.key_pressed('S'):
             velJohnY = -400
-            john['John'] = johnCorrendo
+
+            if john['direcao'] == 1:
+                john['John'] = johnCorrendo
+            elif john['direcao'] == 2:
+                john['John'] = johnCorrendoInv
+
             john['correndo?'] = True
         if teclado.key_pressed('D'):
             velJohnX = -400
             john['John'] = johnCorrendo
             john['correndo?'] = True
+            john['direcao'] = 1
 
         if velJohnY == velJohnX == 0:
-            john['John'] = johnParado
+            if john['direcao'] == 1:
+                john['John'] = johnParado
+            elif john['direcao'] == 2:
+                john['John'] = johnParadoInv
             john['correndo?'] = False
 
         # mapa
