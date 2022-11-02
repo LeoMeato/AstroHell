@@ -249,9 +249,15 @@ def jogar(teclado, Mouse, janela, mapa):
 
     # setup player
 
-    john = {'John': Animation("Sprites/Astronauta(1).png", 4), 'vida': 90, 'pregos': 500}
-    john['John'].set_sequence_time(0, 3, 100)
+    john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 90, 'pregos': 500, 'correndo?': False}
     john['John'].set_position(janela.width / 2 - john['John'].width / 2, janela.height / 2 - john['John'].height / 2)
+
+    johnParado = Sprite("Sprites/Astronauta(3).png")
+    johnParado.set_position(janela.width / 2 - john['John'].width / 2, janela.height / 2 - john['John'].height / 2)
+
+    johnCorrendo = Animation("Sprites/Astronauta(4).png", 4)
+    johnCorrendo.set_sequence_time(0, 3, 100)
+    johnCorrendo.set_position(janela.width / 2 - john['John'].width / 2, janela.height / 2 - john['John'].height / 2)
 
     posRelativa = [john['John'].x, john['John'].y]
 
@@ -263,15 +269,12 @@ def jogar(teclado, Mouse, janela, mapa):
     vetBip[2][0].set_position(2300, 500)
 
     vetZeta = []
-    tiroZeta = []
-    velTzeta = 400
-    danoZeta = 15
 
     # setup obstáculos
 
     vetArvores = []
 
-    for i in range(4):
+    for i in range(36):
         vetArvores.append(Sprite("Sprites/árvore_pequena.png"))
 
     vetArvores[0].set_position(200, 200)
@@ -279,42 +282,11 @@ def jogar(teclado, Mouse, janela, mapa):
     vetArvores[2].set_position(1000, 300)
     vetArvores[3].set_position(500, 100)
 
-    for i in range(4):
-        vetArvores.append(Sprite("Sprites/árvore_pequena.png"))
-        vetArvores[i + 4].set_position(vetArvores[i].x - janela.width, vetArvores[i].y)
-
-    for i in range(4):
-        vetArvores.append(Sprite("Sprites/árvore_pequena.png"))
-        vetArvores[i + 8].set_position(vetArvores[i].x - janela.width, vetArvores[i].y - janela.height)
-
-    for i in range(4):
-        vetArvores.append(Sprite("Sprites/árvore_pequena.png"))
-        vetArvores[i + 12].set_position(vetArvores[i].x + janela.width, vetArvores[i].y)
-
-    for i in range(4):
-        vetArvores.append(Sprite("Sprites/árvore_pequena.png"))
-        vetArvores[i + 16].set_position(vetArvores[i].x + janela.width, vetArvores[i].y - janela.height)
-
-    for i in range(4):
-        vetArvores.append(Sprite("Sprites/árvore_pequena.png"))
-        vetArvores[i + 20].set_position(vetArvores[i].x, vetArvores[i].y - janela.height)
-
-    for i in range(4):
-        vetArvores.append(Sprite("Sprites/árvore_pequena.png"))
-        vetArvores[i + 24].set_position(vetArvores[i].x + janela.width, vetArvores[i].y + janela.height)
-
-    for i in range(4):
-        vetArvores.append(Sprite("Sprites/árvore_pequena.png"))
-        vetArvores[i + 28].set_position(vetArvores[i].x, vetArvores[i].y + janela.height)
-
-    for i in range(4):
-        vetArvores.append(Sprite("Sprites/árvore_pequena.png"))
-        vetArvores[i + 32].set_position(vetArvores[i].x - janela.width, vetArvores[i].y + janela.height)
-
+    espelhoObstaculos(vetArvores, 4, janela)
 
     vetPedras = []
 
-    for i in range(6):
+    for i in range(54):
         vetPedras.append(Sprite("Sprites/pedra1peq.png"))
 
     vetPedras[0].set_position(350, 250)
@@ -324,37 +296,7 @@ def jogar(teclado, Mouse, janela, mapa):
     vetPedras[4].set_position(500, 500)
     vetPedras[5].set_position(900, 100)
 
-    for i in range(6):
-        vetPedras.append(Sprite("Sprites/pedra1peq.png"))
-        vetPedras[i + 6].set_position(vetPedras[i].x - janela.width, vetPedras[i].y)
-
-    for i in range(6):
-        vetPedras.append(Sprite("Sprites/pedra1peq.png"))
-        vetPedras[i + 12].set_position(vetPedras[i].x - janela.width, vetPedras[i].y - janela.height)
-
-    for i in range(6):
-        vetPedras.append(Sprite("Sprites/pedra1peq.png"))
-        vetPedras[i + 18].set_position(vetPedras[i].x + janela.width, vetPedras[i].y)
-
-    for i in range(6):
-        vetPedras.append(Sprite("Sprites/pedra1peq.png"))
-        vetPedras[i + 24].set_position(vetPedras[i].x + janela.width, vetPedras[i].y - janela.height)
-
-    for i in range(6):
-        vetPedras.append(Sprite("Sprites/pedra1peq.png"))
-        vetPedras[i + 30].set_position(vetPedras[i].x, vetPedras[i].y - janela.height)
-
-    for i in range(6):
-        vetPedras.append(Sprite("Sprites/pedra1peq.png"))
-        vetPedras[i + 36].set_position(vetPedras[i].x + janela.width, vetPedras[i].y + janela.height)
-
-    for i in range(6):
-        vetPedras.append(Sprite("Sprites/pedra1peq.png"))
-        vetPedras[i + 42].set_position(vetPedras[i].x, vetPedras[i].y + janela.height)
-
-    for i in range(6):
-        vetPedras.append(Sprite("Sprites/pedra1peq.png"))
-        vetPedras[i + 48].set_position(vetPedras[i].x - janela.width, vetPedras[i].y + janela.height)
+    espelhoObstaculos(vetPedras, 6, janela)
 
     vetPeca = [Sprite("Sprites/peçapequena.png")]
     ## Tentei criar em um For pra ficar aleatorio, mas tem vezes que nasce em cima da pedra/arvore
@@ -386,8 +328,11 @@ def jogar(teclado, Mouse, janela, mapa):
     # setup dos bips e zetas
 
     velBip = 80
-    danoBip = 10
+    danoBip = 5
 
+    tiroZeta = []
+    velTzeta = 400
+    danoZeta = 8
     velZeta = 90
 
     # setup cooldowns, timers e contadores
@@ -511,12 +456,24 @@ def jogar(teclado, Mouse, janela, mapa):
 
         if teclado.key_pressed('W'):
             velJohnY = 400
+            john['John'] = johnCorrendo
+            john['correndo?'] = True
         if teclado.key_pressed('A'):
             velJohnX = 400
+            john['John'] = johnCorrendo
+            john['correndo?'] = True
         if teclado.key_pressed('S'):
             velJohnY = -400
+            john['John'] = johnCorrendo
+            john['correndo?'] = True
         if teclado.key_pressed('D'):
             velJohnX = -400
+            john['John'] = johnCorrendo
+            john['correndo?'] = True
+
+        if velJohnY == velJohnX == 0:
+            john['John'] = johnParado
+            john['correndo?'] = False
 
         # mapa
 
@@ -659,9 +616,10 @@ def jogar(teclado, Mouse, janela, mapa):
 
         # atualizações
 
-        john['John'].play()
+        if john['correndo?']:
+            john['John'].play()
+            john['John'].update()
         john['John'].draw()
-        john['John'].update()
         janela.update()
 
         # gameover

@@ -1,3 +1,6 @@
+from PPlay.sprite import *
+
+
 def HUD(janela, john, pecas_hud, bipper_lateral, amber_lateral, bumerangue_lateral, canhao_lateral, vida, pausa,
         nivelBip, nivelAmber, nivelBumer, nivelLaser):
 
@@ -68,3 +71,30 @@ def obsInfinitos(posRelativa, janela, vetArvores, vetPedras, John):
         for v in vetPedras:
             v.y -= janela.height
         posRelativa[1] = John.y
+
+
+def espelhoObstaculos(vet, qtd, janela):
+
+    for i in range(qtd):
+        vet[i + qtd].set_position(vet[i].x - janela.width, vet[i].y)
+
+    for i in range(qtd):
+        vet[i + qtd * 2].set_position(vet[i].x - janela.width, vet[i].y - janela.height)
+
+    for i in range(qtd):
+        vet[i + qtd * 3].set_position(vet[i].x + janela.width, vet[i].y)
+
+    for i in range(qtd):
+        vet[i + qtd * 4].set_position(vet[i].x + janela.width, vet[i].y - janela.height)
+
+    for i in range(qtd):
+        vet[i + qtd * 5].set_position(vet[i].x, vet[i].y - janela.height)
+
+    for i in range(qtd):
+        vet[i + qtd * 6].set_position(vet[i].x + janela.width, vet[i].y + janela.height)
+
+    for i in range(qtd):
+        vet[i + qtd * 7].set_position(vet[i].x, vet[i].y + janela.height)
+
+    for i in range(qtd):
+        vet[i + qtd * 8].set_position(vet[i].x - janela.width, vet[i].y + janela.height)
