@@ -533,7 +533,7 @@ def jogar(teclado, Mouse, janela, mapa):
             if not amberPode:
                 timerAmber += janela.delta_time()
                 amberPode, timerAmber, aumentou = carregaAmber(amberPode, janela, vetAmber, Mouse, john['John'], timerAmber,
-                                                     mouseApertado, velAmber, danoAmber, aumentou)
+                                                     mouseApertado, velAmber, danoAmber, aumentou, nivelAmber)
             else:
                 timerAmber = 0
                 aumentou = False
@@ -543,7 +543,7 @@ def jogar(teclado, Mouse, janela, mapa):
         colisãoDano(vetBip, vetBipper, vetAmber, danoBipper, Bumerarma)
         colisãoDano(vetZeta, vetBipper, vetAmber, danoBipper, Bumerarma)
 
-        '''# comportamento dos bips
+        # comportamento dos bips
 
         if cooldownSpawnBip <= 0:
             spawnBip(vetBip, janela)
@@ -562,7 +562,7 @@ def jogar(teclado, Mouse, janela, mapa):
         for i in range(len(vetZeta)):
             zeta(vetZeta[i], janela, velJohnX, velJohnY, velZeta, john, tiroZeta)
 
-        tirosZeta(tiroZeta, velTzeta, velJohnX, velJohnY, janela, john, danoZeta)'''
+        tirosZeta(tiroZeta, velTzeta, velJohnX, velJohnY, janela, john, danoZeta)
 
         # verifica se algum bip está com vida < 0 e mata o que estiver
 
