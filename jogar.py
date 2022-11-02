@@ -248,7 +248,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
     # setup player
 
-    john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 200, 'pregos': 40}
+    john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 200, 'pregos': 150}
     john['John'].set_position(janela.width / 2 - john['John'].width / 2, janela.height / 2 - john['John'].height / 2)
 
     posRelativa = [john['John'].x, john['John'].y]
@@ -593,7 +593,7 @@ def jogar(teclado, Mouse, janela, mapa):
         # renderizar tiros
 
         renderizarBipper(vetBipper, janela, velJohnX, velJohnY)
-        renderizaAmber(vetAmber, velJohnX, velJohnY, janela)
+        renderizaAmber(vetAmber, velJohnX, velJohnY, janela, nivelAmber)
 
         # HUD
 

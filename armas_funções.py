@@ -100,7 +100,7 @@ def bumerarma(Bumerarma, janela, Mouse, john, velJohnX, velJohnY):
                 Bumerarma['dano'] = 0
 
         #atualizações gerais
-        Bumerarma['dano'] = 0.7
+        Bumerarma['dano'] = 0.5
         Bumerarma['sprite'].x += (velJohnX + Bumerarma['dx'] * Bumerarma['vel']) * janela.delta_time()
         Bumerarma['sprite'].y += (velJohnY + Bumerarma['dy'] * Bumerarma['vel']) * janela.delta_time()
         Bumerarma['contador'] += janela.delta_time()
@@ -108,14 +108,27 @@ def bumerarma(Bumerarma, janela, Mouse, john, velJohnX, velJohnY):
         Bumerarma['sprite'].draw()
 
 
-def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseApertado, velAmber, danoAmber, aumentou, nivelAmber):
+def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseApertado, velAmber, danoAmber, aumentou, nivel):
 
     '''
     Essa função controla o comportamento do projetil da amber enquanto ele ainda não foi atirado.
     '''
 
-    if timerAmber < 3:
-        vetAmber[-1][3] += janela.delta_time() / 2.5
+    tmp = 3
+    raio = 30
+
+    if nivel >= 3:
+        tmp = 5
+        if timerAmber >= 5:
+            raio = 50
+
+    if nivel == 5:
+        tmp = 7
+        if timerAmber >= 7:
+            raio = 70
+
+    if timerAmber < tmp:
+        vetAmber[-1][3] += (janela.delta_time() * nivel ** (1/2)) / 2.5
     X = Mouse.get_position()[0]
     Y = Mouse.get_position()[1]
     dx = X - john.x - john.width / 2
@@ -124,11 +137,15 @@ def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseAper
     vetAmber[-1][1] = dx / dt * velAmber
     vetAmber[-1][2] = dy / dt * velAmber
     angulo = atan2(dy, dx)
-    if timerAmber >= 4 and not aumentou:
+    if timerAmber >= 3 and not aumentou:
         vetAmber[-1][0] = Sprite("Sprites/amberProjetil-grande.png")
         vetAmber[-1][3] += 0.7
         aumentou = True
-    vetAmber[-1][0].set_position(janela.width / 2 - vetAmber[-1][0].width / 2 + 30 * cos(angulo), janela.height / 2 - vetAmber[-1][0].height / 2 + 30 * sin(angulo))
+    if timerAmber >= 5 and nivel >= 3:
+        vetAmber[-1][0] = Sprite("Sprites/Amber_Gigante.png")
+    if timerAmber >= 7 and nivel == 5:
+        vetAmber[-1][0] = Sprite("Sprites/Amber_Gigantesca.png")
+    vetAmber[-1][0].set_position(janela.width / 2 - vetAmber[-1][0].width / 2 + raio * cos(angulo), janela.height / 2 - vetAmber[-1][0].height / 2 + raio * sin(angulo))
     #vetAmber[-1][0].draw()
 
     if not Mouse.is_button_pressed(1) and mouseApertado:
@@ -138,7 +155,7 @@ def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseAper
     return vetAmber[-1][5], timerAmber, aumentou
 
 
-def renderizaAmber(vetAmber, velJohnX, velJohnY, janela):
+def renderizaAmber(vetAmber, velJohnX, velJohnY, janela, nivel):
 
     '''
     Essa função define o movimeneto dos projeteis amber após serem atirados, mas não são anulados enquanto ainda estão
@@ -152,7 +169,7 @@ def renderizaAmber(vetAmber, velJohnX, velJohnY, janela):
 
     for i in range(len(vetAmber)):
         if vetAmber[i][0].x < 0 or vetAmber[i][0].x > janela.width or vetAmber[i][0].y < 0 or vetAmber[i][
-            0].y > janela.height or vetAmber[i][4] > 50:
+            0].y > janela.height or vetAmber[i][4] > 50 + nivel * 8:
             vetAmber.pop(i)
             break
 
