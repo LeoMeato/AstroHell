@@ -251,6 +251,8 @@ def jogar(teclado, Mouse, janela, mapa):
     john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 200, 'pregos': 40}
     john['John'].set_position(janela.width / 2 - john['John'].width / 2, janela.height / 2 - john['John'].height / 2)
 
+    posRelativa = [john['John'].x, john['John'].y]
+
     # setup inimigos
 
     vetBip = [[Sprite("Sprites/bip.png"), 30], [Sprite("Sprites/bip.png"), 30], [Sprite("Sprites/bip.png"), 30]]
@@ -264,21 +266,93 @@ def jogar(teclado, Mouse, janela, mapa):
     danoZeta = 15
 
     # setup obstáculos
-    ## Daria pra botar todos os obstáculos em uma só lista, mas fiz assim pra poder diferenciar mais fácil, por enquanto.
-    vetArvores = [Sprite("Sprites/árvore_pequena.png"), Sprite("Sprites/árvore_pequena.png"), Sprite(
-        "Sprites/árvore_pequena.png")]
-    vetArvores[0].set_position(200, 200)
-    vetArvores[1].set_position(700, 800)
-    vetArvores[2].set_position(1000, 300)
 
-    vetPedras = [Sprite("Sprites/pedra1peq.png"), Sprite("Sprites/pedra1peq.png"), Sprite("Sprites/pedra1peq.png"), Sprite(
-        "Sprites/pedra1peq.png"),
-                 Sprite("Sprites/pedra1peq.png")]
+    vetArvores = []
+
+    for i in range(4):
+        vetArvores.append(Sprite("Sprites/árvore_pequena.png"))
+
+    vetArvores[0].set_position(200, 200)
+    vetArvores[1].set_position(700, 500)
+    vetArvores[2].set_position(1000, 300)
+    vetArvores[3].set_position(500, 100)
+
+    for i in range(4):
+        vetArvores.append(Sprite("Sprites/árvore_pequena.png"))
+        vetArvores[i + 4].set_position(vetArvores[i].x - janela.width, vetArvores[i].y)
+
+    for i in range(4):
+        vetArvores.append(Sprite("Sprites/árvore_pequena.png"))
+        vetArvores[i + 8].set_position(vetArvores[i].x - janela.width, vetArvores[i].y - janela.height)
+
+    for i in range(4):
+        vetArvores.append(Sprite("Sprites/árvore_pequena.png"))
+        vetArvores[i + 12].set_position(vetArvores[i].x + janela.width, vetArvores[i].y)
+
+    for i in range(4):
+        vetArvores.append(Sprite("Sprites/árvore_pequena.png"))
+        vetArvores[i + 16].set_position(vetArvores[i].x + janela.width, vetArvores[i].y - janela.height)
+
+    for i in range(4):
+        vetArvores.append(Sprite("Sprites/árvore_pequena.png"))
+        vetArvores[i + 20].set_position(vetArvores[i].x, vetArvores[i].y - janela.height)
+
+    for i in range(4):
+        vetArvores.append(Sprite("Sprites/árvore_pequena.png"))
+        vetArvores[i + 24].set_position(vetArvores[i].x + janela.width, vetArvores[i].y + janela.height)
+
+    for i in range(4):
+        vetArvores.append(Sprite("Sprites/árvore_pequena.png"))
+        vetArvores[i + 28].set_position(vetArvores[i].x, vetArvores[i].y + janela.height)
+
+    for i in range(4):
+        vetArvores.append(Sprite("Sprites/árvore_pequena.png"))
+        vetArvores[i + 32].set_position(vetArvores[i].x - janela.width, vetArvores[i].y + janela.height)
+
+
+    vetPedras = []
+
+    for i in range(6):
+        vetPedras.append(Sprite("Sprites/pedra1peq.png"))
+
     vetPedras[0].set_position(350, 250)
-    vetPedras[1].set_position(250, 400)
-    vetPedras[2].set_position(400, 600)
+    vetPedras[1].set_position(850, 400)
+    vetPedras[2].set_position(1000, 600)
     vetPedras[3].set_position(200, 700)
-    vetPedras[4].set_position(700, 500)
+    vetPedras[4].set_position(500, 500)
+    vetPedras[5].set_position(900, 100)
+
+    for i in range(6):
+        vetPedras.append(Sprite("Sprites/pedra1peq.png"))
+        vetPedras[i + 6].set_position(vetPedras[i].x - janela.width, vetPedras[i].y)
+
+    for i in range(6):
+        vetPedras.append(Sprite("Sprites/pedra1peq.png"))
+        vetPedras[i + 12].set_position(vetPedras[i].x - janela.width, vetPedras[i].y - janela.height)
+
+    for i in range(6):
+        vetPedras.append(Sprite("Sprites/pedra1peq.png"))
+        vetPedras[i + 18].set_position(vetPedras[i].x + janela.width, vetPedras[i].y)
+
+    for i in range(6):
+        vetPedras.append(Sprite("Sprites/pedra1peq.png"))
+        vetPedras[i + 24].set_position(vetPedras[i].x + janela.width, vetPedras[i].y - janela.height)
+
+    for i in range(6):
+        vetPedras.append(Sprite("Sprites/pedra1peq.png"))
+        vetPedras[i + 30].set_position(vetPedras[i].x, vetPedras[i].y - janela.height)
+
+    for i in range(6):
+        vetPedras.append(Sprite("Sprites/pedra1peq.png"))
+        vetPedras[i + 36].set_position(vetPedras[i].x + janela.width, vetPedras[i].y + janela.height)
+
+    for i in range(6):
+        vetPedras.append(Sprite("Sprites/pedra1peq.png"))
+        vetPedras[i + 42].set_position(vetPedras[i].x, vetPedras[i].y + janela.height)
+
+    for i in range(6):
+        vetPedras.append(Sprite("Sprites/pedra1peq.png"))
+        vetPedras[i + 48].set_position(vetPedras[i].x - janela.width, vetPedras[i].y + janela.height)
 
     vetPeca = [Sprite("Sprites/peçapequena.png")]
     ## Tentei criar em um For pra ficar aleatorio, mas tem vezes que nasce em cima da pedra/arvore
@@ -342,7 +416,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
     # setup da bumerarma
 
-    Bumerarma = {'sprite': Animation("Sprites/Bumerarma_animação.png", 3), 'ativo?': False, 'dx': 0, 'dy': 0, 'vel': 600, 'contador': 0, 'dano': 0.6, 'tempo': 1}
+    Bumerarma = {'sprite': Animation("Sprites/Bumerarma_animação.png", 3), 'ativo?': False, 'dx': 0, 'dy': 0, 'vel': 600, 'contador': 0, 'dano': 0, 'tempo': 1}
     Bumerarma['sprite'].set_total_duration(150)
     Bumerarma['sprite'].set_position(john['John'].x, john['John'].y)
 
@@ -428,7 +502,7 @@ def jogar(teclado, Mouse, janela, mapa):
             vetArvores[i].x += velJohnX * janela.delta_time()
             vetArvores[i].y += velJohnY * janela.delta_time()
 
-        for n in range(5):
+        for n in range(len(vetPedras)):
             vetPedras[n].draw()
             vetPedras[n].x += velJohnX * janela.delta_time()
             vetPedras[n].y += velJohnY * janela.delta_time()
@@ -469,7 +543,7 @@ def jogar(teclado, Mouse, janela, mapa):
         colisãoDano(vetBip, vetBipper, vetAmber, danoBipper, Bumerarma)
         colisãoDano(vetZeta, vetBipper, vetAmber, danoBipper, Bumerarma)
 
-        # comportamento dos bips
+        '''# comportamento dos bips
 
         if cooldownSpawnBip <= 0:
             spawnBip(vetBip, janela)
@@ -488,7 +562,7 @@ def jogar(teclado, Mouse, janela, mapa):
         for i in range(len(vetZeta)):
             zeta(vetZeta[i], janela, velJohnX, velJohnY, velZeta, john, tiroZeta)
 
-        tirosZeta(tiroZeta, velTzeta, velJohnX, velJohnY, janela, john, danoZeta)
+        tirosZeta(tiroZeta, velTzeta, velJohnX, velJohnY, janela, john, danoZeta)'''
 
         # verifica se algum bip está com vida < 0 e mata o que estiver
 
@@ -537,6 +611,11 @@ def jogar(teclado, Mouse, janela, mapa):
             printfps = contador_fps / soma_fps
             contador_fps = 0
             soma_fps = 0
+
+        # obstaculos
+
+        posRel(posRelativa, janela, velJohnX, velJohnY)
+        obsInfinitos(posRelativa, janela, vetArvores, vetPedras, john['John'])
 
         # atualizações
 
