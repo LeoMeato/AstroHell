@@ -97,8 +97,10 @@ def bumerarma(Bumerarma, janela, Mouse, john, velJohnX, velJohnY):
 
                 Bumerarma['ativo?'] = False
                 Bumerarma['contador'] = 0
+                Bumerarma['dano'] = 0
 
         #atualizações gerais
+        Bumerarma['dano'] = 0.7
         Bumerarma['sprite'].x += (velJohnX + Bumerarma['dx'] * Bumerarma['vel']) * janela.delta_time()
         Bumerarma['sprite'].y += (velJohnY + Bumerarma['dy'] * Bumerarma['vel']) * janela.delta_time()
         Bumerarma['contador'] += janela.delta_time()
@@ -106,7 +108,7 @@ def bumerarma(Bumerarma, janela, Mouse, john, velJohnX, velJohnY):
         Bumerarma['sprite'].draw()
 
 
-def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseApertado, velAmber, danoAmber, aumentou):
+def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseApertado, velAmber, danoAmber, aumentou, nivelAmber):
 
     '''
     Essa função controla o comportamento do projetil da amber enquanto ele ainda não foi atirado.
