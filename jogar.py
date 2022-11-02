@@ -249,7 +249,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
     # setup player
 
-    john = {'John': Animation("Sprites/Astronauta(1).png", 4), 'vida': 90, 'pregos': 40}
+    john = {'John': Animation("Sprites/Astronauta(1).png", 4), 'vida': 90, 'pregos': 500}
     john['John'].set_sequence_time(0, 3, 100)
     john['John'].set_position(janela.width / 2 - john['John'].width / 2, janela.height / 2 - john['John'].height / 2)
 
@@ -604,7 +604,7 @@ def jogar(teclado, Mouse, janela, mapa):
         # renderizar tiros
 
         renderizarBipper(vetBipper, janela, velJohnX, velJohnY)
-        renderizaAmber(vetAmber, velJohnX, velJohnY, janela)
+        renderizaAmber(vetAmber, velJohnX, velJohnY, janela, nivelAmber)
 
         # HUD
         vida = lista_vida[(ceil(john['vida'] / 10) - 1)]
