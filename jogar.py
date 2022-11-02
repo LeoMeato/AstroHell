@@ -1,10 +1,7 @@
-from random import randint
 from armas_funções import *
 from outras_funções import *
 from PPlay.animation import *
-from PPlay.sprite import *
-from PPlay.window import *
-from MenuPausa import *
+from menu import *
 from math import ceil
 
 nivelBip = 1
@@ -13,17 +10,6 @@ nivelBumer = 0
 nivelLaser = 0
 
 cooldownDanoJ = 0
-
-def mapaInfinito(mapa, janela):
-    if mapa.x > 0:
-        mapa.x = -mapa.width + janela.width + 200 - janela.width % 200
-    if mapa.x < -mapa.width + janela.width:
-        mapa.x = -(200 - janela.width % 200)
-    if mapa.y > 0:
-        mapa.y = -mapa.height + janela.height + 200 - janela.height % 200
-    if mapa.y < -mapa.height + janela.height:
-        mapa.y = -(200 - janela.height % 200)
-
 
 def bip(Bip, janela, velJohnX, velJohnY, velBip, john, danoBip, armadura):
 
@@ -98,44 +84,6 @@ def morreuInimigo(inimigo, vetPeca, droprate):
         j += 1
 
 
-def peças(vetPeca, john, velJohnX, velJohnY, janela):
-    for i in range(len(vetPeca)):
-        vetPeca[i].draw()
-        vetPeca[i].x += velJohnX * janela.delta_time()
-        vetPeca[i].y += velJohnY * janela.delta_time()
-        if vetPeca[i].collided(john['John']):
-            john['pregos'] += 1
-    j = 0
-    a = len(vetPeca)
-    while j < a and a > 0:
-        if vetPeca[j].collided(john['John']):
-            vetPeca.pop(j)
-            a -= 1
-        j += 1
-
-
-def areaSpawn(janela):
-    r = randint(1, 4)
-
-    x = 0
-    y = 0
-
-    if r == 1:
-        x = randint(janela.width, janela.width * 1.5)
-        y = randint(-300, janela.height + 300)
-    elif r == 2:
-        x = randint(-janela.width * 1.5, 0)
-        y = randint(-300, janela.height + 300)
-    elif r == 3:
-        x = randint(0, janela.width)
-        y = randint(-janela.height, 0)
-    elif r == 4:
-        x = randint(0, janela.width)
-        y = randint(janela.height, janela.height * 1.5)
-
-    return x, y
-
-
 def spawnBip(vetBip, janela):
 
     x, y = areaSpawn(janela)
@@ -150,18 +98,6 @@ def spawnZeta(vetZeta, janela):
 
     vetZeta.append([Sprite("Sprites/zeta.png"), 120, 0])
     vetZeta[-1][0].set_position(x, y)
-
-
-'''def evitaColisão(spt1, spt2):
-
-    if spt1.x + spt1.width >= spt2.x:
-        spt1.x = spt2.x - spt1.width
-    elif spt1.y + spt1.height >= spt2.y:
-        spt1.y = spt2.y - spt1.height
-    elif spt2.x + spt2.width >= spt1.x:
-        spt2.x = spt1.x - spt2.width
-    elif spt2.y + spt2.height >= spt1.y:
-        spt2.y = spt1.y - spt2.height'''
 
 
 def niveisDeArma(mouseApertado, john, Mouse, janela, bipper_lateral, bumerangue_lateral, amber_lateral, canhao_lateral):
@@ -380,9 +316,10 @@ def jogar(teclado, Mouse, janela, mapa):
 
     # setup HUD
 
-  #  vida = Sprite("Sprites/9vidas.png")
- #   vida.x = janela.width / 2 - vida.width / 2
-#    vida.y = janela.height - vida.height - 25
+    # vida = Sprite("Sprites/9vidas.png")
+    # vida.x = janela.width / 2 - vida.width / 2
+    # vida.y = janela.height - vida.height - 25
+
     # vida
     lista_vida = [Sprite("Sprites/1vida.png"), Sprite("Sprites/2vidas.png"),
                   Sprite("Sprites/3vidas.png"), Sprite("Sprites/4vidas.png"),

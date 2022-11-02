@@ -1,5 +1,4 @@
 from PPlay.window import *
-from menu import *
 from jogar import *
 
 
@@ -22,7 +21,6 @@ def Enredo(janela, teclado):
             break
         dialogo1.draw()
         janela.update()
-
 
 
 # setup geral
