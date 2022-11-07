@@ -68,10 +68,33 @@ def tirosZeta(tiroZeta, velTzeta, velJohnX, velJohnY, janela, john, danoZeta):
             break
 
 
-def bossFunc(boss, janela, velJohnX, velJohnY):
+def bossFunc(boss, janela, velJohnX, velJohnY, john):
+
+    boss['cooldown'] -= janela.delta_time()
+
+    velBoss1 = 500
+
+    if boss['spriteAtual'].y > john['John'].y:
+        velBoss1 = -500
+
+    if boss['cooldown'] <= 0 and (-0.1 <= (boss['spriteAtual'].y - john['John'].y) <= 0.1) and not boss['dash']:
+        boss['dash'] = True
+        boss['alvo'] = john['John'].x
+        if boss['spriteAtual'].x > boss['alvo']:
+            boss['velDash'] = -5000
+        else:
+            boss['velDash'] = 5000
+
+    if boss['dash']:
+        boss['spriteAtual'].x += boss['velDash'] * janela.delta_time()
+        if -50 <= boss['spriteAtual'].x - boss['alvo'] <= 50:
+            boss['dash'] = False
+            boss['cooldown'] = 4
 
     boss['spriteAtual'].x += velJohnX * janela.delta_time()
     boss['spriteAtual'].y += velJohnY * janela.delta_time()
+    if not boss['dash'] and boss['cooldown'] <= 0:
+        boss['spriteAtual'].y += velBoss1 * janela.delta_time()
     boss['spriteAtual'].update()
     boss['spriteAtual'].draw()
 
@@ -219,9 +242,9 @@ def jogar(teclado, Mouse, janela, mapa):
 
     vetZeta = []
 
-    boss = {'spriteAtual': 0, 'vida': 1200, 'dano': 35, 'parado': Animation("Sprites/boss_parado.png", 9)}
+    boss = {'spriteAtual': 0, 'vida': 1200, 'dano': 35, 'dash': False, 'velDash': 2000, 'alvo': 0, 'cooldown': 0, 'parado': Animation("Sprites/boss_parado.png", 9)}
     boss['parado'].set_total_duration(500)
-    boss['parado'].set_position(-100, -100)
+    boss['parado'].set_position(100, 100)
     boss['spriteAtual'] = boss['parado']
 
     # setup obstáculos
@@ -532,7 +555,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
         #if tempo_de_jogo > 15*60:
         if tempo_de_jogo > 0:
-            bossFunc(boss, janela, velJohnX, velJohnY)
+            bossFunc(boss, janela, velJohnX, velJohnY, john)
 
         # renderizar tiros
 
