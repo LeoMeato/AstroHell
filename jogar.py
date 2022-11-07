@@ -68,6 +68,12 @@ def tirosZeta(tiroZeta, velTzeta, velJohnX, velJohnY, janela, john, danoZeta):
             break
 
 
+def bossFunc(boss, janela, velJohnX, velJohnY):
+
+    boss['spriteAtual'].x += velJohnX * janela.delta_time()
+    boss['spriteAtual'].y += velJohnY * janela.delta_time()
+    boss['spriteAtual'].update()
+    boss['spriteAtual'].draw()
 
 
 def morreuInimigo(inimigo, vetPeca, droprate):
@@ -212,6 +218,11 @@ def jogar(teclado, Mouse, janela, mapa):
     vetBip[2][0].set_position(2300, 500)
 
     vetZeta = []
+
+    boss = {'spriteAtual': 0, 'vida': 1200, 'dano': 35, 'parado': Animation("Sprites/boss_parado.png", 9)}
+    boss['parado'].set_total_duration(500)
+    boss['parado'].set_position(-100, -100)
+    boss['spriteAtual'] = boss['parado']
 
     # setup obstáculos
 
@@ -493,7 +504,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
         # comportamento dos bips
 
-        if cooldownSpawnBip <= 0:
+        '''if cooldownSpawnBip <= 0:
             spawnBip(vetBip, janela)
             cooldownSpawnBip = 25
 
@@ -515,7 +526,13 @@ def jogar(teclado, Mouse, janela, mapa):
         # verifica se algum bip está com vida < 0 e mata o que estiver
 
         morreuInimigo(vetBip, vetPeca, 20)
-        morreuInimigo(vetZeta, vetPeca, 80)
+        morreuInimigo(vetZeta, vetPeca, 80)'''
+
+        # boss
+
+        #if tempo_de_jogo > 15*60:
+        if tempo_de_jogo > 0:
+            bossFunc(boss, janela, velJohnX, velJohnY)
 
         # renderizar tiros
 
