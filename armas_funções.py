@@ -63,22 +63,8 @@ def tiroAmber(janela, vetAmber, Mouse, john, velAmber, amberPode, cooldownA):
 def bumerarma(Bumerarma, janela, Mouse, john, velJohnX, velJohnY):
 
     '''
-    essa função controla todo o comportamento da bumerarma
+    essa função controla a arma após ser ativada
     '''
-
-    # define a posição do mouse
-    X = Mouse.get_position()[0]
-    Y = Mouse.get_position()[1]
-
-    # atira o bumerangue na direção do mouse, caso seja ativado
-    if Mouse.is_button_pressed(1) and not Bumerarma['ativo?']:
-
-        Bumerarma['ativo?'] = True
-        dx = X - john.x - john.width / 2
-        dy = Y - john.y - john.height / 2
-        dt = abs(dx) + abs(dy)
-        Bumerarma['dx'] = dx/dt
-        Bumerarma['dy'] = dy/dt
 
     # controla o comportamento da arma enquanto está em movimento
     if Bumerarma['ativo?']:
@@ -106,6 +92,22 @@ def bumerarma(Bumerarma, janela, Mouse, john, velJohnX, velJohnY):
         Bumerarma['contador'] += janela.delta_time()
         Bumerarma['sprite'].update()
         Bumerarma['sprite'].draw()
+
+
+def ativaBumerangue(Mouse, Bumerarma, john):
+
+    # define a posição do mouse
+    X = Mouse.get_position()[0]
+    Y = Mouse.get_position()[1]
+
+    # atira o bumerangue na direção do mouse, caso seja ativado
+    if Mouse.is_button_pressed(1) and not Bumerarma['ativo?']:
+        Bumerarma['ativo?'] = True
+        dx = X - john.x - john.width / 2
+        dy = Y - john.y - john.height / 2
+        dt = abs(dx) + abs(dy)
+        Bumerarma['dx'] = dx / dt
+        Bumerarma['dy'] = dy / dt
 
 
 def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseApertado, velAmber, danoAmber, aumentou, nivel):

@@ -99,6 +99,24 @@ def bossFunc(boss, janela, velJohnX, velJohnY, john):
     boss['spriteAtual'].draw()
 
 
+def colisãoDanoBoss(inimigo, tiroB, tiroA, danoB, Bumerarma):
+
+    for j in tiroB:
+        if inimigo['spriteAtual'].collided(j[0]):
+            inimigo['vida'] -= danoB
+    for j in tiroA:
+        if inimigo['spriteAtual'].collided(j[0]) and j[5]:
+            inimigo['vida'] -= j[3]
+            j[4] += 1
+    if Bumerarma['sprite'].collided(inimigo['spriteAtual']):
+        inimigo['vida'] -= Bumerarma['dano']
+
+    for j in range(len(tiroB)):
+        if tiroB[j][0].collided(inimigo['spriteAtual']):
+            tiroB.pop(j)
+            break
+
+
 def morreuInimigo(inimigo, vetPeca, droprate):
     j = 0
     a = len(inimigo)
@@ -290,6 +308,8 @@ def jogar(teclado, Mouse, janela, mapa):
     global nivelAmber
     cont_pausa = 0
     armadura = 1
+
+    venceu = False
 
     tempo_de_jogo = 0
 
@@ -506,7 +526,7 @@ def jogar(teclado, Mouse, janela, mapa):
             # criação de pojeteis da bipper
             cooldownB = tiroBipper(janela, Mouse, john['John'], velTiro, vetBipper, cooldownB)
         elif Arma == 2:
-            bumerarma(Bumerarma, janela, Mouse, john['John'], velJohnX, velJohnY)
+            ativaBumerangue(Mouse, Bumerarma, john['John'])
         elif Arma == 3:
             pass
         elif Arma == 4:
@@ -524,6 +544,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
         colisãoDano(vetBip, vetBipper, vetAmber, danoBipper, Bumerarma)
         colisãoDano(vetZeta, vetBipper, vetAmber, danoBipper, Bumerarma)
+        colisãoDanoBoss(boss, vetBipper, vetAmber, danoBipper, Bumerarma)
 
         # comportamento dos bips
 
@@ -554,13 +575,17 @@ def jogar(teclado, Mouse, janela, mapa):
         # boss
 
         #if tempo_de_jogo > 15*60:
-        if tempo_de_jogo > 0:
+        if tempo_de_jogo > 0 and not venceu:
             bossFunc(boss, janela, velJohnX, velJohnY, john)
+
+        if boss['vida'] <= 0:
+            venceu = True
 
         # renderizar tiros
 
         renderizarBipper(vetBipper, janela, velJohnX, velJohnY)
         renderizaAmber(vetAmber, velJohnX, velJohnY, janela, nivelAmber)
+        bumerarma(Bumerarma, janela, Mouse, john['John'], velJohnX, velJohnY)
 
         # HUD
         vida = lista_vida[(ceil(john['vida'] / 10) - 1)]
@@ -577,6 +602,7 @@ def jogar(teclado, Mouse, janela, mapa):
         niveisDeArma(mouseApertado, john, Mouse, janela, bipper_lateral, bumerangue_lateral, amber_lateral, canhao_lateral)
 
         # sair
+
         cont_pausa += janela.delta_time()
         if (teclado.key_pressed('ESC') or (Mouse.is_over_area((pausa.x, pausa.y), (pausa.x + pausa.width, pausa.y + pausa.height)) and Mouse.is_button_pressed(1))) and cont_pausa >= 0.3:
             cont_pausa = 0
@@ -584,8 +610,8 @@ def jogar(teclado, Mouse, janela, mapa):
             if res == 1 or res == 2:
                 break
 
-
         # game over
+
         if john['vida'] <= 0:
             gameover = True
 
