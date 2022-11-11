@@ -80,6 +80,7 @@ def bossFunc(boss, janela, velJohnX, velJohnY, john):
     if boss['cooldown'] <= 0 and (-0.1 <= (boss['spriteAtual'].y - john['John'].y) <= 0.1) and not boss['dash']:
         boss['dash'] = True
         boss['alvo'] = john['John'].x
+
         if boss['spriteAtual'].x > boss['alvo']:
             boss['velDash'] = -5000
         else:
@@ -90,10 +91,14 @@ def bossFunc(boss, janela, velJohnX, velJohnY, john):
         if -50 <= boss['spriteAtual'].x - boss['alvo'] <= 50:
             boss['dash'] = False
             boss['cooldown'] = 4
+            boss['parado'].set_position(boss['spriteAtual'].x, boss['spriteAtual'].y)
+            boss['spriteAtual'] = boss['parado']
 
     boss['spriteAtual'].x += velJohnX * janela.delta_time()
     boss['spriteAtual'].y += velJohnY * janela.delta_time()
     if not boss['dash'] and boss['cooldown'] <= 0:
+        boss['correndo'].set_position(boss['spriteAtual'].x, boss['spriteAtual'].y)
+        boss['spriteAtual'] = boss['correndo']
         boss['spriteAtual'].y += velBoss1 * janela.delta_time()
     boss['spriteAtual'].update()
     boss['spriteAtual'].draw()
@@ -260,10 +265,11 @@ def jogar(teclado, Mouse, janela, mapa):
 
     vetZeta = []
 
-    boss = {'spriteAtual': 0, 'vida': 1200, 'dano': 35, 'dash': False, 'velDash': 2000, 'alvo': 0, 'cooldown': 0, 'parado': Animation("Sprites/boss_parado.png", 9)}
+    boss = {'spriteAtual': 0, 'vida': 1200, 'dano': 35, 'dash': False, 'velDash': 2000, 'alvo': 0, 'cooldown': 0, 'parado': Animation("Sprites/boss_parado.png", 9), 'correndo': Animation("Sprites/correndoVetor.png", 6)}
     boss['parado'].set_total_duration(500)
-    boss['parado'].set_position(100, 100)
-    boss['spriteAtual'] = boss['parado']
+    boss['correndo'].set_total_duration(500)
+    boss['correndo'].set_position(100, 100)
+    boss['spriteAtual'] = boss['correndo']
 
     # setup obstáculos
 
@@ -548,7 +554,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
         # comportamento dos bips
 
-        if cooldownSpawnBip <= 0:
+        '''if cooldownSpawnBip <= 0:
             spawnBip(vetBip, janela)
             cooldownSpawnBip = 25
 
@@ -570,12 +576,12 @@ def jogar(teclado, Mouse, janela, mapa):
         # verifica se algum bip está com vida < 0 e mata o que estiver
 
         morreuInimigo(vetBip, vetPeca, 20)
-        morreuInimigo(vetZeta, vetPeca, 80)
+        morreuInimigo(vetZeta, vetPeca, 80)'''
 
         # boss
 
         #if tempo_de_jogo > 15*60:
-        if tempo_de_jogo > 15*60 and not venceu:
+        if tempo_de_jogo > 0 and not venceu:
             bossFunc(boss, janela, velJohnX, velJohnY, john)
 
         if boss['vida'] <= 0:
