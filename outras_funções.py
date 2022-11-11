@@ -120,6 +120,7 @@ def peças(vetPeca, john, velJohnX, velJohnY, janela):
         if vetPeca[i].collided(john['John']):
             john['pregos'] += 1
             vetPeca.pop(i)
+            break
 
 
 def areaSpawn(janela):

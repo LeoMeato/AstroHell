@@ -548,7 +548,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
         # comportamento dos bips
 
-        '''if cooldownSpawnBip <= 0:
+        if cooldownSpawnBip <= 0:
             spawnBip(vetBip, janela)
             cooldownSpawnBip = 25
 
@@ -570,12 +570,12 @@ def jogar(teclado, Mouse, janela, mapa):
         # verifica se algum bip está com vida < 0 e mata o que estiver
 
         morreuInimigo(vetBip, vetPeca, 20)
-        morreuInimigo(vetZeta, vetPeca, 80)'''
+        morreuInimigo(vetZeta, vetPeca, 80)
 
         # boss
 
         #if tempo_de_jogo > 15*60:
-        if tempo_de_jogo > 0 and not venceu:
+        if tempo_de_jogo > 15*60 and not venceu:
             bossFunc(boss, janela, velJohnX, velJohnY, john)
 
         if boss['vida'] <= 0:
