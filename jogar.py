@@ -104,7 +104,7 @@ def bossFunc(boss, janela, velJohnX, velJohnY, john):
     boss['spriteAtual'].draw()
 
 
-def colisãoDanoBoss(inimigo, tiroB, tiroA, danoB, Bumerarma):
+def colisãoDanoBoss(inimigo, tiroB, tiroA, danoB, Bumerarma, john):
 
     for j in tiroB:
         if inimigo['spriteAtual'].collided(j[0]):
@@ -120,6 +120,9 @@ def colisãoDanoBoss(inimigo, tiroB, tiroA, danoB, Bumerarma):
         if tiroB[j][0].collided(inimigo['spriteAtual']):
             tiroB.pop(j)
             break
+
+    if john['John'].collided(inimigo['spriteAtual']):
+        john['vida'] -= inimigo['dano']
 
 
 def morreuInimigo(inimigo, vetPeca, droprate):
@@ -550,7 +553,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
         colisãoDano(vetBip, vetBipper, vetAmber, danoBipper, Bumerarma)
         colisãoDano(vetZeta, vetBipper, vetAmber, danoBipper, Bumerarma)
-        colisãoDanoBoss(boss, vetBipper, vetAmber, danoBipper, Bumerarma)
+        colisãoDanoBoss(boss, vetBipper, vetAmber, danoBipper, Bumerarma, john)
 
         # comportamento dos bips
 
