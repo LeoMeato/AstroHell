@@ -144,3 +144,39 @@ def areaSpawn(janela):
         y = randint(janela.height, janela.height * 1.5)
 
     return x, y
+
+
+def colisãoPlayerCenario(vet, john, velJohnX, velJohnY, janela):
+
+    john['John'].x -= velJohnX * janela.delta_time()
+    x = velJohnX
+
+
+    rsp = False
+
+    for i in vet:
+        if i.collided(john['John']) and velJohnX != 0:
+            velJohnX = 0
+            rsp = True
+
+    john['John'].y -= velJohnY * janela.delta_time()
+    y = velJohnY
+
+    if not rsp:
+
+        for i in vet:
+            if i.collided(john['John']) and velJohnY != 0:
+                velJohnY = 0
+
+    john['John'].x += x * janela.delta_time()
+    john['John'].y += y * janela.delta_time()
+
+    return velJohnX, velJohnY
+
+def colisãoTiroCenario(vetTiro, vetCenario):
+
+    for v in vetCenario:
+        for i in range(len(vetTiro)):
+            if v.collided(vetTiro[i][0]):
+                vetTiro.pop(i)
+                break

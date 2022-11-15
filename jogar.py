@@ -380,6 +380,9 @@ def jogar(teclado, Mouse, janela, mapa):
                 john['John'] = johnParadoInv
             john['correndo?'] = False
 
+        velJohnX, velJohnY = colisãoPlayerCenario(vetArvores, john, velJohnX, velJohnY, janela)
+        velJohnX, velJohnY = colisãoPlayerCenario(vetPedras, john, velJohnX, velJohnY, janela)
+
         # mapa
 
         mapa.x += velJohnX * janela.delta_time()
@@ -466,9 +469,8 @@ def jogar(teclado, Mouse, janela, mapa):
 
         # boss
 
-        #if tempo_de_jogo > 15*60:
-        #if tempo_de_jogo > 0 and not venceu:
-            #bossFunc(boss, janela, velJohnX, velJohnY, john)
+        if tempo_de_jogo > 10*60 and not venceu:
+            bossFunc(boss, janela, velJohnX, velJohnY, john)
 
         if boss['vida'] <= 0:
             venceu = True
@@ -476,6 +478,9 @@ def jogar(teclado, Mouse, janela, mapa):
         # renderizar tiros
 
         renderizarBipper(vetBipper, janela, velJohnX, velJohnY)
+        colisãoTiroCenario(vetBipper, vetArvores)
+        colisãoTiroCenario(vetBipper, vetPedras)
+
         renderizaAmber(vetAmber, velJohnX, velJohnY, janela, nivelAmber)
         bumerarma(Bumerarma, janela, Mouse, john['John'], velJohnX, velJohnY, Summon)
 
