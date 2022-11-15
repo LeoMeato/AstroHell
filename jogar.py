@@ -142,10 +142,11 @@ def jogar(teclado, Mouse, janela, mapa):
 
     vetZeta = []
 
-    boss = {'spriteAtual': 0, 'vida': 1200, 'dano': 35, 'dash': False, 'velDash': 2000, 'alvo': 0, 'cooldown': 0, 'parado': Animation("Sprites/boss_parado.png", 9), 'correndo': Animation("Sprites/correndoVetor.png", 6)}
+    boss = {'spriteAtual': 0, 'vida': 1200, 'dano': 35, 'dash': False, 'velDash': 2000, 'alvo': 0, 'cooldown': 0, 'parado': Animation("Sprites/boss_parado.png", 9), 'correndo': Animation("Sprites/correndoVetor.png", 6), 'atacando': Animation("Sprites/NightBorneAtaque.png", 12)}
     boss['parado'].set_total_duration(500)
     boss['correndo'].set_total_duration(500)
     boss['correndo'].set_position(100, 100)
+    boss['atacando'].set_total_duration(600)
     boss['spriteAtual'] = boss['correndo']
 
     # setup obstáculos
@@ -247,6 +248,11 @@ def jogar(teclado, Mouse, janela, mapa):
     Bumerarma['sprite'].set_total_duration(150)
     Bumerarma['sprite'].set_position(john['John'].x, john['John'].y)
 
+    Summon = {'sprite': Animation("Sprites/Bumerarma_animação2.png", 3), 'ativo?': False, 'vel': 600, 'contador': 0, 'dano': 0}
+    Summon['sprite'].set_total_duration(150)
+    Summon['sprite'].set_position(john['John'].x, john['John'].y)
+
+
     mouseApertado = False
 
     Arma = 1
@@ -312,6 +318,9 @@ def jogar(teclado, Mouse, janela, mapa):
             velTiro = 1000
         if nivelBip == 3:
             danoBipper = 20
+
+        if nivelBumer == 5:
+            Summon['ativo?'] = True
 
         if nivelAmber >= 1:
             amber_lateral = amber_lateral_2
@@ -425,9 +434,9 @@ def jogar(teclado, Mouse, janela, mapa):
 
         # colisão com dano
 
-        colisãoDano(vetBip, vetBipper, vetAmber, danoBipper, Bumerarma)
-        colisãoDano(vetZeta, vetBipper, vetAmber, danoBipper, Bumerarma)
-        colisãoDanoBoss(boss, vetBipper, vetAmber, danoBipper, Bumerarma, john)
+        colisãoDano(vetBip, vetBipper, vetAmber, danoBipper, Bumerarma, Summon)
+        colisãoDano(vetZeta, vetBipper, vetAmber, danoBipper, Bumerarma, Summon)
+        colisãoDanoBoss(boss, vetBipper, vetAmber, danoBipper, Bumerarma, john, Summon)
 
         # comportamento dos bips
 
@@ -458,8 +467,8 @@ def jogar(teclado, Mouse, janela, mapa):
         # boss
 
         #if tempo_de_jogo > 15*60:
-        if tempo_de_jogo > 0 and not venceu:
-            bossFunc(boss, janela, velJohnX, velJohnY, john)
+        #if tempo_de_jogo > 0 and not venceu:
+            #bossFunc(boss, janela, velJohnX, velJohnY, john)
 
         if boss['vida'] <= 0:
             venceu = True
@@ -468,7 +477,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
         renderizarBipper(vetBipper, janela, velJohnX, velJohnY)
         renderizaAmber(vetAmber, velJohnX, velJohnY, janela, nivelAmber)
-        bumerarma(Bumerarma, janela, Mouse, john['John'], velJohnX, velJohnY)
+        bumerarma(Bumerarma, janela, Mouse, john['John'], velJohnX, velJohnY, Summon)
 
         # HUD
         vida = lista_vida[(ceil(john['vida'] / 10) - 1)]

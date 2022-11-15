@@ -60,7 +60,7 @@ def tiroAmber(janela, vetAmber, Mouse, john, velAmber, amberPode, cooldownA):
     return amberPode, cooldownA
 
 
-def bumerarma(Bumerarma, janela, Mouse, john, velJohnX, velJohnY):
+def bumerarma(Bumerarma, janela, Mouse, john, velJohnX, velJohnY, Summon):
 
     '''
     essa função controla a arma após ser ativada
@@ -92,6 +92,16 @@ def bumerarma(Bumerarma, janela, Mouse, john, velJohnX, velJohnY):
         Bumerarma['contador'] += janela.delta_time()
         Bumerarma['sprite'].update()
         Bumerarma['sprite'].draw()
+
+    if Summon['ativo?']:
+
+        Summon['sprite'].x = john.x + john.width / 2 + 160 * cos(Summon['contador']) - Summon['sprite'].width / 2 + velJohnX * janela.delta_time()
+        Summon['sprite'].y = john.y + john.height / 2 + 160 * sin(Summon['contador']) - Summon['sprite'].height / 2 + velJohnY * janela.delta_time()
+        Summon['contador'] += 3.5 * janela.delta_time()
+        Summon['dano'] = 1.5
+
+        Summon['sprite'].update()
+        Summon['sprite'].draw()
 
 
 def ativaBumerangue(Mouse, Bumerarma, john):
@@ -194,7 +204,7 @@ def renderizarBipper(vetBipper, janela, velJohnX, velJohnY):
             break
 
 
-def colisãoDano(inimigo, tiroB, tiroA, danoB, Bumerarma):
+def colisãoDano(inimigo, tiroB, tiroA, danoB, Bumerarma, Summon):
 
     '''
     Essa função analisa se houve colisão entre um inimigo e algum dos 2 tipos de tiro(vetores): o tiroB se refere à
@@ -212,6 +222,8 @@ def colisãoDano(inimigo, tiroB, tiroA, danoB, Bumerarma):
                 j[4] += 1
         if Bumerarma['sprite'].collided(i[0]):
             i[1] -= Bumerarma['dano']
+        if Summon['sprite'].collided(i[0]):
+            i[1] -= Summon['dano']
 
 
         # se houver colisão com a bipper, o tiro some.

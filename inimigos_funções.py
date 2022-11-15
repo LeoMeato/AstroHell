@@ -51,21 +51,26 @@ def bossFunc(boss, janela, velJohnX, velJohnY, john):
     if boss['spriteAtual'].y > john['John'].y:
         velBoss1 = -500
 
-    if boss['cooldown'] <= 0 and (-0.1 <= (boss['spriteAtual'].y - john['John'].y) <= 0.1) and not boss['dash']:
+    if boss['cooldown'] <= 0 and (-1 <= (boss['spriteAtual'].y - john['John'].y) <= 1) and not boss['dash']:
         boss['dash'] = True
+        boss['atacando'].set_position(boss['spriteAtual'].x - 20, boss['spriteAtual'].y - 50)
+        boss['spriteAtual'] = boss['atacando']
         boss['alvo'] = john['John'].x
 
         if boss['spriteAtual'].x > boss['alvo']:
-            boss['velDash'] = -5000
+            boss['velDash'] = -1800
         else:
-            boss['velDash'] = 5000
+            boss['velDash'] = 1800
 
     if boss['dash']:
         boss['spriteAtual'].x += boss['velDash'] * janela.delta_time()
-        if -50 <= boss['spriteAtual'].x - boss['alvo'] <= 50:
+        if (-50 <= boss['spriteAtual'].x - boss['alvo'] <= 50 and boss['velDash'] > 0) or (-50 <= boss['spriteAtual'].x
+                                                                                           + boss['spriteAtual'].width -
+                                                                                           boss['alvo'] <= 50 and
+                                                                                           boss['velDash'] < 0):
             boss['dash'] = False
-            boss['cooldown'] = 4
-            boss['parado'].set_position(boss['spriteAtual'].x, boss['spriteAtual'].y)
+            boss['cooldown'] = 2
+            boss['parado'].set_position(boss['spriteAtual'].x + 20, boss['spriteAtual'].y + 50)
             boss['spriteAtual'] = boss['parado']
 
     boss['spriteAtual'].x += velJohnX * janela.delta_time()
@@ -78,7 +83,7 @@ def bossFunc(boss, janela, velJohnX, velJohnY, john):
     boss['spriteAtual'].draw()
 
 
-def colisãoDanoBoss(inimigo, tiroB, tiroA, danoB, Bumerarma, john):
+def colisãoDanoBoss(inimigo, tiroB, tiroA, danoB, Bumerarma, john, Summon):
 
     for j in tiroB:
         if inimigo['spriteAtual'].collided(j[0]):
@@ -89,6 +94,8 @@ def colisãoDanoBoss(inimigo, tiroB, tiroA, danoB, Bumerarma, john):
             j[4] += 1
     if Bumerarma['sprite'].collided(inimigo['spriteAtual']):
         inimigo['vida'] -= Bumerarma['dano']
+    if Summon['sprite'].collided(inimigo['spriteAtual']):
+        inimigo['vida'] -= Summon['dano']
 
     for j in range(len(tiroB)):
         if tiroB[j][0].collided(inimigo['spriteAtual']):
