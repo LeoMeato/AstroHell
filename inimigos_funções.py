@@ -83,7 +83,7 @@ def bossFunc(boss, janela, velJohnX, velJohnY, john):
     boss['spriteAtual'].draw()
 
 
-def colisãoDanoBoss(inimigo, tiroB, tiroA, danoB, Bumerarma, john, Summon):
+def colisãoDanoBoss(inimigo, tiroB, tiroA, danoB, Bumerarma, john, Summon, cooldown):
 
     for j in tiroB:
         if inimigo['spriteAtual'].collided(j[0]):
@@ -102,8 +102,11 @@ def colisãoDanoBoss(inimigo, tiroB, tiroA, danoB, Bumerarma, john, Summon):
             tiroB.pop(j)
             break
 
-    if john['John'].collided(inimigo['spriteAtual']):
+    if john['John'].collided(inimigo['spriteAtual']) and cooldown <= 0:
         john['vida'] -= inimigo['dano']
+        cooldown = 1
+
+    return cooldown
 
 
 def morreuInimigo(inimigo, vetPeca, droprate):

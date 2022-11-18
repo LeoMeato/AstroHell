@@ -223,6 +223,7 @@ def jogar(teclado, Mouse, janela, mapa):
     cooldownSpawnZeta = 0
     cooldownDanoJ
     cooldownA = 0
+    cooldownBoss = 0
 
     timerAmber = 0
 
@@ -303,6 +304,9 @@ def jogar(teclado, Mouse, janela, mapa):
     canhao_lateral_2.x = 10
     canhao_lateral_2.y = 200 + 184
 
+    balão = Sprite("Sprites/caixa de texto(1).png")
+    balão.set_position(janela.width/2 - balão.width/2, janela.height - 230)
+
     # fps
 
     soma_fps = 0
@@ -338,6 +342,7 @@ def jogar(teclado, Mouse, janela, mapa):
         cooldownSpawnZeta -= 1.5 * janela.delta_time()
         cooldownDanoJ -= 15 * janela.delta_time()
         cooldownA -= 20 * janela.delta_time()
+        cooldownBoss -= janela.delta_time()
 
         # velocidade de movimento do personagem
 
@@ -439,7 +444,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
         colisãoDano(vetBip, vetBipper, vetAmber, danoBipper, Bumerarma, Summon)
         colisãoDano(vetZeta, vetBipper, vetAmber, danoBipper, Bumerarma, Summon)
-        colisãoDanoBoss(boss, vetBipper, vetAmber, danoBipper, Bumerarma, john, Summon)
+        cooldownBoss = colisãoDanoBoss(boss, vetBipper, vetAmber, danoBipper, Bumerarma, john, Summon, cooldownBoss)
 
         # comportamento dos bips
 
@@ -469,7 +474,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
         # boss
 
-        if tempo_de_jogo > 10*60 and not venceu:
+        if tempo_de_jogo > 15*60+15 and not venceu:
             bossFunc(boss, janela, velJohnX, velJohnY, john)
 
         if boss['vida'] <= 0:
@@ -537,6 +542,9 @@ def jogar(teclado, Mouse, janela, mapa):
         obsInfinitos(posRelativa, janela, vetArvores, vetPedras, john['John'])
 
         # atualizações
+
+        if 15*60 <= tempo_de_jogo <= 15*60+15:
+            balão.draw()
 
         if john['correndo?']:
             john['John'].play()
