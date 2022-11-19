@@ -142,6 +142,8 @@ def jogar(teclado, Mouse, janela, mapa):
 
     vetZeta = []
 
+    vetKaze = []
+
     boss = {'spriteAtual': 0, 'vida': 1200, 'dano': 35, 'dash': False, 'velDash': 2000, 'alvo': 0, 'cooldown': 0, 'parado': Animation("Sprites/boss_parado.png", 9), 'correndo': Animation("Sprites/correndoVetor.png", 6), 'atacando': Animation("Sprites/NightBorneAtaque.png", 12)}
     boss['parado'].set_total_duration(500)
     boss['correndo'].set_total_duration(500)
@@ -178,9 +180,6 @@ def jogar(teclado, Mouse, janela, mapa):
     espelhoObstaculos(vetPedras, 6, janela)
 
     vetPeca = [Sprite("Sprites/peçapequena.png")]
-    ## Tentei criar em um For pra ficar aleatorio, mas tem vezes que nasce em cima da pedra/arvore
-    for i in range(len(vetPeca)):
-        vetPeca[i].set_position((i + 1) * randint(100, 200), (i + 1) * randint(100, 200))
 
     # setup geral
 
@@ -221,6 +220,7 @@ def jogar(teclado, Mouse, janela, mapa):
     cooldownB = 0
     cooldownSpawnBip = 0
     cooldownSpawnZeta = 0
+    cooldownSpawnKaze = 0
     cooldownDanoJ
     cooldownA = 0
     cooldownBoss = 0
@@ -340,6 +340,7 @@ def jogar(teclado, Mouse, janela, mapa):
         cooldownB -= (20 + (nivelBip * 2) ** 1.7) * janela.delta_time()
         cooldownSpawnBip -= 15 * janela.delta_time()
         cooldownSpawnZeta -= 1.5 * janela.delta_time()
+        cooldownSpawnKaze -= 2 * janela.delta_time()
         cooldownDanoJ -= 15 * janela.delta_time()
         cooldownA -= 20 * janela.delta_time()
         cooldownBoss -= janela.delta_time()
@@ -444,6 +445,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
         colisãoDano(vetBip, vetBipper, vetAmber, danoBipper, Bumerarma, Summon)
         colisãoDano(vetZeta, vetBipper, vetAmber, danoBipper, Bumerarma, Summon)
+        colisãoDano(vetKaze, vetBipper, vetAmber, danoBipper, Bumerarma, Summon)
         cooldownBoss = colisãoDanoBoss(boss, vetBipper, vetAmber, danoBipper, Bumerarma, john, Summon, cooldownBoss)
 
         # comportamento dos bips
@@ -467,10 +469,21 @@ def jogar(teclado, Mouse, janela, mapa):
 
         tirosZeta(tiroZeta, velTzeta, velJohnX, velJohnY, janela, john, danoZeta)
 
+        # comportamento dos kazes
+
+        if cooldownSpawnKaze <= 0:
+            if tempo_de_jogo > 0:
+                spawnKaze(vetKaze, janela)
+            cooldownSpawnKaze = 10
+
+        for i in range(len(vetKaze)):
+            kaze(vetKaze[i][0], janela, velJohnX, velJohnY, velBip, john, danoBip, armadura)
+
         # verifica se algum bip está com vida < 0 e mata o que estiver
 
         morreuInimigo(vetBip, vetPeca, 20)
         morreuInimigo(vetZeta, vetPeca, 80)
+        morreuInimigo(vetKaze, vetPeca, 50)
 
         # boss
 

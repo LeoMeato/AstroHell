@@ -1,6 +1,7 @@
 from random import randint
 from outras_funções import areaSpawn
 from PPlay.sprite import *
+from jogar import *
 
 def zeta(Zeta, janela, velJohnX, velJohnY, velZeta, john, tiroZeta):
 
@@ -108,6 +109,26 @@ def colisãoDanoBoss(inimigo, tiroB, tiroA, danoB, Bumerarma, john, Summon, cool
 
     return cooldown
 
+def kaze(Kaze, janela, velJohnX, velJohnY, velKaze, john, danoBip, armadura):
+
+    Kaze.x += velJohnX * janela.delta_time()
+    Kaze.y += velJohnY * janela.delta_time()
+    dx = john['John'].x - Kaze.x
+    dy = john['John'].y - Kaze.y
+    dt = abs(dx) + abs(dy)
+    Kaze.x += velKaze * (dx / dt) * janela.delta_time()
+    Kaze.y += velKaze * (dy / dt) * janela.delta_time()
+  #  Kaze2 = 0
+  #  if Kaze.collided(john['John']):
+  #      Kaze2 = Animation("Sprites/explosão kaze.png", 7)
+  #      Kaze2.set_sequence_time(0,6, 100)
+  #      Kaze2.set_position(Kaze.x - Kaze2.width, Kaze.y - Kaze2.height)
+  #  if Kaze2 != 0:
+  #      Kaze2.play()
+  #      Kaze2.update()
+  #  else:
+    Kaze.draw()
+
 
 def morreuInimigo(inimigo, vetPeca, droprate):
     j = 0
@@ -137,3 +158,10 @@ def spawnZeta(vetZeta, janela):
 
     vetZeta.append([Sprite("Sprites/zeta.png"), 120, 0])
     vetZeta[-1][0].set_position(x, y)
+
+def spawnKaze(vetKaze, janela):
+
+    x, y = areaSpawn(janela)
+
+    vetKaze.append([Sprite("Sprites/kaze2.png"), 75])
+    vetKaze[-1][0].set_position(x, y)
