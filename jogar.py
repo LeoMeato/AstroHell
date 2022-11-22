@@ -579,4 +579,3 @@ def jogar(teclado, Mouse, janela, mapa):
 
         if len(vetAmber) > 0:
             print('{:.2f}'.format(vetAmber[-1][3]))
-
