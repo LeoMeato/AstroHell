@@ -29,7 +29,7 @@ def bip(Bip, janela, velJohnX, velJohnY, velBip, john, danoBip, armadura):
     Bip.draw()
 
 
-def niveisDeArma(mouseApertado, john, Mouse, janela, bipper_lateral, bumerangue_lateral, amber_lateral, canhao_lateral):
+def niveisDeArma(mouseApertado, john, Mouse, bipper_lateral, bumerangue_lateral, amber_lateral):
 
     global nivelBip
     global nivelBumer
@@ -89,25 +89,6 @@ def niveisDeArma(mouseApertado, john, Mouse, janela, bipper_lateral, bumerangue_
         elif nivelBumer == 4 and john['pregos'] >= 45:
             john['pregos'] -= 45
             nivelBumer = 5
-
-    if not mouseApertado and Mouse.is_button_pressed(1) and canhao_lateral.x + canhao_lateral.width - 20\
-            < Mouse.get_position()[0] < canhao_lateral.x + canhao_lateral.width and canhao_lateral.y\
-            + canhao_lateral.height - 20 < Mouse.get_position()[1] < canhao_lateral.y + canhao_lateral.height:
-        if nivelLaser == 0 and john['pregos'] >= 10:
-            john['pregos'] -= 10
-            nivelLaser = 1
-        elif nivelLaser == 1 and john['pregos'] >= 15:
-            john['pregos'] -= 15
-            nivelLaser = 2
-        elif nivelLaser == 2 and john['pregos'] >= 25:
-            john['pregos'] -= 25
-            nivelLaser = 3
-        elif nivelLaser == 3 and john['pregos'] >= 35:
-            john['pregos'] -= 35
-            nivelLaser = 4
-        elif nivelLaser == 4 and john['pregos'] >= 45:
-            john['pregos'] -= 45
-            nivelLaser = 5
 
 
 def jogar(teclado, Mouse, janela, mapa):
@@ -279,12 +260,9 @@ def jogar(teclado, Mouse, janela, mapa):
     bumerangue_lateral = Sprite("Sprites/bumerangue_lateral_desabilitado.png")
     bumerangue_lateral.x = 10
     bumerangue_lateral.y = bipper_lateral.y + bumerangue_lateral.height + 15
-    canhao_lateral = Sprite("Sprites/canhao_lateral_desabilitado.png")
-    canhao_lateral.x = 10
-    canhao_lateral.y = bumerangue_lateral.y + canhao_lateral.height + 15
     amber_lateral = Sprite("Sprites/amber_lateral_desabilitada.png")
     amber_lateral.x = 10
-    amber_lateral.y = canhao_lateral.y + amber_lateral.height + 15
+    amber_lateral.y = bumerangue_lateral.y + bumerangue_lateral.height + 15
     pausa = Sprite("Sprites/pausa.png")
     pausa.x = 10
     pausa.y = 10
@@ -293,16 +271,12 @@ def jogar(teclado, Mouse, janela, mapa):
     pecas_hud.y = 15
 
     amber_lateral_2 = Sprite("Sprites/amber_lateral.png")
-    amber_lateral_2.x = 10
-    amber_lateral_2.y = 215 + 276
+    amber_lateral_2.x = amber_lateral.x
+    amber_lateral_2.y = amber_lateral.y
 
     bumerangue_lateral_2 = Sprite("Sprites/bumerangue_lateral(1).png")
-    bumerangue_lateral_2.x = 10
-    bumerangue_lateral_2.y = 185 + 92
-
-    canhao_lateral_2 = Sprite("Sprites/canhao_lateral.png")
-    canhao_lateral_2.x = 10
-    canhao_lateral_2.y = 200 + 184
+    bumerangue_lateral_2.x = bumerangue_lateral.x
+    bumerangue_lateral_2.y = bumerangue_lateral.y
 
     balão = Sprite("Sprites/caixa de texto(1).png")
     balão.set_position(janela.width/2 - balão.width/2, janela.height - 230)
@@ -331,9 +305,6 @@ def jogar(teclado, Mouse, janela, mapa):
 
         if nivelBumer >= 1:
             bumerangue_lateral = bumerangue_lateral_2
-
-        if nivelLaser >= 1:
-            canhao_lateral = canhao_lateral_2
 
         # cooldowns e timers
 
@@ -417,10 +388,8 @@ def jogar(teclado, Mouse, janela, mapa):
             Arma = 1
         elif teclado.key_pressed('2') and nivelBumer >= 1:
             Arma = 2
-        elif teclado.key_pressed('3') and nivelLaser >= 1:
+        elif teclado.key_pressed('3') and nivelAmber >= 1:
             Arma = 3
-        elif teclado.key_pressed('4') and nivelAmber >= 1:
-            Arma = 4
 
         if Arma == 1:
             # criação de pojeteis da bipper
@@ -428,8 +397,6 @@ def jogar(teclado, Mouse, janela, mapa):
         elif Arma == 2:
             ativaBumerangue(Mouse, Bumerarma, john['John'])
         elif Arma == 3:
-            pass
-        elif Arma == 4:
             if cooldownA <= 0:
                 amberPode, cooldownA = tiroAmber(janela, vetAmber, Mouse, john['John'], velAmber, amberPode, cooldownA)
             if not amberPode:
@@ -494,14 +461,14 @@ def jogar(teclado, Mouse, janela, mapa):
         vida.x = janela.width / 2 - vida.width / 2
         vida.y = janela.height - vida.height - 25
 
-        HUD(janela, john, pecas_hud, bipper_lateral, amber_lateral, bumerangue_lateral, canhao_lateral, vida, pausa,
-            nivelBip, nivelAmber, nivelLaser, nivelBumer)
+        HUD(janela, john, pecas_hud, bipper_lateral, amber_lateral, bumerangue_lateral, vida, pausa,
+            nivelBip, nivelAmber, nivelBumer)
 
         tempo_de_jogo = tempo(janela, tempo_de_jogo)
 
         # niveis
 
-        niveisDeArma(mouseApertado, john, Mouse, janela, bipper_lateral, bumerangue_lateral, amber_lateral, canhao_lateral)
+        niveisDeArma(mouseApertado, john, Mouse, bipper_lateral, bumerangue_lateral, amber_lateral)
 
         # sair
 
