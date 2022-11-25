@@ -441,19 +441,19 @@ def jogar(teclado, Mouse, janela, mapa):
 
         # boss
 
-        if tempo_de_jogo > 15*60+15 and not venceu:
+        if tempo_de_jogo > 10*60+15 and not venceu:
             bossFunc(boss, janela, velJohnX, velJohnY, john)
 
         if boss['vida'] <= 0:
             venceu = True
 
-        # renderizar tiros
+        # atualizar tiros
 
-        renderizarBipper(vetBipper, janela, velJohnX, velJohnY)
+        atualizaBipper(vetBipper, janela, velJohnX, velJohnY)
         colisãoTiroCenario(vetBipper, vetArvores)
         colisãoTiroCenario(vetBipper, vetPedras)
 
-        renderizaAmber(vetAmber, velJohnX, velJohnY, janela, nivelAmber)
+        atualizaAmber(vetAmber, velJohnX, velJohnY, janela, nivelAmber)
         bumerarma(Bumerarma, janela, Mouse, john['John'], velJohnX, velJohnY, Summon)
 
         # HUD
@@ -510,7 +510,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
         # atualizações
 
-        if 15*60 <= tempo_de_jogo <= 15*60+15:
+        if 10*60 <= tempo_de_jogo <= 10*60+15:
             balão.draw()
 
         if john['correndo?']:

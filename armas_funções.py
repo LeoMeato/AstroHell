@@ -167,7 +167,7 @@ def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseAper
     return vetAmber[-1][5], timerAmber, aumentou
 
 
-def renderizaAmber(vetAmber, velJohnX, velJohnY, janela, nivel):
+def atualizaAmber(vetAmber, velJohnX, velJohnY, janela, nivel):
 
     '''
     Essa função define o movimeneto dos projeteis amber após serem atirados, mas não são anulados enquanto ainda estão
@@ -186,7 +186,7 @@ def renderizaAmber(vetAmber, velJohnX, velJohnY, janela, nivel):
             break
 
 
-def renderizarBipper(vetBipper, janela, velJohnX, velJohnY):
+def atualizaBipper(vetBipper, janela, velJohnX, velJohnY):
 
     '''
     Essa função define o comportamento dos projeteis bipper após serem criados.
