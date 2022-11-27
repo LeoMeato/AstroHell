@@ -205,7 +205,7 @@ def jogar(teclado, Mouse, janela, mapa):
     cooldownDanoJ
     cooldownA = 0
     cooldownBoss = 0
-
+    timerExpKaze = 0
     timerAmber = 0
 
     amberPiercing = 0
@@ -311,7 +311,7 @@ def jogar(teclado, Mouse, janela, mapa):
         cooldownB -= (20 + (nivelBip * 2) ** 1.7) * janela.delta_time()
         cooldownSpawnBip -= 15 * janela.delta_time()
         cooldownSpawnZeta -= 1.5 * janela.delta_time()
-        cooldownSpawnKaze -= 2 * janela.delta_time()
+        cooldownSpawnKaze -= 5 * janela.delta_time()
         cooldownDanoJ -= 15 * janela.delta_time()
         cooldownA -= 20 * janela.delta_time()
         cooldownBoss -= janela.delta_time()
@@ -441,10 +441,12 @@ def jogar(teclado, Mouse, janela, mapa):
         if cooldownSpawnKaze <= 0:
             if tempo_de_jogo > 0:
                 spawnKaze(vetKaze, janela)
-            cooldownSpawnKaze = 10
+            cooldownSpawnKaze = 3
 
         for i in range(len(vetKaze)):
-            kaze(vetKaze[i][0], janela, velJohnX, velJohnY, velBip, john, danoBip, armadura)
+            explodiu = kaze(vetKaze[i][0],vetKaze[i][1], vetKaze[i][2], vetKaze, i, janela, velJohnX, velJohnY, velBip, john, danoBip, armadura)
+            if explodiu:
+                break
 
         # verifica se algum bip está com vida < 0 e mata o que estiver
 

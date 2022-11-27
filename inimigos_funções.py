@@ -109,7 +109,7 @@ def colisãoDanoBoss(inimigo, tiroB, tiroA, danoB, Bumerarma, john, Summon, cool
 
     return cooldown
 
-def kaze(Kaze, janela, velJohnX, velJohnY, velKaze, john, danoBip, armadura):
+def kaze(Kaze,timerExp, tocou, vetKaze, posicao, janela, velJohnX, velJohnY, velKaze, john, danoBip, armadura):
 
     Kaze.x += velJohnX * janela.delta_time()
     Kaze.y += velJohnY * janela.delta_time()
@@ -118,16 +118,26 @@ def kaze(Kaze, janela, velJohnX, velJohnY, velKaze, john, danoBip, armadura):
     dt = abs(dx) + abs(dy)
     Kaze.x += velKaze * (dx / dt) * janela.delta_time()
     Kaze.y += velKaze * (dy / dt) * janela.delta_time()
-  #  Kaze2 = 0
-  #  if Kaze.collided(john['John']):
-  #      Kaze2 = Animation("Sprites/explosão kaze.png", 7)
-  #      Kaze2.set_sequence_time(0,6, 100)
-  #      Kaze2.set_position(Kaze.x - Kaze2.width, Kaze.y - Kaze2.height)
-  #  if Kaze2 != 0:
-  #      Kaze2.play()
-  #      Kaze2.update()
-  #  else:
-    Kaze.draw()
+    RetJohn = Sprite("Sprites/vazio.png")
+    RetJohn.x = janela.width/2 - RetJohn.width/2
+    RetJohn.y = janela.height/2 - RetJohn.height/2
+    if Kaze.collided(RetJohn) and not tocou:
+        tocou = 1
+        timerExp -= 0.1
+    if timerExp <= 0:
+        vetKaze.pop(posicao)
+        return 1
+    if tocou and timerExp != 3:
+        valor = sin(pygame.time.get_ticks())
+        if valor >= 0:
+            Kaze.draw()
+            timerExp -= 9*janela.delta_time()
+        else:
+            timerExp -= 9*janela.delta_time()
+    else:
+        Kaze.draw()
+    print(timerExp)
+    return 0
 
 
 def morreuInimigo(inimigo, vetPeca, droprate):
@@ -163,5 +173,6 @@ def spawnKaze(vetKaze, janela):
 
     x, y = areaSpawn(janela)
 
-    vetKaze.append([Sprite("Sprites/kaze2.png"), 75])
+    vetKaze.append([Sprite("Sprites/kaze2.png"), 3, 0])
     vetKaze[-1][0].set_position(x, y)
+    print('pa')
