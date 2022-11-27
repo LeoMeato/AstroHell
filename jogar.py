@@ -310,8 +310,8 @@ def jogar(teclado, Mouse, janela, mapa):
 
         cooldownB -= (20 + (nivelBip * 2) ** 1.7) * janela.delta_time()
         cooldownSpawnBip -= 15 * janela.delta_time()
-        cooldownSpawnZeta -= 1.5 * janela.delta_time()
-        cooldownSpawnKaze -= 5 * janela.delta_time()
+        cooldownSpawnZeta -= 15 * janela.delta_time()
+        cooldownSpawnKaze -= 15 * janela.delta_time()
         cooldownDanoJ -= 15 * janela.delta_time()
         cooldownA -= 20 * janela.delta_time()
         cooldownBoss -= janela.delta_time()
@@ -429,7 +429,7 @@ def jogar(teclado, Mouse, janela, mapa):
         if cooldownSpawnZeta <= 0:
             if tempo_de_jogo > 0:
                 spawnZeta(vetZeta, janela)
-            cooldownSpawnZeta = 25
+            cooldownSpawnZeta = 250
 
         for i in range(len(vetZeta)):
             zeta(vetZeta[i], janela, velJohnX, velJohnY, velZeta, john, tiroZeta)
@@ -441,10 +441,10 @@ def jogar(teclado, Mouse, janela, mapa):
         if cooldownSpawnKaze <= 0:
             if tempo_de_jogo > 0:
                 spawnKaze(vetKaze, janela)
-            cooldownSpawnKaze = 3
+            cooldownSpawnKaze = 45
 
         for i in range(len(vetKaze)):
-            explodiu = kaze(vetKaze[i][0],vetKaze[i][1], vetKaze[i][2], vetKaze, i, janela, velJohnX, velJohnY, velBip, john, danoBip, armadura)
+            explodiu = kaze(vetKaze[i][0],vetKaze[i][2], vetKaze[i][3], vetKaze, i, janela, velJohnX, velJohnY, velBip, john, danoBip, armadura)
             if explodiu:
                 break
 

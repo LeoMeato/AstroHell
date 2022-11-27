@@ -136,7 +136,6 @@ def kaze(Kaze,timerExp, tocou, vetKaze, posicao, janela, velJohnX, velJohnY, vel
             timerExp -= 9*janela.delta_time()
     else:
         Kaze.draw()
-    print(timerExp)
     return 0
 
 
@@ -173,6 +172,6 @@ def spawnKaze(vetKaze, janela):
 
     x, y = areaSpawn(janela)
 
-    vetKaze.append([Sprite("Sprites/kaze2.png"), 3, 0])
+    vetKaze.append([Sprite("Sprites/kaze2.png"), 15, 3, 0])
     vetKaze[-1][0].set_position(x, y)
     print('pa')
