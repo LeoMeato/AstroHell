@@ -60,7 +60,7 @@ def tiroAmber(janela, vetAmber, Mouse, john, velAmber, amberPode, cooldownA):
     return amberPode, cooldownA
 
 
-def bumerarma(Bumerarma, janela, Mouse, john, velJohnX, velJohnY, Summon):
+def bumerarma(Bumerarma, janela, Mouse, john, velJohnX, velJohnY, Summon, nivelBumer):
 
     '''
     essa função controla a arma após ser ativada
@@ -86,7 +86,16 @@ def bumerarma(Bumerarma, janela, Mouse, john, velJohnX, velJohnY, Summon):
                 Bumerarma['dano'] = 0
 
         #atualizações gerais
-        Bumerarma['dano'] = 0.5
+        if nivelBumer == 1:
+            Bumerarma['dano'] = 0.5
+        elif nivelBumer == 2:
+            Bumerarma['dano'] = 0.7
+        elif nivelBumer == 3:
+            Bumerarma['dano'] = 0.9
+        elif nivelBumer == 4:
+            Bumerarma['dano'] = 1.1
+        elif nivelBumer == 5:
+            Bumerarma['dano'] = 1.3
         Bumerarma['sprite'].x += (velJohnX + Bumerarma['dx'] * Bumerarma['vel']) * janela.delta_time()
         Bumerarma['sprite'].y += (velJohnY + Bumerarma['dy'] * Bumerarma['vel']) * janela.delta_time()
         Bumerarma['contador'] += janela.delta_time()
@@ -220,7 +229,7 @@ def colisãoDano(inimigo, tiroB, tiroA, danoB, Bumerarma, Summon):
             if i[0]. collided(j[0]) and j[5]:
                 i[1] -= j[3]
                 j[4] += 1
-        if Bumerarma['sprite'].collided(i[0]):
+        if Bumerarma['sprite'].collided(i[0]) and Bumerarma['ativo?']:
             i[1] -= Bumerarma['dano']
         if Summon['sprite'].collided(i[0]):
             i[1] -= Summon['dano']

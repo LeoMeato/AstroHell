@@ -306,6 +306,19 @@ def jogar(teclado, Mouse, janela, mapa):
         if nivelBumer >= 1:
             bumerangue_lateral = bumerangue_lateral_2
 
+        '''if nivelBumer == 3:
+            Bumerarma['sprite'] = Animation("Sprites/Bumerarma_animação(3).png", 3)
+            Bumerarma['sprite'].set_total_duration(150)
+            Bumerarma['sprite'].set_position(john['John'].x, john['John'].y)'''
+
+        if nivelBumer == 3:
+            Bumerarma['vel'] = 500
+            Bumerarma['tempo'] = 1.4
+        if nivelBumer == 5:
+            Bumerarma['vel'] = 400
+            Bumerarma['tempo'] = 1.8
+
+
         # cooldowns e timers
 
         cooldownB -= (20 + (nivelBip * 2) ** 1.7) * janela.delta_time()
@@ -469,7 +482,7 @@ def jogar(teclado, Mouse, janela, mapa):
         colisãoTiroCenario(vetBipper, vetPedras)
 
         atualizaAmber(vetAmber, velJohnX, velJohnY, janela, nivelAmber)
-        bumerarma(Bumerarma, janela, Mouse, john['John'], velJohnX, velJohnY, Summon)
+        bumerarma(Bumerarma, janela, Mouse, john['John'], velJohnX, velJohnY, Summon, nivelBumer)
 
         # HUD
         vida = lista_vida[(ceil(john['vida'] / 10) - 1)]
