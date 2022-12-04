@@ -314,11 +314,11 @@ def jogar(teclado, Mouse, janela, mapa):
             Bumerarma['sprite'].set_position(john['John'].x, john['John'].y)'''
 
         if nivelBumer == 3:
-            Bumerarma['vel'] = 500
-            Bumerarma['tempo'] = 1.4
+            Bumerarma['vel'] = 800
+            Bumerarma['tempo'] = 0.8
         if nivelBumer == 5:
-            Bumerarma['vel'] = 400
-            Bumerarma['tempo'] = 1.8
+            Bumerarma['vel'] = 1000
+            Bumerarma['tempo'] = 0.7
 
 
         # cooldowns e timers

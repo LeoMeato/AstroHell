@@ -91,11 +91,11 @@ def bumerarma(Bumerarma, janela, Mouse, john, velJohnX, velJohnY, Summon, nivelB
         elif nivelBumer == 2:
             Bumerarma['dano'] = 0.7
         elif nivelBumer == 3:
-            Bumerarma['dano'] = 0.9
+            Bumerarma['dano'] = 1.5
         elif nivelBumer == 4:
-            Bumerarma['dano'] = 1.1
+            Bumerarma['dano'] = 1.7
         elif nivelBumer == 5:
-            Bumerarma['dano'] = 1.3
+            Bumerarma['dano'] = 2.5
         Bumerarma['sprite'].x += (velJohnX + Bumerarma['dx'] * Bumerarma['vel']) * janela.delta_time()
         Bumerarma['sprite'].y += (velJohnY + Bumerarma['dy'] * Bumerarma['vel']) * janela.delta_time()
         Bumerarma['contador'] += janela.delta_time()
