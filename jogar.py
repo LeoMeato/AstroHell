@@ -245,6 +245,8 @@ def jogar(teclado, Mouse, janela, mapa):
     # vida.x = janela.width / 2 - vida.width / 2
     # vida.y = janela.height - vida.height - 25
 
+    vitoria = Sprite("Sprites/Venceu.png")
+
     # vida
     lista_vida = [Sprite("Sprites/1vida.png"), Sprite("Sprites/2vidas.png"),
                   Sprite("Sprites/3vidas.png"), Sprite("Sprites/4vidas.png"),
@@ -472,8 +474,22 @@ def jogar(teclado, Mouse, janela, mapa):
         if tempo_de_jogo > 10*60+15 and not venceu:
             bossFunc(boss, janela, velJohnX, velJohnY, john)
 
-        if boss['vida'] <= 0:
+        if boss['vida'] <= 0 and not venceu:
             venceu = True
+            tempoVitoria = tempo_de_jogo
+
+        if venceu and tempo_de_jogo > tempoVitoria + 3:
+            while True:
+                janela.set_background_color([0, 0, 0])
+                vitoria.draw()
+                janela.draw_text('Aperte ESC para voltar ao menu principal', janela.width - 550, janela.height - 30, 30,
+                                 (255, 255, 255), "Candara")
+                janela.update()
+                if teclado.key_pressed('ESC'):
+                    break
+            break
+
+
 
         # atualizar tiros
 
