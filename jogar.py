@@ -114,6 +114,8 @@ def jogar(teclado, Mouse, janela, mapa):
 
     posRelativa = [john['John'].x, john['John'].y]
 
+    velJ = 300
+
     # setup inimigos
 
     vetBip = [[Sprite("Sprites/bip.png"), 30], [Sprite("Sprites/bip.png"), 30], [Sprite("Sprites/bip.png"), 30]]
@@ -291,6 +293,11 @@ def jogar(teclado, Mouse, janela, mapa):
 
     while True:
 
+        '''if Mouse.is_button_pressed(3):
+            velJ = 200
+        else:
+            velJ = 40'''
+
         # mudanças de mecânicas atreladas aos niveis
 
         if nivelBip == 2:
@@ -337,7 +344,7 @@ def jogar(teclado, Mouse, janela, mapa):
         velJohnY = 0
 
         if teclado.key_pressed('W'):
-            velJohnY = 400
+            velJohnY = velJ
 
             if john['direcao'] == 1:
                 john['John'] = johnCorrendo
@@ -346,12 +353,12 @@ def jogar(teclado, Mouse, janela, mapa):
 
             john['correndo?'] = True
         if teclado.key_pressed('A'):
-            velJohnX = 400
+            velJohnX = velJ
             john['John'] = johnCorrendoInv
             john['correndo?'] = True
             john['direcao'] = 2
         if teclado.key_pressed('S'):
-            velJohnY = -400
+            velJohnY = -velJ
 
             if john['direcao'] == 1:
                 john['John'] = johnCorrendo
@@ -360,7 +367,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
             john['correndo?'] = True
         if teclado.key_pressed('D'):
-            velJohnX = -400
+            velJohnX = -velJ
             john['John'] = johnCorrendo
             john['correndo?'] = True
             john['direcao'] = 1
