@@ -140,12 +140,12 @@ def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseAper
 
     if nivel >= 3:
         tmp = 5
-        if timerAmber >= 5:
+        if timerAmber >= 2.5:
             raio = 50
 
     if nivel == 5:
         tmp = 7
-        if timerAmber >= 7:
+        if timerAmber >= 4:
             raio = 70
 
     if timerAmber < tmp:
@@ -158,13 +158,13 @@ def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseAper
     vetAmber[-1][1] = dx / dt * velAmber
     vetAmber[-1][2] = dy / dt * velAmber
     angulo = atan2(dy, dx)
-    if timerAmber >= 3 and not aumentou:
+    if timerAmber >= 1 and not aumentou:
         vetAmber[-1][0] = Sprite("Sprites/amberProjetil-grande.png")
         vetAmber[-1][3] += 0.7
         aumentou = True
-    if timerAmber >= 5 and nivel >= 3:
+    if timerAmber >= 2.5 and nivel >= 3:
         vetAmber[-1][0] = Sprite("Sprites/Amber_Gigante.png")
-    if timerAmber >= 7 and nivel == 5:
+    if timerAmber >= 4 and nivel == 5:
         vetAmber[-1][0] = Sprite("Sprites/Amber_Gigantesca.png")
     vetAmber[-1][0].set_position(janela.width / 2 - vetAmber[-1][0].width / 2 + raio * cos(angulo), janela.height / 2 - vetAmber[-1][0].height / 2 + raio * sin(angulo))
     #vetAmber[-1][0].draw()

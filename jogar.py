@@ -45,49 +45,49 @@ def niveisDeArma(mouseApertado, john, Mouse, bipper_lateral, bumerangue_lateral,
         elif nivelBip == 2 and john['pregos'] >= 15:
             john['pregos'] -= 15
             nivelBip = 3
-        elif nivelBip == 3 and john['pregos'] >= 20:
-            john['pregos'] -= 20
+        elif nivelBip == 3 and john['pregos'] >= 15:
+            john['pregos'] -= 25
             nivelBip = 4
-        elif nivelBip == 4 and john['pregos'] >= 30:
-            john['pregos'] -= 30
+        elif nivelBip == 4 and john['pregos'] >= 25:
+            john['pregos'] -= 35
             nivelBip = 5
 
     if not mouseApertado and Mouse.is_button_pressed(1) and amber_lateral.x + amber_lateral.width - 20\
             < Mouse.get_position()[0] < amber_lateral.x + amber_lateral.width and amber_lateral.y\
             + amber_lateral.height - 20 < Mouse.get_position()[1] < amber_lateral.y + amber_lateral.height:
-        if nivelAmber == 0 and john['pregos'] >= 10:
-            john['pregos'] -= 10
+        if nivelAmber == 0 and john['pregos'] >= 5:
+            john['pregos'] -= 5
             nivelAmber = 1
-        elif nivelAmber == 1 and john['pregos'] >= 15:
-            john['pregos'] -= 15
+        elif nivelAmber == 1 and john['pregos'] >= 10:
+            john['pregos'] -= 10
             nivelAmber = 2
-        elif nivelAmber == 2 and john['pregos'] >= 25:
-            john['pregos'] -= 25
+        elif nivelAmber == 2 and john['pregos'] >= 15:
+            john['pregos'] -= 15
             nivelAmber = 3
-        elif nivelAmber == 3 and john['pregos'] >= 35:
-            john['pregos'] -= 35
+        elif nivelAmber == 3 and john['pregos'] >= 25:
+            john['pregos'] -= 20
             nivelAmber = 4
-        elif nivelAmber == 4 and john['pregos'] >= 45:
-            john['pregos'] -= 45
+        elif nivelAmber == 4 and john['pregos'] >= 35:
+            john['pregos'] -= 30
             nivelAmber = 5
 
     if not mouseApertado and Mouse.is_button_pressed(1) and bumerangue_lateral.x + bumerangue_lateral.width - 20\
             < Mouse.get_position()[0] < bumerangue_lateral.x + bumerangue_lateral.width and bumerangue_lateral.y\
             + bumerangue_lateral.height - 20 < Mouse.get_position()[1] < bumerangue_lateral.y + bumerangue_lateral.height:
-        if nivelBumer == 0 and john['pregos'] >= 10:
-            john['pregos'] -= 10
+        if nivelBumer == 0 and john['pregos'] >= 5:
+            john['pregos'] -= 5
             nivelBumer = 1
-        elif nivelBumer == 1 and john['pregos'] >= 15:
-            john['pregos'] -= 15
+        elif nivelBumer == 1 and john['pregos'] >= 10:
+            john['pregos'] -= 10
             nivelBumer = 2
-        elif nivelBumer == 2 and john['pregos'] >= 25:
-            john['pregos'] -= 25
+        elif nivelBumer == 2 and john['pregos'] >= 15:
+            john['pregos'] -= 15
             nivelBumer = 3
-        elif nivelBumer == 3 and john['pregos'] >= 35:
-            john['pregos'] -= 35
+        elif nivelBumer == 3 and john['pregos'] >= 25:
+            john['pregos'] -= 20
             nivelBumer = 4
-        elif nivelBumer == 4 and john['pregos'] >= 45:
-            john['pregos'] -= 45
+        elif nivelBumer == 4 and john['pregos'] >= 35:
+            john['pregos'] -= 35
             nivelBumer = 5
 
 
@@ -95,7 +95,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
     # setup player
 
-    john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 90, 'pregos': 500, 'correndo?': False, 'direcao': 1}
+    john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 90, 'pregos': 0, 'correndo?': False, 'direcao': 1}
     john['John'].set_position(janela.width / 2 - john['John'].width / 2, janela.height / 2 - john['John'].height / 2)
 
     johnParado = Sprite("Sprites/Astronauta(3).png")
@@ -472,9 +472,9 @@ def jogar(teclado, Mouse, janela, mapa):
 
         # verifica se algum bip está com vida < 0 e mata o que estiver
 
-        morreuInimigo(vetBip, vetPeca, 20)
-        morreuInimigo(vetZeta, vetPeca, 80)
-        morreuInimigo(vetKaze, vetPeca, 50)
+        morreuInimigo(vetBip, vetPeca, 50)
+        morreuInimigo(vetZeta, vetPeca, 100)
+        morreuInimigo(vetKaze, vetPeca, 70)
 
         # boss
 
