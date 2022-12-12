@@ -45,10 +45,10 @@ def niveisDeArma(mouseApertado, john, Mouse, bipper_lateral, bumerangue_lateral,
         elif nivelBip == 2 and john['pregos'] >= 15:
             john['pregos'] -= 15
             nivelBip = 3
-        elif nivelBip == 3 and john['pregos'] >= 15:
+        elif nivelBip == 3 and john['pregos'] >= 25:
             john['pregos'] -= 25
             nivelBip = 4
-        elif nivelBip == 4 and john['pregos'] >= 25:
+        elif nivelBip == 4 and john['pregos'] >= 35:
             john['pregos'] -= 35
             nivelBip = 5
 
@@ -64,10 +64,10 @@ def niveisDeArma(mouseApertado, john, Mouse, bipper_lateral, bumerangue_lateral,
         elif nivelAmber == 2 and john['pregos'] >= 15:
             john['pregos'] -= 15
             nivelAmber = 3
-        elif nivelAmber == 3 and john['pregos'] >= 25:
+        elif nivelAmber == 3 and john['pregos'] >= 20:
             john['pregos'] -= 20
             nivelAmber = 4
-        elif nivelAmber == 4 and john['pregos'] >= 35:
+        elif nivelAmber == 4 and john['pregos'] >= 30:
             john['pregos'] -= 30
             nivelAmber = 5
 
@@ -83,11 +83,11 @@ def niveisDeArma(mouseApertado, john, Mouse, bipper_lateral, bumerangue_lateral,
         elif nivelBumer == 2 and john['pregos'] >= 15:
             john['pregos'] -= 15
             nivelBumer = 3
-        elif nivelBumer == 3 and john['pregos'] >= 25:
+        elif nivelBumer == 3 and john['pregos'] >= 20:
             john['pregos'] -= 20
             nivelBumer = 4
-        elif nivelBumer == 4 and john['pregos'] >= 35:
-            john['pregos'] -= 35
+        elif nivelBumer == 4 and john['pregos'] >= 30:
+            john['pregos'] -= 30
             nivelBumer = 5
 
 
