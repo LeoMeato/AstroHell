@@ -114,7 +114,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
     posRelativa = [john['John'].x, john['John'].y]
 
-    velJ = 300
+    velJ = 400
 
     # setup inimigos
 
@@ -127,7 +127,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
     vetKaze = []
 
-    boss = {'spriteAtual': 0, 'vida': 1200, 'dano': 35, 'dash': False, 'velDash': 2000, 'alvo': 0, 'cooldown': 0, 'parado': Animation("Sprites/boss_parado.png", 9), 'correndo': Animation("Sprites/correndoVetor.png", 6), 'atacando': Animation("Sprites/NightBorneAtaque.png", 12)}
+    boss = {'spriteAtual': 0, 'vida': 1200, 'dano': 35, 'dash': False, 'velDash': 1500, 'alvo': 0, 'cooldown': 0, 'parado': Animation("Sprites/boss_parado.png", 9), 'correndo': Animation("Sprites/correndoVetor.png", 6), 'atacando': Animation("Sprites/NightBorneAtaque.png", 12)}
     boss['parado'].set_total_duration(500)
     boss['correndo'].set_total_duration(500)
     boss['correndo'].set_position(100, 100)
@@ -160,7 +160,7 @@ def jogar(teclado, Mouse, janela, mapa):
     vetPedras[4].set_position(500, 500)
     vetPedras[5].set_position(900, 100)
 
-    espelhoObstaculos(vetPedras, 6, janela)
+    espelhoObstaculos(vetPedras, 6, janela) # faz com que os obstáculos sejam infinitos
 
     vetPeca = [Sprite("Sprites/peçapequena.png")]
 
@@ -183,8 +183,6 @@ def jogar(teclado, Mouse, janela, mapa):
     nivelAmber = 0
     nivelBumer = 0
     nivelLaser = 0
-
-    armadura = 1
 
     gameover = False
 
