@@ -75,6 +75,7 @@ def menu_armas(tempo, janela):
         retomar.draw()
         janela.draw_text("Tempo Decorrido", janela.width/2 - 150, 50 , 42, (255, 255, 255), "Candara")
         janela.draw_text(str(int(tempo_min)) + ":" + str(format(int(tempo_seg), '02d')), janela.width/2 - 42, 92 , 42, (255, 255, 255), "Candara")
+        janela.draw_text("Clicar no '+', enquanto no Manual, não dá upgrade na arma.", 30, janela.height - 40, 20, (210,210,210), "Candara")
         if teclado.key_pressed("ESC"):
             print("a")
         if mouse.is_over_area((retomar.x, retomar.y), (retomar.x+retomar.width, retomar.y+retomar.height)) and mouse.is_button_pressed(1):
