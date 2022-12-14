@@ -1,4 +1,6 @@
 from PPlay.sprite import *
+from PPlay.window import *
+
 
 
 def menu(BotaoJogar, BotaoConfiguraçoes, BotaoSair, Logo, Mouse, janela):
@@ -52,4 +54,29 @@ def menupausa(tempo, janela):
             return 1
         if mouse.is_over_area((sair.x, sair.y), (sair.x + sair.width, sair.y + sair.height)) and mouse.is_button_pressed(1):
             return 2
+        janela.update()
+
+
+def menu_armas(tempo, janela):
+    mouse = janela.get_mouse()
+    teclado = janela.get_keyboard()
+    retomar = Sprite("Sprites/retomar_arma.png")
+    retomar.x = janela.width - retomar.width - 90
+    retomar.y = 40
+    mapa = Sprite("Sprites/fundo_armas.png")
+    astrohell = Sprite("Sprites/astrohell_menu.png")
+    astrohell.x = 30
+    astrohell.y = 30
+    tempo_min = int(tempo/60)
+    tempo_seg = tempo - (tempo_min*60)
+    while True:
+        mapa.draw()
+        astrohell.draw()
+        retomar.draw()
+        janela.draw_text("Tempo Decorrido", janela.width/2 - 150, 50 , 42, (255, 255, 255), "Candara")
+        janela.draw_text(str(int(tempo_min)) + ":" + str(format(int(tempo_seg), '02d')), janela.width/2 - 42, 92 , 42, (255, 255, 255), "Candara")
+        if teclado.key_pressed("ESC"):
+            print("a")
+        if mouse.is_over_area((retomar.x, retomar.y), (retomar.x+retomar.width, retomar.y+retomar.height)) and mouse.is_button_pressed(1):
+            break
         janela.update()

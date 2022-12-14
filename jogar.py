@@ -93,6 +93,19 @@ def niveisDeArma(mouseApertado, john, Mouse, bipper_lateral, bumerangue_lateral,
 
 def jogar(teclado, Mouse, janela, mapa):
 
+    while True:
+        mapa.draw()
+        janela.draw_text("Instruções Básicas", janela.width/2 - 150, 50 , 42, (255, 255, 255), "Candara")
+        janela.draw_text("Movimentação  -  W  A  S  D  (Cima, Esquerda, Baixo e Direita)", 50, 150, 42, (255, 255, 255), "Candara")
+        janela.draw_text("Atirar  -  Botão Esquerdo do Mouse", 50, 250, 42, (255, 255, 255), "Candara")
+        janela.draw_text("Manual das Armas  -  G", 50, 350, 42, (255, 255, 255), "Candara")
+        janela.draw_text("Pressione ESPAÇO para continuar", janela.width/2 - 300, 650, 42, (255,255,255), "Candara")
+        janela.draw_text("Mate inimigos, colete peças metálicas e fortaleça suas armas!!!", 50, 500, 35, (200,200,200), "Candara")
+        janela.draw_text("Clique no '+' no retrato da arma quando possuir peças para fortalece-la!", 50, 550, 35, (200, 200, 200), "Candara")
+        if teclado.key_pressed("SPACE"):
+            break
+        janela.update()
+
     # setup player
 
     john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 90, 'pregos': 0, 'correndo?': False, 'direcao': 1}
@@ -527,6 +540,8 @@ def jogar(teclado, Mouse, janela, mapa):
             res = menupausa(tempo_de_jogo, janela)
             if res == 1 or res == 2:
                 break
+        if teclado.key_pressed('G'):
+            menu_armas(tempo_de_jogo, janela)
 
         # game over
 

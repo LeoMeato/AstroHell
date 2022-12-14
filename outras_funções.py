@@ -19,6 +19,8 @@ def HUD(janela, john, pecas_hud, bipper_lateral, amber_lateral, bumerangue_later
     janela.draw_text('HP: {}'.format(john['vida']), vida.x + vida.width / 2 - 40, vida.y - 30, 30, (255, 255, 255),
                      "Candara")
 
+    janela.draw_text("Manual das Armas [G]", 130, 20, 25, (255,255,255), "Candara")
+
     pausa.draw()
     pecas_hud.draw()
     amber_lateral.draw()
