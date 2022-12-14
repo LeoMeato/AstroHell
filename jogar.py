@@ -266,9 +266,6 @@ def jogar(teclado, Mouse, janela, mapa):
                   Sprite("Sprites/3vidas.png"), Sprite("Sprites/4vidas.png"),
                   Sprite("Sprites/5vidas.png"), Sprite("Sprites/6vidas.png"), Sprite("Sprites/7vidas.png"),
                   Sprite("Sprites/8vidas.png"), Sprite("Sprites/9vidas.png")]
-    vida = lista_vida[(int(john['vida'] / 10)-2)]
-    vida.x = janela.width / 2 - vida.width / 2
-    vida.y = janela.height - vida.height - 25
 
     bipper_lateral = Sprite("Sprites/bipper_lateral.png")
     bipper_lateral.x = 10
@@ -520,9 +517,15 @@ def jogar(teclado, Mouse, janela, mapa):
         bumerarma(Bumerarma, janela, Mouse, john['John'], velJohnX, velJohnY, Summon, nivelBumer)
 
         # HUD
-        vida = lista_vida[(ceil(john['vida'] / 10) - 1)]
-        vida.x = janela.width / 2 - vida.width / 2
-        vida.y = janela.height - vida.height - 25
+
+        if john['vida'] > 90:    # para testes
+            vida = lista_vida[3]
+            vida.x = janela.width / 2 - vida.width / 2
+            vida.y = janela.height - vida.height - 25
+        if john['vida'] <= 90:
+            vida = lista_vida[(ceil(john['vida'] / 10) - 1)]
+            vida.x = janela.width / 2 - vida.width / 2
+            vida.y = janela.height - vida.height - 25
 
         HUD(janela, john, pecas_hud, bipper_lateral, amber_lateral, bumerangue_lateral, vida, pausa,
             nivelBip, nivelAmber, nivelBumer)

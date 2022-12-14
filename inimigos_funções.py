@@ -174,4 +174,11 @@ def spawnKaze(vetKaze, janela):
 
     vetKaze.append([Sprite("Sprites/kaze2.png"), 15, 3, 0])
     vetKaze[-1][0].set_position(x, y)
-    print('pa')
+
+def colisao_inimigo_cenario(vetInimigo, vetArvore, vetPedra, velinix, veliniy, janela):
+    for i in range(len(vetInimigo)):
+        for n in range(len(vetArvore)):
+            colidiu = 0
+            if vetInimigo[i][0].collided(vetArvore[n]):
+                colidiu = 1
+     #       if colidiu and vetInimigo[i] + 3 >
