@@ -1,4 +1,5 @@
 from random import randint
+from PPlay.sound import *
 
 
 def HUD(janela, john, pecas_hud, bipper_lateral, amber_lateral, bumerangue_lateral, vida, pausa,
@@ -116,8 +117,11 @@ def peças(vetPeca, john, velJohnX, velJohnY, janela):
         vetPeca[i].x += velJohnX * janela.delta_time()
         vetPeca[i].y += velJohnY * janela.delta_time()
         if vetPeca[i].collided(john['John']):
+            som = Sound("Sons/som_peça.mp3")
+            som.set_volume(7)
             john['pregos'] += 1
             vetPeca.pop(i)
+            som.play()
             break
 
 

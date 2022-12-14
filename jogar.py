@@ -95,20 +95,21 @@ def jogar(teclado, Mouse, janela, mapa):
 
     while True:
         mapa.draw()
-        janela.draw_text("Instruções Básicas", janela.width/2 - 150, 50 , 42, (255, 255, 255), "Candara")
+        janela.draw_text("Instruções Básicas", janela.width/2 - 220, 40 , 55, (255, 255, 255), "Candara")
         janela.draw_text("Movimentação  -  W  A  S  D  (Cima, Esquerda, Baixo e Direita)", 50, 150, 42, (255, 255, 255), "Candara")
         janela.draw_text("Atirar  -  Botão Esquerdo do Mouse", 50, 250, 42, (255, 255, 255), "Candara")
         janela.draw_text("Manual das Armas  -  G", 50, 350, 42, (255, 255, 255), "Candara")
         janela.draw_text("Pressione ESPAÇO para continuar", janela.width/2 - 300, 650, 42, (255,255,255), "Candara")
-        janela.draw_text("Mate inimigos, colete peças metálicas e fortaleça suas armas!!!", 50, 500, 35, (200,200,200), "Candara")
-        janela.draw_text("Clique no '+' no retrato da arma quando possuir peças para fortalece-la!", 50, 550, 35, (200, 200, 200), "Candara")
+        janela.draw_text("Mate inimigos, colete peças metálicas e fortaleça suas armas!!!", 50, 460, 35, (200,200,200), "Candara")
+        janela.draw_text("Clique no '+' no retrato da arma quando possuir peças para fortalece-la!", 50, 510, 35, (200, 200, 200), "Candara")
+        janela.draw_text("Sobreviva e evolua até a ajuda chegar...", 50, 560, 35, (200,200,200), "Candara")
         if teclado.key_pressed("SPACE"):
             break
         janela.update()
 
     # setup player
 
-    john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 90, 'pregos': 0, 'correndo?': False, 'direcao': 1}
+    john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 90, 'pregos': 2000, 'correndo?': False, 'direcao': 1}
     john['John'].set_position(janela.width / 2 - john['John'].width / 2, janela.height / 2 - john['John'].height / 2)
 
     johnParado = Sprite("Sprites/Astronauta(3).png")

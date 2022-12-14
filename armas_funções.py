@@ -1,5 +1,6 @@
 from PPlay.sprite import *
 from math import *
+from PPlay.sound import *
 
 '''
 Manual:
@@ -33,6 +34,9 @@ def tiroBipper(janela, Mouse, john, velTiro, vetBipper, cooldownB):
         vetBipper[-1].append(dx / dt * velTiro)
         vetBipper[-1].append(dy / dt * velTiro)
         cooldownB = 10
+        som = Sound("Sons/som_bipper.mp3")
+        som.set_volume(6)
+        som.play()
     return cooldownB
 
 def tiroAmber(janela, vetAmber, Mouse, john, velAmber, amberPode, cooldownA):
@@ -68,7 +72,6 @@ def bumerarma(Bumerarma, janela, Mouse, john, velJohnX, velJohnY, Summon, nivelB
 
     # controla o comportamento da arma enquanto está em movimento
     if Bumerarma['ativo?']:
-
         # controla a volta do bumerangue
         if Bumerarma['contador'] > Bumerarma['tempo']:
 
@@ -77,14 +80,12 @@ def bumerarma(Bumerarma, janela, Mouse, john, velJohnX, velJohnY, Summon, nivelB
             dt = abs(dx) + abs(dy)
             Bumerarma['dx'] = dx/dt
             Bumerarma['dy'] = dy/dt
-
             # desativa a arma caso tenha voltado
             if -1 < dx < 1 and -1 < dy < 1:
 
                 Bumerarma['ativo?'] = False
                 Bumerarma['contador'] = 0
                 Bumerarma['dano'] = 0
-
         #atualizações gerais
         if nivelBumer == 1:
             Bumerarma['dano'] = 0.5
@@ -127,6 +128,10 @@ def ativaBumerangue(Mouse, Bumerarma, john):
         dt = abs(dx) + abs(dy)
         Bumerarma['dx'] = dx / dt
         Bumerarma['dy'] = dy / dt
+
+        som_bumerarma = Sound("Sons/som_bumerarma.mp3")
+        som_bumerarma.set_volume(10)
+        som_bumerarma.play()
 
 
 def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseApertado, velAmber, danoAmber, aumentou, nivel):
@@ -173,6 +178,12 @@ def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseAper
         vetAmber[-1][3] += danoAmber
         vetAmber[-1][5] = True
         timerAmber = 0
+        som_amber = Sound("Sons/som_amber_liberada.mp3")
+        som_amber.set_volume(10)
+        som_amber.play()
+    som_carregamento = Sound("Sons/teeste.mp3")
+    som_carregamento.set_volume(10)
+    som_carregamento.play()
     return vetAmber[-1][5], timerAmber, aumentou
 
 
