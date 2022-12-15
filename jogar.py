@@ -154,7 +154,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
     # setup player
 
-    john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 90, 'pregos': 200, 'correndo?': False, 'direcao': 1}
+    john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 90, 'pregos': 0, 'correndo?': False, 'direcao': 1}
     john['John'].set_position(janela.width / 2 - john['John'].width / 2, janela.height / 2 - john['John'].height / 2)
 
     johnParado = Sprite("Sprites/Astronauta(3).png")
@@ -541,7 +541,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
         # boss
 
-        if tempo_de_jogo > 0*60+1 and not venceu:
+        if tempo_de_jogo > 10*60+15 and not venceu:
             if som_jogo.is_playing():
                 som_jogo.stop()
             if not som_boss_on:
