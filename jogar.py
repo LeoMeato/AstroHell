@@ -395,8 +395,6 @@ def jogar(teclado, Mouse, janela, mapa):
         cooldownSpawnBip -= 15 * janela.delta_time()
         cooldownSpawnZeta -= 15 * janela.delta_time()
         cooldownSpawnKaze -= 15 * janela.delta_time()
-        print(15*janela.delta_time())
-        print(cooldownSpawnKaze)
         cooldownDanoJ -= 15 * janela.delta_time()
         cooldownA -= 20 * janela.delta_time()
         cooldownBoss -= janela.delta_time()

@@ -178,42 +178,42 @@ def colisao_inimigo_cenario(vetInimigo, vetArvore, vetPedra, velIni, john, janel
         veliniy = velIni * (dy / dt) * janela.delta_time()
         for n in range(len(vetArvore)):
             colidiu = 0
-            if vetArvore[n].x > -100 and vetArvore[n].x < janela.width + 100 and vetArvore[n].y > -100 and vetArvore[n].y < janela.height + 100:
-                if vetInimigo[i][0].x > -100 and vetInimigo[i][0].x < janela.width +100 and vetInimigo[i][0].y > -100 and vetInimigo[i][0].y < janela.height + 100:
+            if vetArvore[n].x > -200 and vetArvore[n].x < janela.width + 200 and vetArvore[n].y > -200 and vetArvore[n].y < janela.height + 200:
+                if vetInimigo[i][0].x > -200 and vetInimigo[i][0].x < janela.width +200 and vetInimigo[i][0].y > -200 and vetInimigo[i][0].y < janela.height + 200:
                     if vetInimigo[i][0].collided(vetArvore[n]):
                         colidiu = 1
                     if colidiu:
-                        if vetInimigo[i][0].x + vetInimigo[i][0].width + 3 > vetArvore[n].x and vetInimigo[i][0].x + vetInimigo[i][0].width - 3 < vetArvore[n].x:
-                            vetInimigo[i][0].y += 3
-                            vetInimigo[i][0].x -= 3
-                        elif vetInimigo[i][0].x - 3 < vetArvore[n].x + vetArvore[n].width and vetInimigo[i][0].x + 3 > vetArvore[n].x + vetArvore[n].width:
-                            vetInimigo[i][0].y -= 3
-                            vetInimigo[i][0].x += 3
-                        elif vetInimigo[i][0].y + vetInimigo[i][0].height + 3 > vetArvore[n].y and vetInimigo[i][0].y + vetInimigo[i][0].height - 3 < vetArvore[n].y:
-                            vetInimigo[i][0].y -= 3
-                            vetInimigo[i][0].x -= 3
-                        elif vetInimigo[i][0].y - vetArvore[n].height - 3 < vetArvore[n].y and vetInimigo[i][0].y - vetArvore[n].height + 3 > vetArvore[n].y:
-                            vetInimigo[i][0].y += 3
-                            vetInimigo[i][0].x += 3
+                        if vetInimigo[i][0].x + vetInimigo[i][0].width + 1.8 > vetArvore[n].x and vetInimigo[i][0].x + vetInimigo[i][0].width - 1.8 < vetArvore[n].x:
+                            vetInimigo[i][0].y += 1.8
+                            vetInimigo[i][0].x -= 1.8
+                        elif vetInimigo[i][0].x - 1.8 < vetArvore[n].x + vetArvore[n].width and vetInimigo[i][0].x + 1.8 > vetArvore[n].x + vetArvore[n].width:
+                            vetInimigo[i][0].y -= 1.8
+                            vetInimigo[i][0].x += 1.8
+                        elif vetInimigo[i][0].y + vetInimigo[i][0].height + 1.8 > vetArvore[n].y and vetInimigo[i][0].y + vetInimigo[i][0].height - 1.8 < vetArvore[n].y:
+                            vetInimigo[i][0].y -= 1.8
+                            vetInimigo[i][0].x -= 1.8
+                        elif vetInimigo[i][0].y - vetArvore[n].height - 1.8 < vetArvore[n].y and vetInimigo[i][0].y - vetArvore[n].height + 1.8 > vetArvore[n].y:
+                            vetInimigo[i][0].y += 1.8
+                            vetInimigo[i][0].x += 1.8
         for n in range(len(vetPedra)):
             colidiu = 0
-            if vetPedra[n].x > -100 and vetPedra[n].x < janela.width + 100 and vetPedra[n].y > -100 and vetPedra[n].y < janela.height + 100:
-                if vetInimigo[i][0].x > -100 and vetInimigo[i][0].x < janela.width + 100 and vetInimigo[i][0].y > -100 and vetInimigo[i][0].y < janela.height + 100:
+            if vetPedra[n].x > -200 and vetPedra[n].x < janela.width + 200 and vetPedra[n].y > -200 and vetPedra[n].y < janela.height + 200:
+                if vetInimigo[i][0].x > -200 and vetInimigo[i][0].x < janela.width + 200 and vetInimigo[i][0].y > -200 and vetInimigo[i][0].y < janela.height + 200:
                     if vetInimigo[i][0].collided(vetPedra[n]):
                         colidiu = 1
                     if colidiu:
-                        if vetInimigo[i][0].x + vetInimigo[i][0].width + 3 > vetPedra[n].x and vetInimigo[i][0].x + vetInimigo[i][0].width - 3 < vetPedra[n].x:
-                            vetInimigo[i][0].y += 3
-                            vetInimigo[i][0].x -= 3
-                        elif vetInimigo[i][0].x - 3 < vetPedra[n].x + vetPedra[n].width and vetInimigo[i][0].x + 3 > vetPedra[n].x + vetPedra[n].width:
-                            vetInimigo[i][0].y -= 3
-                            vetInimigo[i][0].x += 3
-                        elif vetInimigo[i][0].y + vetInimigo[i][0].height + 3 > vetPedra[n].y and vetInimigo[i][0].y + vetInimigo[i][0].height - 3 < vetPedra[n].y:
-                            vetInimigo[i][0].y -= 3
-                            vetInimigo[i][0].x -= 3
-                        elif vetInimigo[i][0].y - vetPedra[n].height - 3 < vetPedra[n].y and vetInimigo[i][0].y - vetPedra[n].height + 3 > vetPedra[n].y:
-                            vetInimigo[i][0].y += 3
-                            vetInimigo[i][0].x += 3
+                        if vetInimigo[i][0].x + vetInimigo[i][0].width + 1.8 > vetPedra[n].x and vetInimigo[i][0].x + vetInimigo[i][0].width - 1.8 < vetPedra[n].x:
+                            vetInimigo[i][0].y += 1.8
+                            vetInimigo[i][0].x -= 1.8
+                        elif vetInimigo[i][0].x - 1.8 < vetPedra[n].x + vetPedra[n].width and vetInimigo[i][0].x + 1.8 > vetPedra[n].x + vetPedra[n].width:
+                            vetInimigo[i][0].y -= 1.8
+                            vetInimigo[i][0].x += 1.8
+                        elif vetInimigo[i][0].y + vetInimigo[i][0].height + 1.8 > vetPedra[n].y and vetInimigo[i][0].y + vetInimigo[i][0].height - 1.8 < vetPedra[n].y:
+                            vetInimigo[i][0].y -= 1.8
+                            vetInimigo[i][0].x -= 1.8
+                        elif vetInimigo[i][0].y - vetPedra[n].height - 1.8 < vetPedra[n].y and vetInimigo[i][0].y - vetPedra[n].height + 1.8 > vetPedra[n].y:
+                            vetInimigo[i][0].y += 1.8
+                            vetInimigo[i][0].x += 1.8
 
             """if colidiu and (vetInimigo[i][0].x + vetInimigo[i][0].width + 2 > vetArvore[n].x and vetInimigo[i][0].x + vetInimigo[i][0].width - 2 <= vetArvore[n].x):
                 vetInimigo[i][0].y += veliniy
