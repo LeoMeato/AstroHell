@@ -140,21 +140,21 @@ def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseAper
     Essa função controla o comportamento do projetil da amber enquanto ele ainda não foi atirado.
     '''
 
-    tmp = 3
+    tmp = 2
     raio = 30
 
     if nivel >= 3:
-        tmp = 5
+        tmp = 3
         if timerAmber >= 2.5:
             raio = 50
 
     if nivel == 5:
-        tmp = 7
+        tmp = 5
         if timerAmber >= 4:
             raio = 70
 
     if timerAmber < tmp:
-        vetAmber[-1][3] += (janela.delta_time() * nivel ** (1/2)) / 2.5
+        vetAmber[-1][3] += (janela.delta_time() * nivel ** (1/2)) / 2.2
     X = Mouse.get_position()[0]
     Y = Mouse.get_position()[1]
     dx = X - john.x - john.width / 2
