@@ -1,5 +1,7 @@
 from PPlay.sound import *
 from PPlay.animation import *
+from PPlay.sprite import *
+from PPlay.window import *
 from armas_funções import *
 from outras_funções import *
 from menu import *
@@ -158,7 +160,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
     # setup player
 
-    john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 90, 'pregos': 0, 'correndo?': False, 'direcao': 1}
+    john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 90, 'pregos': 200, 'correndo?': False, 'direcao': 1}
     john['John'].set_position(janela.width / 2 - john['John'].width / 2, janela.height / 2 - john['John'].height / 2)
 
     johnParado = Sprite("Sprites/Astronauta(3).png")
@@ -265,6 +267,7 @@ def jogar(teclado, Mouse, janela, mapa):
     cooldownDanoJ
     cooldownA = 0
     cooldownBoss = 0
+    cooldownTroca = 0
     timerExpKaze = 0
     timerAmber = 0
 
@@ -328,6 +331,7 @@ def jogar(teclado, Mouse, janela, mapa):
     pecas_hud = Sprite("Sprites/uma peça.png")
     pecas_hud.x = janela.width - pecas_hud.width - 30
     pecas_hud.y = 15
+
 
     amber_lateral_2 = Sprite("Sprites/amber_lateral.png")
     amber_lateral_2.x = amber_lateral.x
@@ -573,6 +577,19 @@ def jogar(teclado, Mouse, janela, mapa):
             vida = lista_vida[(ceil(john['vida'] / 10) - 1)]
             vida.x = janela.width / 2 - vida.width / 2
             vida.y = janela.height - vida.height - 25
+        troca_prego_vida = Sprite("Sprites/prego_vida.png")
+        troca_prego_vida.x = vida.x + vida.width + 15
+        troca_prego_vida.y = vida.y - 20
+        troca_prego_vida.draw()
+
+        if john['vida'] <= 80:
+            if Mouse.is_over_area((troca_prego_vida.x, troca_prego_vida.y), (troca_prego_vida.x + troca_prego_vida.width, troca_prego_vida.y + troca_prego_vida.height)) and Mouse.is_button_pressed(1) and cooldownTroca <= 0:
+                john['pregos'] -= 15
+                john['vida'] += 10
+                cooldownTroca = 1.5
+        if cooldownTroca >= 0:
+            cooldownTroca -= janela.delta_time()
+        print(cooldownTroca)
 
         HUD(janela, john, pecas_hud, bipper_lateral, amber_lateral, bumerangue_lateral, vida, pausa,
             nivelBip, nivelAmber, nivelBumer)
@@ -587,6 +604,9 @@ def jogar(teclado, Mouse, janela, mapa):
 
         cont_pausa += janela.delta_time()
         if (teclado.key_pressed('ESC') or (Mouse.is_over_area((pausa.x, pausa.y), (pausa.x + pausa.width, pausa.y + pausa.height)) and Mouse.is_button_pressed(1))) and cont_pausa >= 0.3:
+            som_clique = Sound("Sons/som_clique.mp3")
+            som_clique.set_volume(12)
+            som_clique.play()
             cont_pausa = 0
             res = menupausa(tempo_de_jogo, janela)
             if res == 1 or res == 2:
