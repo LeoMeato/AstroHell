@@ -135,6 +135,11 @@ def niveisDeArma(mouseApertado, john, Mouse, bipper_lateral, bumerangue_lateral,
 
 
 def jogar(teclado, Mouse, janela, mapa):
+    som_jogo = Sound("Sons/Halo3_Ourland.mp3")
+    som_jogo.set_volume(8)
+    som_jogo.play()
+    if not som_jogo.is_playing():
+        som_jogo.play()
 
     while True:
         mapa.draw()
@@ -143,16 +148,17 @@ def jogar(teclado, Mouse, janela, mapa):
         janela.draw_text("Atirar  -  Botão Esquerdo do Mouse", 50, 250, 42, (255, 255, 255), "Candara")
         janela.draw_text("Manual das Armas  -  G", 50, 350, 42, (255, 255, 255), "Candara")
         janela.draw_text("Pressione ESPAÇO para continuar", janela.width/2 - 300, 650, 42, (255,255,255), "Candara")
-        janela.draw_text("Mate inimigos, colete peças metálicas e fortaleça suas armas!!!", 50, 460, 35, (200,200,200), "Candara")
-        janela.draw_text("Clique no '+' no retrato da arma quando possuir peças para fortalece-la!", 50, 510, 35, (200, 200, 200), "Candara")
-        janela.draw_text("Sobreviva e evolua até a ajuda chegar...", 50, 560, 35, (200,200,200), "Candara")
+        janela.draw_text("Mate inimigos, colete peças metálicas e fortaleça suas armas!!!", 50, 440, 30, (200,200,200), "Candara")
+        janela.draw_text("Clique no '+' no retrato da arma quando possuir peças para fortalece-la!", 50, 490, 30, (200, 200, 200), "Candara")
+        janela.draw_text("Utilize 1, 2 e 3 para trocar de armas", 50, 540, 30, (200,200,200), "Candara")
+        janela.draw_text("Sobreviva e evolua até a ajuda chegar...", 50, 590, 30, (200,200,200), "Candara")
         if teclado.key_pressed("SPACE"):
             break
         janela.update()
 
     # setup player
 
-    john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 90, 'pregos': 2000, 'correndo?': False, 'direcao': 1}
+    john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 9000, 'pregos': 0, 'correndo?': False, 'direcao': 1}
     john['John'].set_position(janela.width / 2 - john['John'].width / 2, janela.height / 2 - john['John'].height / 2)
 
     johnParado = Sprite("Sprites/Astronauta(3).png")
@@ -175,10 +181,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
     # setup inimigos
 
-    vetBip = [[Sprite("Sprites/bip.png"), 30], [Sprite("Sprites/bip.png"), 30], [Sprite("Sprites/bip.png"), 30]]
-    vetBip[0][0].set_position(-100, 620)
-    vetBip[1][0].set_position(700, -200)
-    vetBip[2][0].set_position(2300, 500)
+    vetBip = []
 
     vetZeta = []
 

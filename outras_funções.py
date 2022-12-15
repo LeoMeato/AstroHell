@@ -118,7 +118,7 @@ def peças(vetPeca, john, velJohnX, velJohnY, janela):
         vetPeca[i].y += velJohnY * janela.delta_time()
         if vetPeca[i].collided(john['John']):
             som = Sound("Sons/som_peça.mp3")
-            som.set_volume(7)
+            som.set_volume(4)
             john['pregos'] += 1
             vetPeca.pop(i)
             som.play()

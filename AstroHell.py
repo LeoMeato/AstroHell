@@ -55,20 +55,27 @@ dy = (mapa.height - janela.height) / 2
 mapa.set_position(-dx, -dy)
 
 # Diálogo inicial
-
+som_inicial = Sound("Sons/halo3.mp3")
+som_inicial.set_volume(15)
+som_inicial.play()
 Enredo(janela, teclado)
+
+# Música inicial
 
 # Game Loop
 
 while True:
     fundo.draw()
-
+    if not som_inicial.is_playing():
+        som_inicial.play()
     resposta = menu(BotaoJogar, BotaoConfiguraçoes, BotaoSair, Logo, Mouse, janela)
     if resposta == 1:
+        som_inicial.pause()
         jogar(teclado, Mouse, janela, mapa)
     elif resposta == 2:
         print('')
     elif resposta == 3:
+        som_inicial.stop()
         break
 
     janela.update()

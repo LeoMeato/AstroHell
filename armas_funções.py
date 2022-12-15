@@ -35,7 +35,7 @@ def tiroBipper(janela, Mouse, john, velTiro, vetBipper, cooldownB):
         vetBipper[-1].append(dy / dt * velTiro)
         cooldownB = 10
         som = Sound("Sons/som_bipper.mp3")
-        som.set_volume(6)
+        som.set_volume(4)
         som.play()
     return cooldownB
 
@@ -130,7 +130,7 @@ def ativaBumerangue(Mouse, Bumerarma, john):
         Bumerarma['dy'] = dy / dt
 
         som_bumerarma = Sound("Sons/som_bumerarma.mp3")
-        som_bumerarma.set_volume(10)
+        som_bumerarma.set_volume(6)
         som_bumerarma.play()
 
 
@@ -179,10 +179,10 @@ def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseAper
         vetAmber[-1][5] = True
         timerAmber = 0
         som_amber = Sound("Sons/som_amber_liberada.mp3")
-        som_amber.set_volume(10)
+        som_amber.set_volume(6)
         som_amber.play()
-    som_carregamento = Sound("Sons/teeste.mp3")
-    som_carregamento.set_volume(10)
+    som_carregamento = Sound("Sons/som_amber_carregando.mp3")
+    som_carregamento.set_volume(6)
     som_carregamento.play()
     return vetAmber[-1][5], timerAmber, aumentou
 
