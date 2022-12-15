@@ -178,9 +178,6 @@ def carregaAmber(amberPode, janela, vetAmber, Mouse, john, timerAmber, mouseAper
         vetAmber[-1][3] += danoAmber
         vetAmber[-1][5] = True
         timerAmber = 0
-        som_amber = Sound("Sons/som_amber_liberada.mp3")
-        som_amber.set_volume(6)
-        som_amber.play()
     som_carregamento = Sound("Sons/som_amber_carregando.mp3")
     som_carregamento.set_volume(6)
     som_carregamento.play()

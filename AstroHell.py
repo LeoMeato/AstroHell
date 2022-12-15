@@ -38,12 +38,12 @@ fundo.set_position(-dx, -dy)
 # setup menu sprites
 
 BotaoJogar = Sprite("Sprites/Jogar(1).png")
-BotaoConfiguraçoes = Sprite("Sprites/Config(1).png")
+BotaoCreditos = Sprite("Sprites/Creditos.png")
 BotaoSair = Sprite("Sprites/Sair(1).png")
 Logo = Sprite("Sprites/astrohell.png")
 
 BotaoJogar.set_position(janela.width / 2 - BotaoJogar.width / 2, janela.height/2 - 40)
-BotaoConfiguraçoes.set_position(janela.width / 2 - BotaoConfiguraçoes.width / 2, janela.height/2 + 80)
+BotaoCreditos.set_position(janela.width / 2 - BotaoCreditos.width / 2, janela.height/2 + 80)
 BotaoSair.set_position(janela.width / 2 - BotaoSair.width / 2, janela.height/2 + 200)
 Logo.set_position(janela.width / 2 - Logo.width / 2, 80)
 
@@ -55,8 +55,9 @@ dy = (mapa.height - janela.height) / 2
 mapa.set_position(-dx, -dy)
 
 # Diálogo inicial
-som_inicial = Sound("Sons/Halo3_Finaleffort.mp3")
-som_inicial.set_volume(15)
+som_inicial = Sound("Sons/infinity.mp3")
+som_inicial.set_volume(8)
+som_inicial.set_repeat(1)
 som_inicial.play()
 Enredo(janela, teclado)
 
@@ -66,14 +67,12 @@ Enredo(janela, teclado)
 
 while True:
     fundo.draw()
-    if not som_inicial.is_playing():
-        som_inicial.play()
-    resposta = menu(BotaoJogar, BotaoConfiguraçoes, BotaoSair, Logo, Mouse, janela)
+    resposta = menu(BotaoJogar, BotaoCreditos, BotaoSair, Logo, Mouse, janela)
     if resposta == 1:
         som_inicial.pause()
         jogar(teclado, Mouse, janela, mapa)
     elif resposta == 2:
-        print('')
+        creditos(Mouse, teclado, janela)
     elif resposta == 3:
         som_inicial.stop()
         break

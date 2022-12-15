@@ -137,12 +137,6 @@ def niveisDeArma(mouseApertado, john, Mouse, bipper_lateral, bumerangue_lateral,
 
 
 def jogar(teclado, Mouse, janela, mapa):
-    som_jogo = Sound("Sons/Halo3_Ourland.mp3")
-    som_jogo.set_volume(8)
-    som_jogo.play()
-    if not som_jogo.is_playing():
-        som_jogo.play()
-
     while True:
         mapa.draw()
         janela.draw_text("Instruções Básicas", janela.width/2 - 220, 40 , 55, (255, 255, 255), "Candara")
@@ -160,7 +154,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
     # setup player
 
-    john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 90, 'pregos': 200, 'correndo?': False, 'direcao': 1}
+    john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 90000, 'pregos': 200, 'correndo?': False, 'direcao': 1}
     john['John'].set_position(janela.width / 2 - john['John'].width / 2, janela.height / 2 - john['John'].height / 2)
 
     johnParado = Sprite("Sprites/Astronauta(3).png")
@@ -350,6 +344,15 @@ def jogar(teclado, Mouse, janela, mapa):
     contador_fps = 0
     printfps = 0
 
+    som_jogo = Sound("Sons/lifelike.mp3")
+    som_jogo.set_volume(8)
+    som_jogo.set_repeat(1)
+    som_jogo.play()
+
+    som_boss = Sound("Sons/som_boss.mp3")
+    som_boss.set_volume(10)
+    som_boss.set_repeat(1)
+    som_boss_on = 0
     while True:
 
         '''if Mouse.is_button_pressed(3):
@@ -539,7 +542,12 @@ def jogar(teclado, Mouse, janela, mapa):
 
         # boss
 
-        if tempo_de_jogo > 10*60+15 and not venceu:
+        if tempo_de_jogo > 0*60+5 and not venceu:
+            if som_jogo.is_playing():
+                som_jogo.stop()
+            if not som_boss_on:
+                som_boss.play()
+                som_boss_on = 1
             bossFunc(boss, janela, velJohnX, velJohnY, john)
 
         if boss['vida'] <= 0 and not venceu:
@@ -605,7 +613,7 @@ def jogar(teclado, Mouse, janela, mapa):
         cont_pausa += janela.delta_time()
         if (teclado.key_pressed('ESC') or (Mouse.is_over_area((pausa.x, pausa.y), (pausa.x + pausa.width, pausa.y + pausa.height)) and Mouse.is_button_pressed(1))) and cont_pausa >= 0.3:
             som_clique = Sound("Sons/som_clique.mp3")
-            som_clique.set_volume(12)
+            som_clique.set_volume(20)
             som_clique.play()
             cont_pausa = 0
             res = menupausa(tempo_de_jogo, janela)
@@ -672,3 +680,4 @@ def jogar(teclado, Mouse, janela, mapa):
 
         if len(vetAmber) > 0:
             print('{:.2f}'.format(vetAmber[-1][3]))
+
