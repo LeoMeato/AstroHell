@@ -1,6 +1,7 @@
+from PPlay.sound import *
+from PPlay.animation import *
 from armas_funções import *
 from outras_funções import *
-from PPlay.animation import *
 from menu import *
 from inimigos_funções import *
 from math import ceil
@@ -28,6 +29,48 @@ def bip(Bip, janela, velJohnX, velJohnY, velBip, john, danoBip, armadura):
         cooldownDanoJ = 20
     Bip.draw()
 
+def kaze(Kaze,timerExp, tocou, vetKaze, posicao, janela, velJohnX, velJohnY, velKaze, john, danoBip, armadura):
+
+    global cooldownDanoJ
+    Kaze.x += velJohnX * janela.delta_time()
+    Kaze.y += velJohnY * janela.delta_time()
+    dx = john['John'].x - Kaze.x
+    dy = john['John'].y - Kaze.y
+    dt = abs(dx) + abs(dy)
+    Kaze.x += velKaze * (dx / dt) * janela.delta_time() * 2
+    Kaze.y += velKaze * (dy / dt) * janela.delta_time() * 2
+    RetJohn = Sprite("Sprites/vazio.png")
+    RetJohn.x = janela.width/2 - RetJohn.width/2
+    RetJohn.y = janela.height/2 - RetJohn.height/2
+    explodiu = 0
+    kazex = Kaze.x
+    kazey = Kaze.y
+    if Kaze.collided(RetJohn) and not tocou:
+        tocou = 1
+        timerExp -= 0.1
+    if Kaze.collided(john['John']) and cooldownDanoJ <= 0:
+        john['vida'] -= danoBip * 2 * armadura
+        cooldownDanoJ = 20
+        vetKaze.pop(posicao)
+        explodiu = 1
+        explosao = Sprite("Sprites/explosao.png")
+        explosao.x = kazex
+        explosao.y = kazey
+        explosao.draw()
+        som_explosao = Sound("Sons/som_kaze_exp.mp3")
+        som_explosao.set_volume(10)
+        som_explosao.play()
+        return kazex, kazey, explodiu
+    if tocou and timerExp != 3:
+        valor = sin(pygame.time.get_ticks())
+        if valor >= 0:
+            Kaze.draw()
+            timerExp -= 9*janela.delta_time()
+        else:
+            timerExp -= 9*janela.delta_time()
+    else:
+        Kaze.draw()
+    return kazex, kazey, explodiu
 
 def niveisDeArma(mouseApertado, john, Mouse, bipper_lateral, bumerangue_lateral, amber_lateral):
 
@@ -467,7 +510,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
         tirosZeta(tiroZeta, velTzeta, velJohnX, velJohnY, janela, john, danoZeta)
 
-        # comportamento dos kazes
+      # comportamento dos kazes
 
         if cooldownSpawnKaze <= 0:
             if tempo_de_jogo > 0:
@@ -475,7 +518,9 @@ def jogar(teclado, Mouse, janela, mapa):
             cooldownSpawnKaze = 45
 
         for i in range(len(vetKaze)):
-            explodiu = kaze(vetKaze[i][0],vetKaze[i][2], vetKaze[i][3], vetKaze, i, janela, velJohnX, velJohnY, velBip, john, danoBip, armadura)
+            kazex = 0
+            kazey = 0
+            kazex, kazey, explodiu = kaze(vetKaze[i][0],vetKaze[i][2], vetKaze[i][3], vetKaze, i, janela, velJohnX, velJohnY, velBip, john, danoBip, armadura)
             if explodiu:
                 break
 
@@ -504,7 +549,6 @@ def jogar(teclado, Mouse, janela, mapa):
                 if teclado.key_pressed('ESC'):
                     break
             break
-
 
 
         # atualizar tiros
@@ -577,6 +621,10 @@ def jogar(teclado, Mouse, janela, mapa):
         obsInfinitos(posRelativa, janela, vetArvores, vetPedras, john['John'])
 
         # atualizações
+
+        colisao_inimigo_cenario(vetBip, vetArvores, vetPedras, velBip, john, janela)
+        colisao_inimigo_cenario(vetKaze, vetArvores, vetPedras, 2*velBip, john, janela)
+        colisao_inimigo_cenario(vetZeta, vetArvores, vetPedras, velBip, john, janela)
 
         if 10*60 <= tempo_de_jogo <= 10*60+15:
             balão.draw()

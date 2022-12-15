@@ -2,6 +2,12 @@ from random import randint
 from outras_funções import areaSpawn
 from PPlay.sprite import *
 from jogar import *
+from armas_funções import *
+from outras_funções import *
+from PPlay.animation import *
+from menu import *
+from math import ceil
+
 
 def zeta(Zeta, janela, velJohnX, velJohnY, velZeta, john, tiroZeta):
 
@@ -109,36 +115,6 @@ def colisãoDanoBoss(inimigo, tiroB, tiroA, danoB, Bumerarma, john, Summon, cool
 
     return cooldown
 
-def kaze(Kaze,timerExp, tocou, vetKaze, posicao, janela, velJohnX, velJohnY, velKaze, john, danoBip, armadura):
-
-    Kaze.x += velJohnX * janela.delta_time()
-    Kaze.y += velJohnY * janela.delta_time()
-    dx = john['John'].x - Kaze.x
-    dy = john['John'].y - Kaze.y
-    dt = abs(dx) + abs(dy)
-    Kaze.x += velKaze * (dx / dt) * janela.delta_time()
-    Kaze.y += velKaze * (dy / dt) * janela.delta_time()
-    RetJohn = Sprite("Sprites/vazio.png")
-    RetJohn.x = janela.width/2 - RetJohn.width/2
-    RetJohn.y = janela.height/2 - RetJohn.height/2
-    if Kaze.collided(RetJohn) and not tocou:
-        tocou = 1
-        timerExp -= 0.1
-    if timerExp <= 0:
-        vetKaze.pop(posicao)
-        return 1
-    if tocou and timerExp != 3:
-        valor = sin(pygame.time.get_ticks())
-        if valor >= 0:
-            Kaze.draw()
-            timerExp -= 9*janela.delta_time()
-        else:
-            timerExp -= 9*janela.delta_time()
-    else:
-        Kaze.draw()
-    return 0
-
-
 def morreuInimigo(inimigo, vetPeca, droprate):
     j = 0
     a = len(inimigo)
@@ -175,10 +151,66 @@ def spawnKaze(vetKaze, janela):
     vetKaze.append([Sprite("Sprites/kaze2.png"), 15, 3, 0])
     vetKaze[-1][0].set_position(x, y)
 
-def colisao_inimigo_cenario(vetInimigo, vetArvore, vetPedra, velinix, veliniy, janela):
+def colisao_inimigo_cenario(vetInimigo, vetArvore, vetPedra, velIni, john, janela):
+
     for i in range(len(vetInimigo)):
+        dx = john['John'].x - vetInimigo[i][0].x
+        dy = john['John'].y - vetInimigo[i][0].y
+        dt = abs(dx) + abs(dy)
+        velinix = velIni * (dx / dt) * janela.delta_time()
+        veliniy = velIni * (dy / dt) * janela.delta_time()
         for n in range(len(vetArvore)):
             colidiu = 0
-            if vetInimigo[i][0].collided(vetArvore[n]):
-                colidiu = 1
-     #       if colidiu and vetInimigo[i] + 3 >
+            if vetArvore[n].x > -100 and vetArvore[n].x < janela.width + 100 and vetArvore[n].y > -100 and vetArvore[n].y < janela.height + 100:
+                if vetInimigo[i][0].x > -100 and vetInimigo[i][0].x < janela.width +100 and vetInimigo[i][0].y > -100 and vetInimigo[i][0].y < janela.height + 100:
+                    if vetInimigo[i][0].collided(vetArvore[n]):
+                        colidiu = 1
+                    if colidiu:
+                        if vetInimigo[i][0].x + vetInimigo[i][0].width + 3 > vetArvore[n].x and vetInimigo[i][0].x + vetInimigo[i][0].width - 3 < vetArvore[n].x:
+                            vetInimigo[i][0].y += veliniy
+                            vetInimigo[i][0].x -= velinix
+                        elif vetInimigo[i][0].x - 3 < vetArvore[n].x + vetArvore[n].width and vetInimigo[i][0].x + 3 > vetArvore[n].x + vetArvore[n].width:
+                            vetInimigo[i][0].y += veliniy
+                            vetInimigo[i][0].x -= velinix
+                        elif vetInimigo[i][0].y + vetInimigo[i][0].height + 3 > vetArvore[n].y and vetInimigo[i][0].y + vetInimigo[i][0].height - 3 < vetArvore[n].y:
+                            vetInimigo[i][0].y -= veliniy
+                            vetInimigo[i][0].x += velinix
+                        elif vetInimigo[i][0].y - vetArvore[n].height - 3 < vetArvore[n].y and vetInimigo[i][0].y - vetArvore[n].height + 3 > vetArvore[n].y:
+                            vetInimigo[i][0].y -= veliniy
+                            vetInimigo[i][0].x += velinix
+        for n in range(len(vetPedra)):
+            colidiu = 0
+            if vetPedra[n].x > -100 and vetPedra[n].x < janela.width + 100 and vetPedra[n].y > -100 and vetPedra[n].y < janela.height + 100:
+                if vetInimigo[i][0].x > -100 and vetInimigo[i][0].x < janela.width + 100 and vetInimigo[i][0].y > -100 and vetInimigo[i][0].y < janela.height + 100:
+                    if vetInimigo[i][0].collided(vetPedra[n]):
+                        colidiu = 1
+                    if colidiu:
+                        if vetInimigo[i][0].x + vetInimigo[i][0].width + 3 > vetPedra[n].x and vetInimigo[i][0].x + vetInimigo[i][0].width - 3 < vetPedra[n].x:
+                            vetInimigo[i][0].y += veliniy
+                            vetInimigo[i][0].x -= velinix
+                        elif vetInimigo[i][0].x - 3 < vetPedra[n].x + vetPedra[n].width and vetInimigo[i][0].x + 3 > vetPedra[n].x + vetPedra[n].width:
+                            vetInimigo[i][0].y += veliniy
+                            vetInimigo[i][0].x -= velinix
+                        elif vetInimigo[i][0].y + vetInimigo[i][0].height + 3 > vetPedra[n].y and vetInimigo[i][0].y + vetInimigo[i][0].height - 3 < vetPedra[n].y:
+                            vetInimigo[i][0].y -= veliniy
+                            vetInimigo[i][0].x += velinix
+                        elif vetInimigo[i][0].y - vetPedra[n].height - 3 < vetPedra[n].y and vetInimigo[i][0].y - vetPedra[n].height + 3 > vetPedra[n].y:
+                            vetInimigo[i][0].y -= veliniy
+                            vetInimigo[i][0].x += velinix
+
+            """if colidiu and (vetInimigo[i][0].x + vetInimigo[i][0].width + 2 > vetArvore[n].x and vetInimigo[i][0].x + vetInimigo[i][0].width - 2 <= vetArvore[n].x):
+                vetInimigo[i][0].y += veliniy
+                vetInimigo[i][0].x -= velinix
+                print('2')
+            elif colidiu and (vetInimigo[i][0].x - vetArvore[n].width + 2 > vetArvore[n].x and vetInimigo[i][0].x - vetArvore[n].width - 2 <= vetArvore[n].x):
+                vetInimigo[i][0].y += veliniy
+                vetInimigo[i][0].x -= velinix
+                print('1')
+            elif colidiu and (vetInimigo[i][0].y + vetInimigo[i][0].height - 2 < vetArvore[n].y and vetInimigo[i][0].y + vetInimigo[i][0].height + 2 > vetArvore[n].y):
+                vetInimigo[i][0].y -= veliniy
+                vetInimigo[i][0].x += velinix
+                print('aaaa')
+            elif colidiu and (vetInimigo[i][0].y - vetArvore[n].height - 2 < vetArvore[n].y and vetInimigo[i][0].y - vetArvore[n].height + 2 > vetArvore[n].y):
+                vetInimigo[i][0].y -= veliniy
+                vetInimigo[i][0].x += velinix
+                print('bbbb')"""
