@@ -256,8 +256,8 @@ def jogar(teclado, Mouse, janela, mapa):
 
     cooldownB = 0
     cooldownSpawnBip = 0
-    cooldownSpawnZeta = 0
-    cooldownSpawnKaze = 0
+    cooldownSpawnZeta = 1740
+    cooldownSpawnKaze = 870
     cooldownDanoJ
     cooldownA = 0
     cooldownBoss = 0
@@ -395,6 +395,8 @@ def jogar(teclado, Mouse, janela, mapa):
         cooldownSpawnBip -= 15 * janela.delta_time()
         cooldownSpawnZeta -= 15 * janela.delta_time()
         cooldownSpawnKaze -= 15 * janela.delta_time()
+        print(15*janela.delta_time())
+        print(cooldownSpawnKaze)
         cooldownDanoJ -= 15 * janela.delta_time()
         cooldownA -= 20 * janela.delta_time()
         cooldownBoss -= janela.delta_time()
@@ -596,7 +598,6 @@ def jogar(teclado, Mouse, janela, mapa):
                 cooldownTroca = 1.5
         if cooldownTroca >= 0:
             cooldownTroca -= janela.delta_time()
-        print(cooldownTroca)
 
         HUD(janela, john, pecas_hud, bipper_lateral, amber_lateral, bumerangue_lateral, vida, pausa,
             nivelBip, nivelAmber, nivelBumer)
