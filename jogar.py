@@ -154,7 +154,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
     # setup player
 
-    john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 90000, 'pregos': 200, 'correndo?': False, 'direcao': 1}
+    john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 90, 'pregos': 200, 'correndo?': False, 'direcao': 1}
     john['John'].set_position(janela.width / 2 - john['John'].width / 2, janela.height / 2 - john['John'].height / 2)
 
     johnParado = Sprite("Sprites/Astronauta(3).png")
@@ -183,7 +183,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
     vetKaze = []
 
-    boss = {'spriteAtual': 0, 'vida': 1200, 'dano': 35, 'dash': False, 'velDash': 1500, 'alvo': 0, 'cooldown': 0, 'parado': Animation("Sprites/boss_parado.png", 9), 'correndo': Animation("Sprites/correndoVetor.png", 6), 'atacando': Animation("Sprites/NightBorneAtaque.png", 12)}
+    boss = {'spriteAtual': 0, 'vida': 1200, 'dano': 35, 'dash': False, 'velDash': 1500, 'cooldownDash': 0.5, 'pausa':False,  'alvo': 0, 'cooldown': 0, 'parado': Animation("Sprites/boss_parado.png", 9), 'correndo': Animation("Sprites/correndoVetor.png", 6), 'atacando': Animation("Sprites/NightBorneAtaque.png", 12)}
     boss['parado'].set_total_duration(500)
     boss['correndo'].set_total_duration(500)
     boss['correndo'].set_position(100, 100)
@@ -325,7 +325,6 @@ def jogar(teclado, Mouse, janela, mapa):
     pecas_hud = Sprite("Sprites/uma peça.png")
     pecas_hud.x = janela.width - pecas_hud.width - 30
     pecas_hud.y = 15
-
 
     amber_lateral_2 = Sprite("Sprites/amber_lateral.png")
     amber_lateral_2.x = amber_lateral.x
@@ -542,7 +541,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
         # boss
 
-        if tempo_de_jogo > 0*60+5 and not venceu:
+        if tempo_de_jogo > 0*60+1 and not venceu:
             if som_jogo.is_playing():
                 som_jogo.stop()
             if not som_boss_on:
@@ -680,4 +679,3 @@ def jogar(teclado, Mouse, janela, mapa):
 
         if len(vetAmber) > 0:
             print('{:.2f}'.format(vetAmber[-1][3]))
-

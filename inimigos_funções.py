@@ -51,6 +51,8 @@ def tirosZeta(tiroZeta, velTzeta, velJohnX, velJohnY, janela, john, danoZeta):
 
 def bossFunc(boss, janela, velJohnX, velJohnY, john):
 
+    ctrl = False
+
     boss['cooldown'] -= janela.delta_time()
 
     velBoss1 = 500
@@ -59,7 +61,19 @@ def bossFunc(boss, janela, velJohnX, velJohnY, john):
         velBoss1 = -500
 
     if boss['cooldown'] <= 0 and (-1 <= (boss['spriteAtual'].y - john['John'].y) <= 1) and not boss['dash']:
-        boss['dash'] = True
+        boss['pausa'] = True
+        boss['parado'].set_position(boss['spriteAtual'].x, boss['spriteAtual'].y)
+        boss['spriteAtual'] = boss['parado']
+
+    if boss['pausa']:
+        boss['cooldownDash'] -= janela.delta_time()
+        if boss['cooldownDash'] <= 0:
+            ctrl = True
+
+    if ctrl:
+
+        boss['pausa'] = False
+
         boss['atacando'].set_position(boss['spriteAtual'].x - 20, boss['spriteAtual'].y - 50)
         boss['spriteAtual'] = boss['atacando']
         boss['alvo'] = john['John'].x
@@ -69,6 +83,8 @@ def bossFunc(boss, janela, velJohnX, velJohnY, john):
         else:
             boss['velDash'] = 1800
 
+        boss['dash'] = True
+
     if boss['dash']:
         boss['spriteAtual'].x += boss['velDash'] * janela.delta_time()
         if (-50 <= boss['spriteAtual'].x - boss['alvo'] <= 50 and boss['velDash'] > 0) or (-50 <= boss['spriteAtual'].x
@@ -76,13 +92,14 @@ def bossFunc(boss, janela, velJohnX, velJohnY, john):
                                                                                            boss['alvo'] <= 50 and
                                                                                            boss['velDash'] < 0):
             boss['dash'] = False
+            boss['cooldownDash'] = 0.5
             boss['cooldown'] = 2
             boss['parado'].set_position(boss['spriteAtual'].x + 20, boss['spriteAtual'].y + 50)
             boss['spriteAtual'] = boss['parado']
 
     boss['spriteAtual'].x += velJohnX * janela.delta_time()
     boss['spriteAtual'].y += velJohnY * janela.delta_time()
-    if not boss['dash'] and boss['cooldown'] <= 0:
+    if not boss['dash'] and boss['cooldown'] <= 0 and not boss['pausa']:
         boss['correndo'].set_position(boss['spriteAtual'].x, boss['spriteAtual'].y)
         boss['spriteAtual'] = boss['correndo']
         boss['spriteAtual'].y += velBoss1 * janela.delta_time()
