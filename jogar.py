@@ -222,6 +222,9 @@ def jogar(teclado, Mouse, janela, mapa):
 
     # setup geral
 
+    half = 0
+    otimização = 2 # quanto maior, menos travado porém mais tremedeira nas colisões dos inimigos
+
     global cooldownDanoJ
 
     global nivelBip
@@ -253,6 +256,8 @@ def jogar(teclado, Mouse, janela, mapa):
     velZeta = 90
 
     # setup cooldowns, timers e contadores
+
+    cooldownCheck = 0.1
 
     cooldownB = 0
     cooldownSpawnBip = 0
@@ -394,6 +399,8 @@ def jogar(teclado, Mouse, janela, mapa):
 
         # cooldowns e timers
 
+        cooldownCheck -= janela.delta_time()
+
         cooldownB -= (20 + (nivelBip * 2) ** 1.7) * janela.delta_time()
         cooldownSpawnBip -= 15 * janela.delta_time()
         cooldownSpawnZeta -= 15 * janela.delta_time()
@@ -495,10 +502,10 @@ def jogar(teclado, Mouse, janela, mapa):
                 aumentou = False
 
         # colisão com dano
-
-        colisãoDano(vetBip, vetBipper, vetAmber, danoBipper, Bumerarma, Summon)
-        colisãoDano(vetZeta, vetBipper, vetAmber, danoBipper, Bumerarma, Summon)
-        colisãoDano(vetKaze, vetBipper, vetAmber, danoBipper, Bumerarma, Summon)
+        if cooldownCheck <= 0:
+            colisãoDano(vetBip, vetBipper, vetAmber, danoBipper, Bumerarma, Summon)
+            colisãoDano(vetZeta, vetBipper, vetAmber, danoBipper, Bumerarma, Summon)
+            colisãoDano(vetKaze, vetBipper, vetAmber, danoBipper, Bumerarma, Summon)
         cooldownBoss = colisãoDanoBoss(boss, vetBipper, vetAmber, danoBipper, Bumerarma, john, Summon, cooldownBoss)
 
         # comportamento dos bips
@@ -506,6 +513,7 @@ def jogar(teclado, Mouse, janela, mapa):
         if cooldownSpawnBip <= 0:
             spawnBip(vetBip, janela)
             cooldownSpawnBip = 25
+
 
         for i in range(len(vetBip)):
             bip(vetBip[i][0], janela, velJohnX, velJohnY, velBip, john, danoBip, armadura)
@@ -537,10 +545,10 @@ def jogar(teclado, Mouse, janela, mapa):
                 break
 
         # verifica se algum bip está com vida < 0 e mata o que estiver
-
-        morreuInimigo(vetBip, vetPeca, 50)
-        morreuInimigo(vetZeta, vetPeca, 100)
-        morreuInimigo(vetKaze, vetPeca, 70)
+        if cooldownCheck <= 0:
+            morreuInimigo(vetBip, vetPeca, 50)
+            morreuInimigo(vetZeta, vetPeca, 100)
+            morreuInimigo(vetKaze, vetPeca, 70)
 
         # boss
 
@@ -571,8 +579,9 @@ def jogar(teclado, Mouse, janela, mapa):
         # atualizar tiros
 
         atualizaBipper(vetBipper, janela, velJohnX, velJohnY)
-        colisãoTiroCenario(vetBipper, vetArvores)
-        colisãoTiroCenario(vetBipper, vetPedras)
+        if cooldownCheck <= 0:
+            colisãoTiroCenario(vetBipper, vetArvores)
+            colisãoTiroCenario(vetBipper, vetPedras)
 
         atualizaAmber(vetAmber, velJohnX, velJohnY, janela, nivelAmber)
         bumerarma(Bumerarma, janela, Mouse, john['John'], velJohnX, velJohnY, Summon, nivelBumer)
@@ -653,10 +662,11 @@ def jogar(teclado, Mouse, janela, mapa):
         obsInfinitos(posRelativa, janela, vetArvores, vetPedras, john['John'])
 
         # atualizações
-
-        colisao_inimigo_cenario(vetBip, vetArvores, vetPedras, velBip, john, janela)
-        colisao_inimigo_cenario(vetKaze, vetArvores, vetPedras, 2*velBip, john, janela)
-        colisao_inimigo_cenario(vetZeta, vetArvores, vetPedras, velBip, john, janela)
+        erro = 2 * otimização
+        if half == 0:
+            colisao_inimigo_cenario(vetBip, vetArvores, vetPedras, velBip, john, janela, erro)
+            colisao_inimigo_cenario(vetKaze, vetArvores, vetPedras, 2*velBip, john, janela, erro)
+            colisao_inimigo_cenario(vetZeta, vetArvores, vetPedras, velBip, john, janela, erro)
 
         if 10*60 <= tempo_de_jogo <= 10*60+15:
             balão.draw()
@@ -666,6 +676,9 @@ def jogar(teclado, Mouse, janela, mapa):
             john['John'].update()
         john['John'].draw()
         janela.update()
+
+        if cooldownCheck <= 0:
+            cooldownCheck = 0.05
 
         # gameover
 
@@ -681,3 +694,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
         if len(vetAmber) > 0:
             print('{:.2f}'.format(vetAmber[-1][3]))
+
+        half += 1
+        if half == otimização:
+            half = 0
