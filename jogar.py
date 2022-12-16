@@ -183,7 +183,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
     vetKaze = []
 
-    boss = {'spriteAtual': 0, 'vida': 1200, 'dano': 35, 'dash': False, 'velDash': 1500, 'cooldownDash': 0.5, 'pausa':False,  'alvo': 0, 'cooldown': 0, 'parado': Animation("Sprites/boss_parado.png", 9), 'correndo': Animation("Sprites/correndoVetor.png", 6), 'atacando': Animation("Sprites/NightBorneAtaque.png", 12)}
+    boss = {'spriteAtual': 0, 'vida': 1200, 'dano': 35, 'dash': False, 'primeiro': False, 'velDash': 1500, 'cooldownDash': 0.5, 'pausa':False,  'alvo': 0, 'cooldown': 0, 'parado': Animation("Sprites/boss_parado.png", 9), 'correndo': Animation("Sprites/correndoVetor.png", 6), 'atacando': Animation("Sprites/NightBorneAtaque.png", 12)}
     boss['parado'].set_total_duration(500)
     boss['correndo'].set_total_duration(500)
     boss['correndo'].set_position(100, 100)
@@ -352,6 +352,9 @@ def jogar(teclado, Mouse, janela, mapa):
     som_boss.set_volume(10)
     som_boss.set_repeat(1)
     som_boss_on = 0
+
+    # Game loop
+
     while True:
 
         '''if Mouse.is_button_pressed(3):
@@ -590,7 +593,7 @@ def jogar(teclado, Mouse, janela, mapa):
         troca_prego_vida.draw()
 
         if john['vida'] <= 80:
-            if Mouse.is_over_area((troca_prego_vida.x, troca_prego_vida.y), (troca_prego_vida.x + troca_prego_vida.width, troca_prego_vida.y + troca_prego_vida.height)) and Mouse.is_button_pressed(1) and cooldownTroca <= 0:
+            if Mouse.is_over_area((troca_prego_vida.x, troca_prego_vida.y), (troca_prego_vida.x + troca_prego_vida.width, troca_prego_vida.y + troca_prego_vida.height)) and Mouse.is_button_pressed(1) and cooldownTroca <= 0 and john['pregos'] >= 15 and not mouseApertado:
                 john['pregos'] -= 15
                 john['vida'] += 10
                 cooldownTroca = 1.5
