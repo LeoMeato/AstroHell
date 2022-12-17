@@ -4,7 +4,7 @@ from jogar import *
 
 def Enredo(janela, teclado):
 
-    dialogo1 = Sprite("Sprites/dialogo.jpg")
+    dialogo1 = Sprite("Sprites/dialogo.png")
     dialogo2 = Sprite("Sprites/dialogo2.png")
     dialogo1.set_position(janela.width/2 - dialogo1.width/2, janela.height)
     dialogo2.set_position(janela.width/2 - dialogo2.width/2, janela.height/2 - dialogo2.height/2)
