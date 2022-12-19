@@ -670,7 +670,10 @@ def jogar(teclado, Mouse, janela, mapa):
         obsInfinitos(posRelativa, janela, vetArvores, vetPedras, john['John'])
 
         # atualizações
-        erro = 2 * otimização
+        if printfps < 60:
+            erro = 2 * otimização
+        else:
+            erro = 5 * otimização
         if half == 0:
             colisao_inimigo_cenario(vetBip, vetArvores, vetPedras, velBip, john, janela, erro)
             colisao_inimigo_cenario(vetKaze, vetArvores, vetPedras, 2*velBip, john, janela, erro)
@@ -704,11 +707,23 @@ def jogar(teclado, Mouse, janela, mapa):
             print('{:.2f}'.format(vetAmber[-1][3]))
 
         half += 1
-        if half == otimização:
+        if half >= otimização:
             half = 0
 
         half2 += 1
-        if half2 == otimização2:
+        if half2 >= otimização2:
             half2 = 0
+
+        if printfps < 60:
+            otimização = 4
+            otimização2 = 3
+            velJ = 400 * otimização / 4
+        else:
+            otimização = 1
+            otimização2 = 1
+            velJ = 400 * otimização
+
+        velBip = 80 * otimização2
+        velZeta = 80 * otimização2
 
     return mouseApertado
