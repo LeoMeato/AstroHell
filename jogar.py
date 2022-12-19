@@ -519,7 +519,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
         if cooldownSpawnBip <= 0 and len(vetBip) <= 35:
             spawnBip(vetBip, janela)
-            cooldownSpawnBip = 1
+            cooldownSpawnBip = 25
 
 
         for i in range(len(vetBip)):
