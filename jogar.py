@@ -190,7 +190,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
     vetKaze = []
 
-    boss = {'spriteAtual': 0, 'vida': 1200, 'dano': 35, 'dash': False, 'primeiro': False, 'velDash': 1500, 'cooldownDash': 0.5, 'pausa':False,  'alvo': 0, 'cooldown': 0, 'parado': Animation("Sprites/boss_parado.png", 9), 'correndo': Animation("Sprites/correndoVetor.png", 6), 'atacando': Animation("Sprites/NightBorneAtaque.png", 12)}
+    boss = {'spriteAtual': 0, 'vida': 2200, 'dano': 35, 'dash': False, 'primeiro': False, 'velDash': 1500, 'cooldownDash': 0.5, 'pausa':False,  'alvo': 0, 'cooldown': 0, 'parado': Animation("Sprites/boss_parado.png", 9), 'correndo': Animation("Sprites/correndoVetor.png", 6), 'atacando': Animation("Sprites/NightBorneAtaque.png", 12)}
     boss['parado'].set_total_duration(500)
     boss['correndo'].set_total_duration(500)
     boss['correndo'].set_position(100, 100)
