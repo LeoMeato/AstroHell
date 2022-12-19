@@ -9,21 +9,22 @@ from menu import *
 from math import ceil
 
 
-def zeta(Zeta, janela, velJohnX, velJohnY, velZeta, john, tiroZeta):
+def zeta(Zeta, janela, velJohnX, velJohnY, velZeta, john, tiroZeta, half):
 
     Zeta[0].x += velJohnX * janela.delta_time()
     Zeta[0].y += velJohnY * janela.delta_time()
-    dx = john['John'].x - Zeta[0].x
-    dy = john['John'].y - Zeta[0].y
-    dt = abs(dx) + abs(dy)
-    if dx ** 2 + dy ** 2 > 200 ** 2:
-        Zeta[0].x += velZeta * (dx / dt) * janela.delta_time()
-        Zeta[0].y += velZeta * (dy / dt) * janela.delta_time()
+    if half == 0:
+        dx = john['John'].x - Zeta[0].x
+        dy = john['John'].y - Zeta[0].y
+        dt = abs(dx) + abs(dy)
+        if dx ** 2 + dy ** 2 > 200 ** 2:
+            Zeta[0].x += velZeta * (dx / dt) * janela.delta_time()
+            Zeta[0].y += velZeta * (dy / dt) * janela.delta_time()
 
-    if Zeta[2] <= 0:
-        tiroZeta.append({'sprite': Sprite("Sprites/Zeta-projetil.png"), 'dx': dx / dt, 'dy': dy / dt})
-        tiroZeta[-1]['sprite'].set_position(Zeta[0].x, Zeta[0]. y)
-        Zeta[2] = 20
+        if Zeta[2] <= 0:
+            tiroZeta.append({'sprite': Sprite("Sprites/Zeta-projetil.png"), 'dx': dx / dt, 'dy': dy / dt})
+            tiroZeta[-1]['sprite'].set_position(Zeta[0].x, Zeta[0]. y)
+            Zeta[2] = 20
 
     Zeta[2] -= 5 * janela.delta_time()
 
@@ -189,15 +190,15 @@ def colisao_inimigo_cenario(vetInimigo, vetArvore, vetPedra, velIni, john, janel
                     if colidiu:
                         if vetInimigo[i][0].x + vetInimigo[i][0].width + erro > vetArvore[n].x and vetInimigo[i][0].x + vetInimigo[i][0].width - erro < vetArvore[n].x:
                             #vetInimigo[i][0].y += 1.8
-                            vetInimigo[i][0].x -= erro
+                            vetInimigo[i][0].x -= abs(vetArvore[n].x - (vetInimigo[i][0].x + vetInimigo[i][0].width))
                         elif vetInimigo[i][0].x - 4 < vetArvore[n].x + vetArvore[n].width and vetInimigo[i][0].x + erro > vetArvore[n].x + vetArvore[n].width:
                             #vetInimigo[i][0].y -= 1.8
-                            vetInimigo[i][0].x += erro
+                            vetInimigo[i][0].x += abs(vetArvore[n].x + vetArvore[n].width - vetInimigo[i][0].x)
                         elif vetInimigo[i][0].y + vetInimigo[i][0].height + erro > vetArvore[n].y and vetInimigo[i][0].y + vetInimigo[i][0].height - erro < vetArvore[n].y:
-                            vetInimigo[i][0].y -= erro
+                            vetInimigo[i][0].y -= abs(vetArvore[n].y - (vetInimigo[i][0].y + vetInimigo[i][0].height))
                             #vetInimigo[i][0].x -= 1.8
                         elif vetInimigo[i][0].y - vetArvore[n].height - erro < vetArvore[n].y and vetInimigo[i][0].y - vetArvore[n].height + erro > vetArvore[n].y:
-                            vetInimigo[i][0].y += erro
+                            vetInimigo[i][0].y += abs(vetArvore[n].y + vetArvore[n].height - vetInimigo[i][0].y)
                             #vetInimigo[i][0].x += 1.8
         for n in range(len(vetPedra)):
             colidiu = 0
@@ -208,15 +209,15 @@ def colisao_inimigo_cenario(vetInimigo, vetArvore, vetPedra, velIni, john, janel
                     if colidiu:
                         if vetInimigo[i][0].x + vetInimigo[i][0].width + erro > vetPedra[n].x and vetInimigo[i][0].x + vetInimigo[i][0].width - erro < vetPedra[n].x:
                             #vetInimigo[i][0].y += 1.8
-                            vetInimigo[i][0].x -= erro
+                            vetInimigo[i][0].x -= abs(vetPedra[n].x - (vetInimigo[i][0].x + vetInimigo[i][0].width))
                         elif vetInimigo[i][0].x - erro < vetPedra[n].x + vetPedra[n].width and vetInimigo[i][0].x + erro > vetPedra[n].x + vetPedra[n].width:
                             #vetInimigo[i][0].y -= 1.8
-                            vetInimigo[i][0].x += erro
+                            vetInimigo[i][0].x += abs(vetPedra[n].x + vetPedra[n].width - vetInimigo[i][0].x)
                         elif vetInimigo[i][0].y + vetInimigo[i][0].height + erro > vetPedra[n].y and vetInimigo[i][0].y + vetInimigo[i][0].height - erro < vetPedra[n].y:
-                            vetInimigo[i][0].y -= erro
+                            vetInimigo[i][0].y -= abs(vetPedra[n].y - (vetInimigo[i][0].y + vetInimigo[i][0].height))
                             #vetInimigo[i][0].x -= 1.8
                         elif vetInimigo[i][0].y - vetPedra[n].height - erro < vetPedra[n].y and vetInimigo[i][0].y - vetPedra[n].height + erro > vetPedra[n].y:
-                            vetInimigo[i][0].y += erro
+                            vetInimigo[i][0].y += abs(vetPedra[n].y + vetPedra[n].height - vetInimigo[i][0].y)
                             #vetInimigo[i][0].x += 1.8
 
             """if colidiu and (vetInimigo[i][0].x + vetInimigo[i][0].width + 2 > vetArvore[n].x and vetInimigo[i][0].x + vetInimigo[i][0].width - 2 <= vetArvore[n].x):

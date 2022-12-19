@@ -15,23 +15,24 @@ nivelLaser = 0
 
 cooldownDanoJ = 0
 
-def bip(Bip, janela, velJohnX, velJohnY, velBip, john, danoBip, armadura):
+def bip(Bip, janela, velJohnX, velJohnY, velBip, john, danoBip, armadura, half):
 
     global cooldownDanoJ
 
     Bip.x += velJohnX * janela.delta_time()
     Bip.y += velJohnY * janela.delta_time()
-    dx = john['John'].x - Bip.x
-    dy = john['John'].y - Bip.y
-    dt = abs(dx) + abs(dy)
-    Bip.x += velBip * (dx / dt) * janela.delta_time()
-    Bip.y += velBip * (dy / dt) * janela.delta_time()
-    if Bip.collided(john['John']) and cooldownDanoJ <= 0:
-        john['vida'] -= danoBip * armadura
-        cooldownDanoJ = 20
+    if half == 0:
+        dx = john['John'].x - Bip.x
+        dy = john['John'].y - Bip.y
+        dt = abs(dx) + abs(dy)
+        Bip.x += velBip * (dx / dt) * janela.delta_time()
+        Bip.y += velBip * (dy / dt) * janela.delta_time()
+        if Bip.collided(john['John']) and cooldownDanoJ <= 0:
+            john['vida'] -= danoBip * armadura
+            cooldownDanoJ = 20
     Bip.draw()
 
-def kaze(Kaze,timerExp, tocou, vetKaze, posicao, janela, velJohnX, velJohnY, velKaze, john, danoBip, armadura):
+def kaze(Kaze,timerExp, tocou, vetKaze, posicao, janela, velJohnX, velJohnY, velKaze, john, danoBip, armadura, half):
 
     global cooldownDanoJ
     Kaze.x += velJohnX * janela.delta_time()
@@ -73,6 +74,7 @@ def kaze(Kaze,timerExp, tocou, vetKaze, posicao, janela, velJohnX, velJohnY, vel
     else:
         Kaze.draw()
     return kazex, kazey, explodiu
+
 
 def niveisDeArma(mouseApertado, john, Mouse, bipper_lateral, bumerangue_lateral, amber_lateral):
 
@@ -154,6 +156,11 @@ def jogar(teclado, Mouse, janela, mapa):
 
     # setup player
 
+    half = 0
+    half2 = 0
+    otimização = 7  # quanto maior, menos travado porém mais tremedeira nas colisões dos inimigos
+    otimização2 = 3
+
     john = {'John': Sprite("Sprites/Astronauta(3).png"), 'vida': 90, 'pregos': 0, 'correndo?': False, 'direcao': 1}
     john['John'].set_position(janela.width / 2 - john['John'].width / 2, janela.height / 2 - john['John'].height / 2)
 
@@ -173,7 +180,7 @@ def jogar(teclado, Mouse, janela, mapa):
 
     posRelativa = [john['John'].x, john['John'].y]
 
-    velJ = 400
+    velJ = 400 * otimização / 4
 
     # setup inimigos
 
@@ -222,9 +229,6 @@ def jogar(teclado, Mouse, janela, mapa):
 
     # setup geral
 
-    half = 0
-    otimização = 2 # quanto maior, menos travado porém mais tremedeira nas colisões dos inimigos
-
     global cooldownDanoJ
 
     global nivelBip
@@ -247,13 +251,14 @@ def jogar(teclado, Mouse, janela, mapa):
 
     # setup dos bips e zetas
 
-    velBip = 80
+    velBip = 80 * otimização2
+    velKaze = 80
     danoBip = 5
 
     tiroZeta = []
     velTzeta = 400
     danoZeta = 8
-    velZeta = 90
+    velZeta = 90 * otimização2
 
     # setup cooldowns, timers e contadores
 
@@ -414,44 +419,46 @@ def jogar(teclado, Mouse, janela, mapa):
         velJohnX = 0
         velJohnY = 0
 
-        if teclado.key_pressed('W'):
-            velJohnY = velJ
+        if half == 0 or half == int(otimização / 4) or half == 2*int(otimização / 4) or half == 3*int(otimização / 4):
 
-            if john['direcao'] == 1:
-                john['John'] = johnCorrendo
-            elif john['direcao'] == 2:
+            if teclado.key_pressed('W'):
+                velJohnY = velJ
+
+                if john['direcao'] == 1:
+                    john['John'] = johnCorrendo
+                elif john['direcao'] == 2:
+                    john['John'] = johnCorrendoInv
+
+                john['correndo?'] = True
+            if teclado.key_pressed('A'):
+                velJohnX = velJ
                 john['John'] = johnCorrendoInv
+                john['correndo?'] = True
+                john['direcao'] = 2
+            if teclado.key_pressed('S'):
+                velJohnY = -velJ
 
-            john['correndo?'] = True
-        if teclado.key_pressed('A'):
-            velJohnX = velJ
-            john['John'] = johnCorrendoInv
-            john['correndo?'] = True
-            john['direcao'] = 2
-        if teclado.key_pressed('S'):
-            velJohnY = -velJ
+                if john['direcao'] == 1:
+                    john['John'] = johnCorrendo
+                elif john['direcao'] == 2:
+                    john['John'] = johnCorrendoInv
 
-            if john['direcao'] == 1:
+                john['correndo?'] = True
+            if teclado.key_pressed('D'):
+                velJohnX = -velJ
                 john['John'] = johnCorrendo
-            elif john['direcao'] == 2:
-                john['John'] = johnCorrendoInv
+                john['correndo?'] = True
+                john['direcao'] = 1
 
-            john['correndo?'] = True
-        if teclado.key_pressed('D'):
-            velJohnX = -velJ
-            john['John'] = johnCorrendo
-            john['correndo?'] = True
-            john['direcao'] = 1
+            if velJohnY == velJohnX == 0:
+                if john['direcao'] == 1:
+                    john['John'] = johnParado
+                elif john['direcao'] == 2:
+                    john['John'] = johnParadoInv
+                john['correndo?'] = False
 
-        if velJohnY == velJohnX == 0:
-            if john['direcao'] == 1:
-                john['John'] = johnParado
-            elif john['direcao'] == 2:
-                john['John'] = johnParadoInv
-            john['correndo?'] = False
-
-        velJohnX, velJohnY = colisãoPlayerCenario(vetArvores, john, velJohnX, velJohnY, janela)
-        velJohnX, velJohnY = colisãoPlayerCenario(vetPedras, john, velJohnX, velJohnY, janela)
+            velJohnX, velJohnY = colisãoPlayerCenario(vetArvores, john, velJohnX, velJohnY, janela)
+            velJohnX, velJohnY = colisãoPlayerCenario(vetPedras, john, velJohnX, velJohnY, janela)
 
         # mapa
 
@@ -510,29 +517,29 @@ def jogar(teclado, Mouse, janela, mapa):
 
         # comportamento dos bips
 
-        if cooldownSpawnBip <= 0:
+        if cooldownSpawnBip <= 0 and len(vetBip) <= 35:
             spawnBip(vetBip, janela)
-            cooldownSpawnBip = 25
+            cooldownSpawnBip = 1
 
 
         for i in range(len(vetBip)):
-            bip(vetBip[i][0], janela, velJohnX, velJohnY, velBip, john, danoBip, armadura)
+            bip(vetBip[i][0], janela, velJohnX, velJohnY, velBip, john, danoBip, armadura, half2)
 
         # comportamento dos zetas
 
-        if cooldownSpawnZeta <= 0:
+        if cooldownSpawnZeta <= 0 and len(vetZeta) <= 10:
             if tempo_de_jogo > 0:
                 spawnZeta(vetZeta, janela)
             cooldownSpawnZeta = 250
 
         for i in range(len(vetZeta)):
-            zeta(vetZeta[i], janela, velJohnX, velJohnY, velZeta, john, tiroZeta)
+            zeta(vetZeta[i], janela, velJohnX, velJohnY, velZeta, john, tiroZeta, half2)
 
         tirosZeta(tiroZeta, velTzeta, velJohnX, velJohnY, janela, john, danoZeta)
 
       # comportamento dos kazes
 
-        if cooldownSpawnKaze <= 0:
+        if cooldownSpawnKaze <= 0 and len(vetKaze) <= 5:
             if tempo_de_jogo > 0:
                 spawnKaze(vetKaze, janela)
             cooldownSpawnKaze = 45
@@ -540,7 +547,7 @@ def jogar(teclado, Mouse, janela, mapa):
         for i in range(len(vetKaze)):
             kazex = 0
             kazey = 0
-            kazex, kazey, explodiu = kaze(vetKaze[i][0],vetKaze[i][2], vetKaze[i][3], vetKaze, i, janela, velJohnX, velJohnY, velBip, john, danoBip, armadura)
+            kazex, kazey, explodiu = kaze(vetKaze[i][0],vetKaze[i][2], vetKaze[i][3], vetKaze, i, janela, velJohnX, velJohnY, velKaze, john, danoBip, armadura, half)
             if explodiu:
                 break
 
@@ -678,7 +685,7 @@ def jogar(teclado, Mouse, janela, mapa):
         janela.update()
 
         if cooldownCheck <= 0:
-            cooldownCheck = 0.05
+            cooldownCheck = 0.01
 
         # gameover
 
@@ -698,3 +705,7 @@ def jogar(teclado, Mouse, janela, mapa):
         half += 1
         if half == otimização:
             half = 0
+
+        half2 += 1
+        if half2 == otimização2:
+            half2 = 0
