@@ -703,8 +703,7 @@ def jogar(teclado, Mouse, janela, mapa):
                 janela.update()
             break
 
-        if len(vetAmber) > 0:
-            print('{:.2f}'.format(vetAmber[-1][3]))
+        # otimização
 
         half += 1
         if half >= otimização:
