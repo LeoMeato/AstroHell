@@ -714,7 +714,7 @@ def jogar(teclado, Mouse, janela, mapa):
         if half2 >= otimização2:
             half2 = 0
 
-        if printfps < 60:
+        if printfps < 100:
             otimização = 4
             otimização2 = 3
             velJ = 400 * otimização / 4
