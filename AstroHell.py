@@ -35,6 +35,8 @@ dx = (fundo.width - janela.width) / 2
 dy = (fundo.height - janela.height) / 2
 fundo.set_position(-dx, -dy)
 
+mouseApertado = False
+
 # setup menu sprites
 
 BotaoJogar = Sprite("Sprites/Jogar(1).png")
@@ -70,11 +72,15 @@ while True:
     resposta = menu(BotaoJogar, BotaoCreditos, BotaoSair, Logo, Mouse, janela)
     if resposta == 1:
         som_inicial.pause()
-        jogar(teclado, Mouse, janela, mapa)
-    elif resposta == 2:
+        mouseApertado = jogar(teclado, Mouse, janela, mapa)
+    elif resposta == 2 and not mouseApertado:
         creditos(Mouse, teclado, janela)
     elif resposta == 3:
         som_inicial.stop()
         break
+    if Mouse.is_button_pressed(1):
+        mouseApertado = True
+    else:
+        mouseApertado = False
 
     janela.update()

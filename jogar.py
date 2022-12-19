@@ -635,6 +635,7 @@ def jogar(teclado, Mouse, janela, mapa):
             cont_pausa = 0
             res = menupausa(tempo_de_jogo, janela)
             if res == 1 or res == 2:
+                mouseApertado = True
                 break
         if teclado.key_pressed('G'):
             menu_armas(tempo_de_jogo, janela)
@@ -709,3 +710,5 @@ def jogar(teclado, Mouse, janela, mapa):
         half2 += 1
         if half2 == otimização2:
             half2 = 0
+
+    return mouseApertado
